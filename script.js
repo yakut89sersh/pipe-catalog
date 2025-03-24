@@ -5,33 +5,41 @@ fetch("tube_data.json")
   .then(res => res.json())
   .then(json => {
     data = json;
-    fillOptions();
+    fillInitialOptions();
   });
 
-function fillOptions() {
+function fillInitialOptions() {
   const standards = [...new Set(data.map(d => d.Standard))];
   const ods = [...new Set(data.map(d => d.OD))];
-  const walls = [...new Set(data.map(d => d.Wall))];
   const grades = [...new Set(data.map(d => d.PipeGrade))];
   const threads = [...new Set(data.map(d => d.ThreadType))];
   const couplings = [...new Set(data.map(d => d.CouplingType))];
 
   fill("standard", standards);
   fill("od", ods);
-  fill("wall", walls);
   fill("grade", grades);
   fill("thread", threads);
   fill("coupling", couplings);
+
+  document.getElementById("od").addEventListener("change", updateWallOptions);
 }
 
 function fill(id, items) {
   const select = document.getElementById(id);
-  items.sort().forEach(item => {
+  select.innerHTML = "";
+  items.sort((a, b) => a - b).forEach(item => {
     const option = document.createElement("option");
     option.value = item;
     option.textContent = item;
     select.appendChild(option);
   });
+}
+
+function updateWallOptions() {
+  const od = parseFloat(document.getElementById("od").value);
+  const filtered = data.filter(d => d.OD === od);
+  const wallSet = [...new Set(filtered.map(d => d.Wall))];
+  fill("wall", wallSet);
 }
 
 function findPipe() {
