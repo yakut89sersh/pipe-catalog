@@ -1,7 +1,7 @@
 
 let data = [];
 
-fetch("tube_data.json")
+fetch("tube_data_with_coupling_id.json")
   .then(res => res.json())
   .then(json => {
     data = json;
@@ -61,9 +61,40 @@ function findPipe() {
 
   const container = document.getElementById("result");
   if (result) {
-    container.innerHTML = "<h3>Технические характеристики:</h3><pre>" +
-      Object.entries(result).map(([k, v]) => `${k}: ${v}`).join("\n") +
-      "</pre>";
+    let html = "<h3>Технические характеристики:</h3><pre>";
+    const displayMap = {
+      "Name": "Наименование",
+      "Manufacture": "Способ производства",
+      "ThreadType": "Тип резьбы",
+      "OD": "Наружный диаметр, мм",
+      "Wall": "Толщина стенки, мм",
+      "ID": "Внутренний диаметр трубы, мм",
+      "Drift": "Диаметр шаблона, мм",
+      "Quality": "Тип исполнения",
+      "CouplingType": "Тип муфты",
+      "CouplingOD": "Наружный диаметр муфты, мм",
+      "CouplingID": "Внутренний диаметр муфты, мм",
+      "CouplingLength": "Длина муфты, мм",
+      "MakeUpLoss": "Потеря длины при свинчивании, мм",
+      "Weight": "Вес 1 м колонны, кН/м",
+      "PipeGrade": "Группа прочности трубы",
+      "CouplingGrade": "Группа прочности муфты",
+      "YieldStrength": "Минимальный предел текучести, МПа",
+      "TensileStrength": "Минимальный предел прочности, МПа",
+      "InternalPressure": "Мин. внутр. давление, МПа",
+      "CollapsePressure": "Сминающее давление, МПа",
+      "BodyTension": "Растяжение тела трубы, кН",
+      "ConnectionTension": "Растяжение соединения, кН",
+      "Standard": "Нормативный документ"
+    };
+
+    for (const [key, label] of Object.entries(displayMap)) {
+      if (result[key] !== undefined && result[key] !== null && result[key] !== "") {
+        html += `${label}: ${result[key]}\n`;
+      }
+    }
+    html += "</pre>";
+    container.innerHTML = html;
     window.currentResult = result;
   } else {
     container.innerHTML = "<p style='color:red;'>Труба не найдена.</p>";
@@ -107,15 +138,16 @@ function generatePDF() {
     `- Тип резьбы - ${r.ThreadType}`,
     `- Тип муфты - ${r.CouplingType}`,
     `- Наружный диаметр муфты - ${r.CouplingOD} мм`,
+    ...(r.CouplingID ? [`- Внутренний диаметр муфты - ${r.CouplingID} мм`] : []),
     `- Длина муфты - ${r.CouplingLength} мм`,
     `- Потеря длины при свинчивании - ${r.MakeUpLoss} мм`,
     `- Группа прочности муфты - ${r.CouplingGrade}`,
     "",
     "Прочностные характеристики:",
-    `- Минимальное внутреннее давление до предела текучести тела трубы - ${r.InternalPressure} МПа`,
-    `- Сминающее давление тела трубы (по Саркисову) - ${r.CollapsePressure} МПа`,
-    `- Растяжение до предела текучести тела трубы - ${r.BodyTension} кН`,
-    `- Растяжение до разрушения резьбового соединения - ${r.ConnectionTension} кН`
+    `- Мин. внутр. давление до предела текучести - ${r.InternalPressure} МПа`,
+    `- Сминающее давление тела трубы - ${r.CollapsePressure} МПа`,
+    `- Растяжение до предела текучести - ${r.BodyTension} кН`,
+    `- Растяжение до разрушения соединения - ${r.ConnectionTension} кН`
   ];
 
   lines.forEach(line => {
