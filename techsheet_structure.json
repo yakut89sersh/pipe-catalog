@@ -1,0 +1,118 @@
+{
+  "header": {
+    "ru": "Технический лист данных",
+    "en": "Technical Data Sheet"
+  },
+  "title": {
+    "ru": "Обсадная труба {OD} x {Wall} мм, гр. пр. {PipeGrade}, {ThreadType} по {Standard}",
+    "en": "Casing pipe {OD} x {Wall} mm, Grade {PipeGrade}, {ThreadType} according to {Standard}"
+  },
+  "sections": {
+    "common": {
+      "ru": "Общие сведения:",
+      "en": "General Information:"
+    },
+    "pipe": {
+      "ru": "Параметры тела трубы:",
+      "en": "Pipe Body Parameters:"
+    },
+    "connection": {
+      "ru": "Характеристики соединения:",
+      "en": "Connection Characteristics:"
+    },
+    "strength": {
+      "ru": "Прочностные характеристики:",
+      "en": "Strength Characteristics:"
+    }
+  },
+  "fields": {
+    "Standard": [
+      "Нормативный документ",
+      "Standard"
+    ],
+    "Manufacture": [
+      "Способ производства",
+      "Manufacture"
+    ],
+    "Execution type": [
+      "Тип исполнения",
+      "Execution type"
+    ],
+    "Outside diameter, (mm)": [
+      "Наружный диаметр трубы - {} мм",
+      "Outside diameter - {} mm"
+    ],
+    "Wall Thickness, (mm)": [
+      "Толщина стенки - {} мм",
+      "Wall thickness - {} mm"
+    ],
+    "Inside diameter, (mm)": [
+      "Внутренний диаметр трубы - {} мм",
+      "Inside diameter - {} mm"
+    ],
+    "Drift diameter, (mm)": [
+      "Диаметр шаблона - {} мм",
+      "Drift diameter - {} mm"
+    ],
+    "Weight, (kN/m)": [
+      "Теоретический вес 1 м колонны - {} кН/м",
+      "Theoretical weight per 1 m - {} kN/m"
+    ],
+    "Pipe grade": [
+      "Группа прочности трубы - {}",
+      "Pipe grade - {}"
+    ],
+    "Minimum yield strength, (MPa)": [
+      "Минимальный предел текучести - {} МПа",
+      "Min. yield strength - {} MPa"
+    ],
+    "Minimum tensile strength, (MPa)": [
+      "Минимальный предел прочности - {} МПа",
+      "Min. tensile strength - {} MPa"
+    ],
+    "Thread type": [
+      "Тип резьбы - {}",
+      "Thread type - {}"
+    ],
+    "Coupling type": [
+      "Тип муфты - {}",
+      "Coupling type - {}"
+    ],
+    "Coupling OD, (mm)": [
+      "Наружный диаметр муфты - {} мм",
+      "Coupling OD - {} mm"
+    ],
+    "Coupling ID, (mm)": [
+      "Внутренний диаметр муфты - {} мм",
+      "Coupling ID - {} mm"
+    ],
+    "Coupling length, (mm)": [
+      "Длина муфты - {} мм",
+      "Coupling length - {} mm"
+    ],
+    "Make-up loss, (mm)": [
+      "Потеря длины при свинчивании - {} мм",
+      "Make-up loss - {} mm"
+    ],
+    "Coupling grade": [
+      "Группа прочности муфты - {}",
+      "Coupling grade - {}"
+    ],
+    "Internal yield pressure, (MPa)": [
+      "Мин. внутр. давление до предела текучести - {} МПа",
+      "Internal yield pressure - {} MPa"
+    ],
+    "Collapse pressure, (MPa)": [
+      "Сминающее давление - {} МПа",
+      "Collapse pressure - {} MPa"
+    ],
+    "Body tension (to yield), (kN)": [
+      "Растяжение до предела текучести - {} кН",
+      "Tension to yield - {} kN"
+    ],
+    "Connection tension (to failure), (kN)": [
+      "Растяжение до разрушения соединения - {} кН",
+      "Connection tension - {} kN"
+    ]
+  }
+}

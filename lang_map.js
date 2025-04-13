@@ -1,0 +1,26 @@
+
+const LANG_MAP = {
+  "Name": "Наименование",
+  "Manufacture": "Способ производства",
+  "Thread type": "Тип резьбы",
+  "Outside diameter, (mm)": "Наружный диаметр трубы, мм",
+  "Wall Thickness, (mm)": "Толщина стенки, мм",
+  "Inside diameter, (mm)": "Внутренний диаметр трубы, мм",
+  "Drift diameter, (mm)": "Диаметр шаблона, мм",
+  "Execution type": "Тип исполнения",
+  "Coupling type": "Тип муфты",
+  "Coupling OD, (mm)": "Наружный диаметр муфты, мм",
+  "Coupling ID, (mm)": "Внутренний диаметр муфты, мм",
+  "Coupling length, (mm)": "Длина муфты, мм",
+  "Make-up loss, (mm)": "Потеря длины при свинчивании, мм",
+  "Weight, (kN/m)": "Теоретический вес 1 м колонны, кН/м",
+  "Pipe grade": "Группа прочности трубы",
+  "Coupling grade": "Группа прочности муфты",
+  "Minimum yield strength, (MPa)": "Минимальный предел текучести, МПа",
+  "Minimum tensile strength, (MPa)": "Минимальный предел прочности, МПа",
+  "Internal yield pressure, (MPa)": "Мин. внутр. давление до предела текучести, МПа",
+  "Collapse pressure, (MPa)": "Сминающее давление, МПа",
+  "Body tension (to yield), (kN)": "Растяжение до предела текучести тела трубы, кН",
+  "Connection tension (to failure), (kN)": "Растяжение до разрушения соединения, кН",
+  "Standard": "Нормативный документ"
+};
