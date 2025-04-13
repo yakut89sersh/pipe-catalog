@@ -43,24 +43,25 @@
   <h1>Каталог обсадных труб</h1>
 
   <label for="standard">Нормативный документ:</label>
-  <select id="standard"></select>
+<select id="standard" onchange="stepShow('od')"></select>
+  
 
-  <label for="od">Наружный диаметр трубы:</label>
+  <div id="step-od" style="display:none;"><label for="od">Наружный диаметр трубы:</label>
   <select id="od"></select>
 
-  <label for="wall">Толщина стенки:</label>
+  </div><div id="step-wall" style="display:none;"><label for="wall">Толщина стенки:</label>
   <select id="wall"></select>
 
-  <label for="grade">Группа прочности:</label>
+  </div><div id="step-grade" style="display:none;"><label for="grade">Группа прочности:</label>
   <select id="grade"></select>
 
-  <label for="thread">Тип резьбы:</label>
+  </div><div id="step-thread" style="display:none;"><label for="thread">Тип резьбы:</label>
   <select id="thread"></select>
 
-  <label for="coupling">Тип муфты:</label>
+  </div><div id="step-coupling" style="display:none;"><label for="coupling">Тип муфты:</label>
   <select id="coupling"></select>
 
-  <button onclick="findPipe()">Найти трубу</button>
+  </div><div id="step-buttons" style="display:none;"><button onclick="findPipe()">Найти трубу</button>
   <br><br>
   <div id="result"></div>
   <br>

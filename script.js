@@ -185,3 +185,44 @@ function generatePDF() {
 
   doc.save(`techsheet_${r["Outside diameter, (mm)"]}x${r["Wall Thickness, (mm)"]}_${r["Pipe grade"]}_${lang}.pdf`);
 }
+
+
+function stepShow(next) {
+  const standard = document.getElementById("standard").value;
+  if (next === "od" && standard) {
+    document.getElementById("step-od").style.display = "block";
+  }
+  const od = document.getElementById("od").value;
+  if (next === "wall" && od) {
+    document.getElementById("step-wall").style.display = "block";
+  }
+  const wall = document.getElementById("wall").value;
+  if (next === "grade" && wall) {
+    document.getElementById("step-grade").style.display = "block";
+  }
+  const grade = document.getElementById("grade").value;
+  if (next === "thread" && grade) {
+    document.getElementById("step-thread").style.display = "block";
+  }
+  const thread = document.getElementById("thread").value;
+  if (next === "coupling" && thread) {
+    document.getElementById("step-coupling").style.display = "block";
+  }
+  const coupling = document.getElementById("coupling").value;
+  if (next === "buttons" && coupling) {
+    document.getElementById("step-buttons").style.display = "block";
+  }
+}
+
+// Пошаговая активация при изменении каждого шага
+["od", "wall", "grade", "thread", "coupling"].forEach(id => {
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById(id).addEventListener("change", () => {
+      stepShow(id === "od" ? "wall" :
+               id === "wall" ? "grade" :
+               id === "grade" ? "thread" :
+               id === "thread" ? "coupling" :
+               "buttons");
+    });
+  });
+});
