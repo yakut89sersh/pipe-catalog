@@ -1,6 +1,6 @@
 
 let data = [];
-let language = "ru";
+let language = "ru"; // fixed to Russian
 
 fetch("tube_data_multilang.json")
   .then(res => res.json())
@@ -29,10 +29,7 @@ function fillInitialOptions() {
   fill("coupling", couplings);
 
   document.getElementById("od").addEventListener("change", updateWallOptions);
-  document.getElementById("language").addEventListener("change", () => {
-    language = document.getElementById("language").value;
-    findPipe();
-  });
+  
 }
 
 function fill(id, items) {
