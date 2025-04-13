@@ -42,6 +42,12 @@
 <body>
   <h1>Каталог обсадных труб по ГОСТ 632-80</h1>
 
+  <label for="language">Язык / Language:</label>
+  <select id="language" onchange="findPipe()">
+    <option value="ru">Русский</option>
+    <option value="en">English</option>
+  </select>
+
   <label for="standard">Нормативный документ:</label>
   <select id="standard"></select>
 
@@ -66,6 +72,7 @@
   <br>
   <button onclick="generatePDF()">Скачать технический лист (PDF)</button>
 
+  <script src="lang_map.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
