@@ -76,11 +76,11 @@ function findPipe() {
 
   window.currentResult = result;
 
-  const s = window.structure;
+  const struct = window.structure;
   const lang = language;
 
-  let html = `<h3>${s.header[lang]}</h3>`;
-  html += `<h4 style="text-align:center">${s.title[lang]
+  let html = `<h3>${struct.header[lang]}</h3>`;
+  html += `<h4 style="text-align:center">${struct.title[lang]
     .replace("{OD}", result["Outside diameter, (mm)"])
     .replace("{Wall}", result["Wall Thickness, (mm)"])
     .replace("{PipeGrade}", result["Pipe grade"])
@@ -88,37 +88,37 @@ function findPipe() {
     .replace("{Standard}", result["Standard"])
   }</h4>`;
 
-  html += `<h4>${s.sections.common[lang]}</h4>`;
-  html += `- ${s.fields["Standard"][lang === "ru" ? 0 : 1]}: ${result["Standard"]}<br>`;
-  html += `- ${s.fields["Manufacture"][lang === "ru" ? 0 : 1]}: ${result["Manufacture"]}<br>`;
-  html += `- ${s.fields["Execution type"][lang === "ru" ? 0 : 1]}: ${result["Execution type"]}<br>`;
+  html += `<h4>${struct.sections.common[lang]}</h4>`;
+  html += `- ${struct.fields["Standard"][lang === "ru" ? 0 : 1]}: ${result["Standard"]}<br>`;
+  html += `- ${struct.fields["Manufacture"][lang === "ru" ? 0 : 1]}: ${result["Manufacture"]}<br>`;
+  html += `- ${struct.fields["Execution type"][lang === "ru" ? 0 : 1]}: ${result["Execution type"]}<br>`;
 
-  html += `<h4>${s.sections.pipe[lang]}</h4>`;
+  html += `<h4>${struct.sections.pipe[lang]}</h4>`;
   for (const key of [
     "Outside diameter, (mm)", "Wall Thickness, (mm)", "Inside diameter, (mm)",
     "Drift diameter, (mm)", "Weight, (kN/m)", "Pipe grade",
     "Minimum yield strength, (MPa)", "Minimum tensile strength, (MPa)"
   ]) {
     if (result[key] !== undefined && result[key] !== null)
-      html += `- ${s.fields[key][lang === "ru" ? 0 : 1].replace("{}", result[key])}<br>`;
+      html += `- ${struct.fields[key][lang === "ru" ? 0 : 1].replace("{}", result[key])}<br>`;
   }
 
-  html += `<h4>${s.sections.connection[lang]}</h4>`;
+  html += `<h4>${struct.sections.connection[lang]}</h4>`;
   for (const key of [
     "Thread type", "Coupling type", "Coupling OD, (mm)", "Coupling ID, (mm)",
     "Coupling length, (mm)", "Make-up loss, (mm)", "Coupling grade"
   ]) {
     if (result[key] !== undefined && result[key] !== null)
-      html += `- ${s.fields[key][lang === "ru" ? 0 : 1].replace("{}", result[key])}<br>`;
+      html += `- ${struct.fields[key][lang === "ru" ? 0 : 1].replace("{}", result[key])}<br>`;
   }
 
-  html += `<h4>${s.sections.strength[lang]}</h4>`;
+  html += `<h4>${struct.sections.strength[lang]}</h4>`;
   for (const key of [
     "Internal yield pressure, (MPa)", "Collapse pressure, (MPa)",
     "Body tension (to yield), (kN)", "Connection tension (to failure), (kN)"
   ]) {
     if (result[key] !== undefined && result[key] !== null)
-      html += `- ${s.fields[key][lang === "ru" ? 0 : 1].replace("{}", result[key])}<br>`;
+      html += `- ${struct.fields[key][lang === "ru" ? 0 : 1].replace("{}", result[key])}<br>`;
   }
 
   container.innerHTML = html;
@@ -134,16 +134,16 @@ function generatePDF() {
   doc.setFont("DejaVuSans");
 
   const r = window.currentResult;
-  const s = window.structure;
+  const struct = window.structure;
   const lang = language;
 
   let y = 10;
   doc.setFontSize(14);
-  doc.text(s.header[lang], 105, y, null, null, "center");
+  doc.text(struct.header[lang], 105, y, null, null, "center");
   y += 10;
   doc.setFontSize(11);
   doc.text(
-    s.title[lang]
+    struct.title[lang]
       .replace("{OD}", r["Outside diameter, (mm)"])
       .replace("{Wall}", r["Wall Thickness, (mm)"])
       .replace("{PipeGrade}", r["Pipe grade"])
@@ -172,10 +172,10 @@ function generatePDF() {
   };
 
   for (const sec of sections) {
-    doc.text(s.sections[sec][lang], 10, y); y += 7;
+    doc.text(struct.sections[sec][lang], 10, y); y += 7;
     for (const key of fields[sec]) {
       if (r[key] !== undefined && r[key] !== null) {
-        const line = s.fields[key][lang === "ru" ? 0 : 1].replace("{}", r[key]);
+        const line = struct.fields[key][lang === "ru" ? 0 : 1].replace("{}", r[key]);
         doc.text(`- ${line}`, 10, y); y += 7;
       }
     }
