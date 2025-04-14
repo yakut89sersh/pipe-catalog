@@ -1,0 +1,146 @@
+{
+  "header": {
+    "ru": "Технический лист данных",
+    "en": "Technical Data Sheet"
+  },
+  "title": {
+    "ru": {
+      "casing": "Технический лист данных для обсадной трубы {OD} x {Wall} мм, гр. пр. {PipeGrade}, {ThreadType} по {Standard}",
+      "tubing": "Технический лист данных для НКТ {OD} x {Wall} мм, гр. пр. {PipeGrade}, {ThreadType} по {Standard}"
+    },
+    "en": {
+      "casing": "Technical data sheet for casing pipe {OD} x {Wall} mm, grade {PipeGrade}, {ThreadType} as per {Standard}",
+      "tubing": "Technical data sheet for tubing {OD} x {Wall} mm, grade {PipeGrade}, {ThreadType} as per {Standard}"
+    }
+  },
+  "sections": {
+    "common": {
+      "ru": "Общие сведения:",
+      "en": "General Information:"
+    },
+    "pipe": {
+      "ru": "Параметры тела трубы:",
+      "en": "Pipe Body Parameters:"
+    },
+    "connection": {
+      "ru": "Характеристики соединения:",
+      "en": "Connection Parameters:"
+    },
+    "strength": {
+      "ru": "Прочностные характеристики:",
+      "en": "Strength Properties:"
+    }
+  },
+  "fields": {
+    "Standard": [
+      "Нормативный документ - {}",
+      "Standard - {}"
+    ],
+    "Manufacture": [
+      "Способ производства - {}",
+      "Manufacture - {}"
+    ],
+    "Execution type": [
+      "Тип исполнения - {}",
+      "Execution type - {}"
+    ],
+    "Outside diameter, (mm)": [
+      "Наружный диаметр трубы - {} мм",
+      "Outside diameter - {} mm"
+    ],
+    "Wall Thickness, (mm)": [
+      "Толщина стенки - {} мм",
+      "Wall thickness - {} mm"
+    ],
+    "Thread type": [
+      "Тип резьбы - {}",
+      "Thread type - {}"
+    ],
+    "Drift type": [
+      "Тип шаблона - {}",
+      "Drift type - {}"
+    ],
+    "Weight, (kN/m)": [
+      "Теоретический вес 1 м колонны - {} кг/м",
+      "Weight per 1 m - {} kg/m"
+    ],
+    "Inside diameter, (mm)": [
+      "Внутренний диаметр трубы - {} мм",
+      "Inside diameter - {} mm"
+    ],
+    "Drift diameter, (mm)": [
+      "Диаметр шаблона - {} мм",
+      "Drift diameter - {} mm"
+    ],
+    "Internal yield pressure, (MPa)": [
+      "Мин. внутр. давление до предела текучести тела трубы - {} МПа",
+      "Internal yield pressure (pipe) - {} MPa"
+    ],
+    "Collapse pressure, (MPa)": [
+      "Сминающее давление тела трубы - {} МПа",
+      "Collapse pressure - {} MPa"
+    ],
+    "Pipe grade": [
+      "Группа прочности трубы - {}",
+      "Pipe grade - {}"
+    ],
+    "Minimum yield strength, (MPa)": [
+      "Минимальный предел текучести - {} МПа",
+      "Minimum yield strength - {} MPa"
+    ],
+    "Minimum tensile strength, (MPa)": [
+      "Минимальный предел прочности - {} МПа",
+      "Minimum tensile strength - {} MPa"
+    ],
+    "Coupling type": [
+      "Тип муфты - {}",
+      "Coupling type - {}"
+    ],
+    "Coupling OD, (mm)": [
+      "Наружный диаметр муфты - {} мм",
+      "Coupling OD - {} mm"
+    ],
+    "Coupling ID, (mm)": [
+      "Внутренний диаметр муфты - {} мм",
+      "Coupling ID - {} mm"
+    ],
+    "Coupling length, (mm)": [
+      "Длина муфты - {} мм",
+      "Coupling length - {} mm"
+    ],
+    "Make-up loss, (mm)": [
+      "Потеря длины при свинчивании - {} мм",
+      "Make-up loss - {} mm"
+    ],
+    "Connection tension (to failure), (kN)": [
+      "Растяжение до разрушения резьбового соединения - {} кН",
+      "Connection tension (failure) - {} kN"
+    ],
+    "Connection tension (to yield), (kN)": [
+      "Растяжение до предела текучести резьбового соединения - {} кН",
+      "Connection tension (yield) - {} kN"
+    ],
+    "Connection torsion (kN)": [
+      "Страгивающая нагрузка резьбового соединения - {} кН",
+      "Connection torsion - {} kN"
+    ],
+    "Internal pressure coupling, (MPa)": [
+      "Мин. внутр. давление до предела текучести муфты - {} МПа",
+      "Internal pressure (coupling) - {} MPa"
+    ],
+    "Coupling grade": [
+      "Группа прочности муфты - {}",
+      "Coupling grade - {}"
+    ]
+  },
+  "map": {
+    "standard": "Standard",
+    "thread": "Thread type",
+    "od": "Outside diameter, (mm)",
+    "wall": "Wall Thickness, (mm)",
+    "pipegrade": "Pipe grade",
+    "couplinggrade": "Coupling grade",
+    "coupling": "Coupling type",
+    "drift": "Drift type"
+  }
+}
