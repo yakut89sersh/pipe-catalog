@@ -17,7 +17,6 @@ fetch("techsheet_structure.json")
 
 function fillFilteredOptions() {
   fill("standard", [...new Set(data.map(d => d["Standard"]))]);
-}
 
 function stepShow(step) {
   const filters = {
