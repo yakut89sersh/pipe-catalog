@@ -102,38 +102,33 @@ function findPipe() {
   }</h4>`;
 
   html += `<h4>${struct.sections.common[language]}</h4>`;
-  html += `- ${struct.fields["Standard"][0]}: ${result["Standard"]}<br>`;
-  html += `- ${struct.fields["Manufacture"][0]}: ${result["Manufacture"]}<br>`;
-  html += `- ${struct.fields["Execution type"][0]}: ${result["Execution type"]}<br>`;
+  for (const key of ["Standard", "Manufacture", "Execution type"]) {
+    if (result[key] !== undefined && struct.fields[key])
+      html += `- ${struct.fields[key][0].replace("{}", result[key])}<br>`;
+  }
+  html += `- ${struct.fields["Drift type"][0].replace("{}", driftType)}<br>`;
 
   html += `<h4>${struct.sections.pipe[language]}</h4>`;
   for (const key of [
     "Outside diameter, (mm)", "Wall Thickness, (mm)", "Inside diameter, (mm)",
     "Drift diameter, (mm)", "Weight, (kN/m)", "Pipe grade",
-    "Minimum yield strength, (MPa)", "Minimum tensile strength, (MPa)"
+    "Minimum yield strength, (MPa)", "Minimum tensile strength, (MPa)",
+    "Internal yield pressure, (MPa)", "Collapse pressure, (MPa)"
   ]) {
-    if (result[key] !== undefined && result[key] !== null)
+    if (result[key] !== undefined && struct.fields[key])
       html += `- ${struct.fields[key][0].replace("{}", result[key])}<br>`;
   }
 
   html += `<h4>${struct.sections.connection[language]}</h4>`;
   for (const key of [
-    "Thread type", "Coupling type", "Coupling OD, (mm)", "Coupling ID, (mm)",
-    "Coupling length, (mm)", "Make-up loss, (mm)", "Coupling grade"
+    "Coupling type", "Coupling OD, (mm)", "Coupling ID, (mm)",
+    "Coupling length, (mm)", "Make-up loss, (mm)",
+    "Connection tension (to failure), (kN)", "Connection tension (to yield), (kN)",
+    "Connection torsion (kN)", "Internal pressure coupling, (MPa)", "Coupling grade"
   ]) {
-    if (result[key] !== undefined && result[key] !== null)
+    if (result[key] !== undefined && struct.fields[key])
       html += `- ${struct.fields[key][0].replace("{}", result[key])}<br>`;
   }
 
-  html += `<h4>${struct.sections.strength[language]}</h4>`;
-  for (const key of [
-    "Internal yield pressure, (MPa)", "Collapse pressure, (MPa)",
-    "Body tension (to yield), (kN)", "Connection tension (to failure), (kN)"
-  ]) {
-    if (result[key] !== undefined && result[key] !== null)
-      html += `- ${struct.fields[key][0].replace("{}", result[key])}<br>`;
-  }
-
-  html += `<br><strong>Тип шаблона:</strong> ${driftType}`;
   container.innerHTML = html;
 }
