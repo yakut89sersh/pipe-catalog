@@ -4,10 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Каталог обсадных труб</title>
+  <title>Каталог обсадных труб и НКТ</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="DejaVuSans_base64.js"></script>
-  <script>jspdf__loadDejaVuFont();</script>
+  <script>jspdf_loadDejaVuFont();</script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -23,51 +23,63 @@
       width: 100%;
       margin-bottom: 10px;
     }
-    select, button {
-      padding: 10px;
-      font-size: 16px;
-    }
     pre {
       background: #f4f4f4;
       padding: 10px;
-      white-space: pre-wrap;
-    }
-    @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
     }
   </style>
 </head>
 <body>
-  <h1>Каталог обсадных труб</h1>
+  <h1>Каталог обсадных труб и НКТ</h1>
 
   <label for="standard">Нормативный документ:</label>
-<select id="standard" onchange="stepShow('od')"></select>
-  
+  <select id="standard" onchange="stepShow(1)"></select>
 
-  <div id="step-od" style="display:none;"><label for="od">Наружный диаметр трубы:</label>
-  <select id="od"></select>
+  <div id="step-1" style="display:none;">
+    <label for="thread">Тип резьбы:</label>
+    <select id="thread" onchange="stepShow(2)"></select>
+  </div>
 
-  </div><div id="step-wall" style="display:none;"><label for="wall">Толщина стенки:</label>
-  <select id="wall"></select>
+  <div id="step-2" style="display:none;">
+    <label for="od">Наружный диаметр трубы (мм):</label>
+    <select id="od" onchange="stepShow(3)"></select>
+  </div>
 
-  </div><div id="step-grade" style="display:none;"><label for="grade">Группа прочности:</label>
-  <select id="grade"></select>
+  <div id="step-3" style="display:none;">
+    <label for="wall">Толщина стенки (мм):</label>
+    <select id="wall" onchange="stepShow(4)"></select>
+  </div>
 
-  </div><div id="step-thread" style="display:none;"><label for="thread">Тип резьбы:</label>
-  <select id="thread"></select>
+  <div id="step-4" style="display:none;">
+    <label for="pipegrade">Группа прочности тела трубы:</label>
+    <select id="pipegrade" onchange="stepShow(5)"></select>
+  </div>
 
-  </div><div id="step-coupling" style="display:none;"><label for="coupling">Тип муфты:</label>
-  <select id="coupling"></select>
+  <div id="step-5" style="display:none;">
+    <label for="couplinggrade">Группа прочности муфты:</label>
+    <select id="couplinggrade" onchange="stepShow(6)"></select>
+  </div>
 
-  </div><div id="step-buttons" style="display:none;"><button onclick="findPipe()">Найти трубу</button>
-  <br><br>
+  <div id="step-6" style="display:none;">
+    <label for="coupling">Тип муфты:</label>
+    <select id="coupling" onchange="stepShow(7)"></select>
+  </div>
+
+  <div id="step-7" style="display:none;">
+    <label for="drift">Тип шаблона:</label>
+    <select id="drift" onchange="stepShow(8)"></select>
+  </div>
+
+  <div id="step-8" style="display:none;">
+    <button onclick="findPipe()">Найти трубу</button>
+  </div>
+
+  <br>
   <div id="result"></div>
   <br>
   <button onclick="generatePDF()">Скачать технический лист (PDF)</button>
 
-  <script src="lang_map.js"></script>
   <script src="script.js"></script>
+  <script src="lang_map.js"></script>
 </body>
 </html>
