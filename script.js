@@ -92,13 +92,12 @@ function findPipe() {
   window.currentResult = result;
   const struct = window.structure;
 
-  
-  
   const isTubing = (
     parseFloat(result["Outside diameter, (mm)"]) <= 114.3 &&
     !["ОТТМ", "ОТТГ"].includes(result["Thread type"])
   );
   const titleTemplate = struct.title[language][isTubing ? "tubing" : "casing"];
+
   let html = `<h3>${struct.header[language]}</h3>`;
   html += `<h4 style="text-align:center">${titleTemplate
     .replace("{OD}", result["Outside diameter, (mm)"])
@@ -106,14 +105,6 @@ function findPipe() {
     .replace("{PipeGrade}", result["Pipe grade"])
     .replace("{ThreadType}", result["Thread type"])
     .replace("{Standard}", result["Standard"])}</h4>`;
-
-  html += `<h4 style="text-align:center">${struct.title[language]
-    .replace("{OD}", result["Outside diameter, (mm)"])
-    .replace("{Wall}", result["Wall Thickness, (mm)"])
-    .replace("{PipeGrade}", result["Pipe grade"])
-    .replace("{ThreadType}", result["Thread type"])
-    .replace("{Standard}", result["Standard"])
-  }</h4>`;
 
   html += `<h4>${struct.sections.common[language]}</h4>`;
   for (const key of ["Standard", "Manufacture", "Execution type"]) {
