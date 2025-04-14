@@ -4,8 +4,14 @@
     "en": "Technical Data Sheet"
   },
   "title": {
-    "ru": "Обсадная труба {OD} x {Wall} мм, гр. пр. {PipeGrade}, {ThreadType} по {Standard}",
-    "en": "Casing pipe {OD} x {Wall} mm, grade {PipeGrade}, {ThreadType} as per {Standard}"
+    "ru": {
+      "casing": "Технический лист данных для обсадной трубы {OD} x {Wall} мм, гр. пр. {PipeGrade}, {ThreadType} по {Standard}",
+      "tubing": "Технический лист данных для НКТ {OD} x {Wall} мм, гр. пр. {PipeGrade}, {ThreadType} по {Standard}"
+    },
+    "en": {
+      "casing": "Technical data sheet for casing pipe {OD} x {Wall} mm, grade {PipeGrade}, {ThreadType} as per {Standard}",
+      "tubing": "Technical data sheet for tubing {OD} x {Wall} mm, grade {PipeGrade}, {ThreadType} as per {Standard}"
+    }
   },
   "sections": {
     "common": {
