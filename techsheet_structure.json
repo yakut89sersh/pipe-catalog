@@ -5,7 +5,7 @@
   },
   "title": {
     "ru": "Обсадная труба {OD} x {Wall} мм, гр. пр. {PipeGrade}, {ThreadType} по {Standard}",
-    "en": "Casing pipe {OD} x {Wall} mm, Grade {PipeGrade}, {ThreadType} according to {Standard}"
+    "en": "Casing pipe {OD} x {Wall} mm, grade {PipeGrade}, {ThreadType} as per {Standard}"
   },
   "sections": {
     "common": {
@@ -18,17 +18,17 @@
     },
     "connection": {
       "ru": "Характеристики соединения:",
-      "en": "Connection Characteristics:"
+      "en": "Connection Parameters:"
     },
     "strength": {
       "ru": "Прочностные характеристики:",
-      "en": "Strength Characteristics:"
+      "en": "Strength Properties:"
     }
   },
   "fields": {
-    "Standard": [
-      "Нормативный документ",
-      "Standard"
+    "Name": [
+      "Наименование",
+      "Name"
     ],
     "Manufacture": [
       "Способ производства",
@@ -46,6 +46,22 @@
       "Толщина стенки - {} мм",
       "Wall thickness - {} mm"
     ],
+    "Thread type": [
+      "Тип резьбы - {}",
+      "Thread type - {}"
+    ],
+    "Standard": [
+      "Нормативный документ - {}",
+      "Standard - {}"
+    ],
+    "Drift type": [
+      "Тип шаблона - {}",
+      "Drift type - {}"
+    ],
+    "Weight, (kN/m)": [
+      "Теоретический вес 1 м колонны - {} кг/м",
+      "Theoretical weight per 1 m - {} kg/m"
+    ],
     "Inside diameter, (mm)": [
       "Внутренний диаметр трубы - {} мм",
       "Inside diameter - {} mm"
@@ -54,9 +70,13 @@
       "Диаметр шаблона - {} мм",
       "Drift diameter - {} mm"
     ],
-    "Weight, (kN/m)": [
-      "Теоретический вес 1 м колонны - {} кН/м",
-      "Theoretical weight per 1 m - {} kN/m"
+    "Internal yield pressure, (MPa)": [
+      "Мин. внутр. давление до предела текучести тела трубы - {} МПа",
+      "Min. internal yield pressure (pipe) - {} MPa"
+    ],
+    "Collapse pressure, (MPa)": [
+      "Сминающее давление тела трубы - {} МПа",
+      "Collapse pressure - {} MPa"
     ],
     "Pipe grade": [
       "Группа прочности трубы - {}",
@@ -64,15 +84,11 @@
     ],
     "Minimum yield strength, (MPa)": [
       "Минимальный предел текучести - {} МПа",
-      "Min. yield strength - {} MPa"
+      "Minimum yield strength - {} MPa"
     ],
     "Minimum tensile strength, (MPa)": [
       "Минимальный предел прочности - {} МПа",
-      "Min. tensile strength - {} MPa"
-    ],
-    "Thread type": [
-      "Тип резьбы - {}",
-      "Thread type - {}"
+      "Minimum tensile strength - {} MPa"
     ],
     "Coupling type": [
       "Тип муфты - {}",
@@ -94,25 +110,25 @@
       "Потеря длины при свинчивании - {} мм",
       "Make-up loss - {} mm"
     ],
+    "Connection tension (to failure), (kN)": [
+      "Растяжение до разрушения резьбового соединения - {} кН",
+      "Connection tension (failure) - {} kN"
+    ],
+    "Connection tension (to yield), (kN)": [
+      "Растяжение до предела текучести резьбового соединения - {} кН",
+      "Connection tension (yield) - {} kN"
+    ],
+    "Connection torsion (kN)": [
+      "Страгивающая нагрузка резьбового соединения - {} кН",
+      "Connection torsion - {} kN"
+    ],
+    "Internal pressure coupling, (MPa)": [
+      "Мин. внутр. давление до предела текучести муфты - {} МПа",
+      "Internal pressure (coupling) - {} MPa"
+    ],
     "Coupling grade": [
       "Группа прочности муфты - {}",
       "Coupling grade - {}"
-    ],
-    "Internal yield pressure, (MPa)": [
-      "Мин. внутр. давление до предела текучести - {} МПа",
-      "Internal yield pressure - {} MPa"
-    ],
-    "Collapse pressure, (MPa)": [
-      "Сминающее давление - {} МПа",
-      "Collapse pressure - {} MPa"
-    ],
-    "Body tension (to yield), (kN)": [
-      "Растяжение до предела текучести - {} кН",
-      "Tension to yield - {} kN"
-    ],
-    "Connection tension (to failure), (kN)": [
-      "Растяжение до разрушения соединения - {} кН",
-      "Connection tension - {} kN"
     ]
   }
 }
