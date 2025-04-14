@@ -17,49 +17,14 @@ fetch("techsheet_structure.json")
 
 function fillFilteredOptions() {
   fill("standard", [...new Set(data.map(d => d["Standard"]))]);
+}
 
 function stepShow(step) {
-  const filters = {
-    1: ["Standard"],
-    2: ["Standard", "Thread type"],
-    3: ["Standard", "Thread type", "Outside diameter, (mm)"],
-    4: ["Standard", "Thread type", "Outside diameter, (mm)", "Wall Thickness, (mm)"],
-    5: ["Standard", "Thread type", "Outside diameter, (mm)", "Wall Thickness, (mm)", "Pipe grade"],
-    6: ["Standard", "Thread type", "Outside diameter, (mm)", "Wall Thickness, (mm)", "Pipe grade", "Coupling grade"],
-    7: ["Standard", "Thread type", "Outside diameter, (mm)", "Wall Thickness, (mm)", "Pipe grade", "Coupling grade", "Coupling type"],
-    8: ["Standard", "Thread type", "Outside diameter, (mm)", "Wall Thickness, (mm)", "Pipe grade", "Coupling grade", "Coupling type", ]
-  };
-
   const ids = [
     "standard", "thread", "od", "wall",
     "pipegrade", "couplinggrade", "coupling", "drift"
   ];
 
-  const values = {};
-  for (let i = 0; i < step; i++) {
-    const val = document.getElementById(ids[i]).value;
-    if (!val) return;
-    values[ids[i]] = val;
-  }
-
-  const filtered = data.filter(d => {
-    return filters[step].every(key => {
-      const map = {
-        "standard": "Standard",
-        "thread": "Thread type",
-        "od": "Outside diameter, (mm)",
-        "wall": "Wall Thickness, (mm)",
-        "pipegrade": "Pipe grade",
-        "couplinggrade": "Coupling grade",
-        "coupling": "Coupling type",
-        "drift": 
-      };
-      const id = Object.keys(map).find(k => map[k] === key);
-      return d[key] == document.getElementById(id).value;
-    });
-  });
-
-  const nextId = ids[step];
   const fieldMap = {
     "standard": "Standard",
     "thread": "Thread type",
@@ -67,15 +32,30 @@ function stepShow(step) {
     "wall": "Wall Thickness, (mm)",
     "pipegrade": "Pipe grade",
     "couplinggrade": "Coupling grade",
-    "coupling": "Coupling type",
-    "drift": 
+    "coupling": "Coupling type"
   };
 
+  let filters = {};
+  for (let i = 0; i < step; i++) {
+    const val = document.getElementById(ids[i]).value;
+    if (!val) return;
+    filters[fieldMap[ids[i]]] = val;
+  }
+
+  const nextId = ids[step];
   const nextField = fieldMap[nextId];
+  if (!nextField) {
+    document.getElementById(nextId).disabled = false;
+    return;
+  }
+
+  const filtered = data.filter(d => {
+    return Object.keys(filters).every(k => d[k] == filters[k]);
+  });
+
   const uniqueValues = [...new Set(filtered.map(d => d[nextField]))];
   fill(nextId, uniqueValues);
-
-  if (ids[step] !== "drift") document.getElementById(ids[step]).disabled = false;
+  document.getElementById(nextId).disabled = false;
 }
 
 function fill(id, items) {
@@ -90,25 +70,17 @@ function fill(id, items) {
 }
 
 function findPipe() {
-  const standard = document.getElementById("standard").value;
-  const thread = document.getElementById("thread").value;
-  const od = parseFloat(document.getElementById("od").value);
-  const wall = parseFloat(document.getElementById("wall").value);
-  const pipegrade = document.getElementById("pipegrade").value;
-  const couplinggrade = document.getElementById("couplinggrade").value;
-  const coupling = document.getElementById("coupling").value;
-  const drift = document.getElementById("drift").value;
-
   const result = data.find(d =>
-    d["Standard"] === standard &&
-    d["Thread type"] === thread &&
-    d["Outside diameter, (mm)"] === od &&
-    d["Wall Thickness, (mm)"] === wall &&
-    d["Pipe grade"] === pipegrade &&
-    d["Coupling grade"] === couplinggrade &&
-    d["Coupling type"] === coupling &&
-    d[] === drift
+    d["Standard"] === document.getElementById("standard").value &&
+    d["Thread type"] === document.getElementById("thread").value &&
+    d["Outside diameter, (mm)"] == document.getElementById("od").value &&
+    d["Wall Thickness, (mm)"] == document.getElementById("wall").value &&
+    d["Pipe grade"] === document.getElementById("pipegrade").value &&
+    d["Coupling grade"] === document.getElementById("couplinggrade").value &&
+    d["Coupling type"] === document.getElementById("coupling").value
   );
+
+  const driftType = document.getElementById("drift").value;
 
   const container = document.getElementById("result");
   if (!result || !window.structure) {
@@ -118,8 +90,8 @@ function findPipe() {
   }
 
   window.currentResult = result;
-
   const struct = window.structure;
+
   let html = `<h3>${struct.header[language]}</h3>`;
   html += `<h4 style="text-align:center">${struct.title[language]
     .replace("{OD}", result["Outside diameter, (mm)"])
@@ -137,7 +109,7 @@ function findPipe() {
   html += `<h4>${struct.sections.pipe[language]}</h4>`;
   for (const key of [
     "Outside diameter, (mm)", "Wall Thickness, (mm)", "Inside diameter, (mm)",
-    "Weight, (kN/m)", "Pipe grade",
+    "Drift diameter, (mm)", "Weight, (kN/m)", "Pipe grade",
     "Minimum yield strength, (MPa)", "Minimum tensile strength, (MPa)"
   ]) {
     if (result[key] !== undefined && result[key] !== null)
@@ -162,5 +134,6 @@ function findPipe() {
       html += `- ${struct.fields[key][0].replace("{}", result[key])}<br>`;
   }
 
+  html += `<br><strong>Тип шаблона:</strong> ${driftType}`;
   container.innerHTML = html;
 }
