@@ -1,97 +1,116 @@
 
-function findPipe() {
-  const struct = window.structure;
-  const result = window.currentResult;
-  const language = "ru";
+let data = [];
+let structure = {};
+let language = "ru";
 
-  if (!result) {
-    document.getElementById("result").innerHTML = "<p style='color:red;'>Труба не найдена или данные не загружены.</p>";
-    window.currentResult = null;
-    return;
-  }
+fetch("tube_data_multilang.json")
+  .then(res => res.json())
+  .then(json => {
+    data = json;
+    initSelectors();
+  });
 
-  const isTubing = (
-    parseFloat(result["Outside diameter, (mm)"]) <= 114.3 &&
-    !["ОТТМ", "ОТТГ"].includes(result["Thread type"])
-  );
-  const titleTemplate = struct.title[language][isTubing ? "tubing" : "casing"];
+fetch("techsheet_structure.json")
+  .then(res => res.json())
+  .then(json => structure = json);
 
-  let html = "";
-  html += `<div style="text-align:center; font-size:18px; font-weight:bold; margin-bottom: 10px;">${titleTemplate
-    .replace("{OD}", result["Outside diameter, (mm)"])
-    .replace("{Wall}", result["Wall Thickness, (mm)"])
-    .replace("{PipeGrade}", result["Pipe grade"])
-    .replace("{ThreadType}", result["Thread type"])
-    .replace("{Standard}", result["Standard"])}</div>`;
-
-  document.getElementById("result").innerHTML = html;
+function initSelectors() {
+  fillSelect("standard", [...new Set(data.map(d => d["Standard"]))]);
 }
 
+function fillSelect(id, options) {
+  const select = document.getElementById(id);
+  select.innerHTML = '<option disabled selected hidden>Выберите...</option>';
+  options.forEach(opt => {
+    const o = document.createElement("option");
+    o.value = opt;
+    o.textContent = opt;
+    select.appendChild(o);
+  });
+}
 
-function generatePDF() {
-  if (!window.currentResult || !window.structure) {
-    alert("Данные не загружены.");
+function stepShow(step) {
+  const steps = [
+    "standard", "thread", "od", "wall", "pipegrade",
+    "couplinggrade", "coupling", "drift"
+  ];
+
+  const filters = {};
+  for (let i = 0; i < step; i++) {
+    const val = document.getElementById(steps[i]).value;
+    if (!val) return;
+    filters[steps[i]] = val;
+  }
+
+  const filtered = data.filter(d => {
+    return Object.entries(filters).every(([key, val]) => d[structure.map[key]] == val);
+  });
+
+  const nextKey = steps[step];
+  if (!nextKey) return;
+
+  const nextOptions = [...new Set(filtered.map(d => d[structure.map[nextKey]]))];
+  document.getElementById(nextKey).disabled = false;
+  fillSelect(nextKey, nextOptions);
+}
+
+function findPipe() {
+  const keys = [
+    "standard", "thread", "od", "wall", "pipegrade",
+    "couplinggrade", "coupling", "drift"
+  ];
+
+  const selected = {};
+  for (const key of keys) {
+    const el = document.getElementById(key);
+    if (!el || !el.value) return;
+    selected[key] = el.value;
+  }
+
+  const result = data.find(d => {
+    return Object.entries(selected).every(([key, val]) =>
+      d[structure.map[key]] == val
+    );
+  });
+
+  if (!result) {
+    document.getElementById("result").innerHTML = "<p style='color:red;'>Труба не найдена.</p>";
     return;
   }
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  doc.setFont("DejaVuSans");
 
-  const r = window.currentResult;
-  const s = window.structure;
-  const lang = language;
+  showResult(result);
+  window.currentResult = result;
+}
 
-  const isTubing = (
-    parseFloat(r["Outside diameter, (mm)"]) <= 114.3 &&
-    !["ОТТМ", "ОТТГ"].includes(r["Thread type"])
-  );
-  const titleTemplate = s.title[lang][isTubing ? "tubing" : "casing"];
+function showResult(d) {
+  const s = structure;
+  const isTubing = d["Thread type"].toLowerCase().includes("нкт") || d["Outside diameter, (mm)"] < 100;
 
-  let y = 10;
-  doc.setFontSize(14);
-  doc.text(titleTemplate
-    .replace("{OD}", r["Outside diameter, (mm)"])
-    .replace("{Wall}", r["Wall Thickness, (mm)"])
-    .replace("{PipeGrade}", r["Pipe grade"])
-    .replace("{ThreadType}", r["Thread type"])
-    .replace("{Standard}", r["Standard"]),
-    105, y, null, null, "center");
-  y += 10;
+  let html = `<h2 style="text-align:center">
+    Технический лист данных для ${isTubing ? "НКТ" : "обсадной трубы"} 
+    ${d["Outside diameter, (mm)"]} x ${d["Wall Thickness, (mm)"]} мм, 
+    гр. пр. ${d["Pipe grade"]}, ${d["Thread type"]} по ${d["Standard"]}
+  </h2>`;
 
-  const sections = ["common", "pipe", "connection"];
-  const fields = {
-    common: ["Standard", "Manufacture", "Execution type", "Drift type"],
-    pipe: [
-      "Outside diameter, (mm)", "Wall Thickness, (mm)", "Inside diameter, (mm)",
-      "Drift diameter, (mm)", "Weight, (kN/m)", "Pipe grade",
-      "Minimum yield strength, (MPa)", "Minimum tensile strength, (MPa)",
-      "Internal yield pressure, (MPa)", "Collapse pressure, (MPa)"
-    ],
-    connection: [
-      "Coupling type", "Coupling OD, (mm)", "Coupling ID, (mm)",
-      "Coupling length, (mm)", "Make-up loss, (mm)",
-      "Connection tension (to failure), (kN)", "Connection tension (to yield), (kN)",
-      "Connection torsion (kN)", "Internal pressure coupling, (MPa)", "Coupling grade"
-    ]
-  };
-
-  for (const sec of sections) {
-    doc.setFontSize(12);
-    doc.text(s.sections[sec][lang], 10, y); y += 6;
-    const keys = fields[sec];
-    for (const key of keys) {
-      let value = key === "Drift type"
-        ? document.getElementById("drift").value
-        : r[key];
-      if (value !== undefined && s.fields[key]) {
-        const line = s.fields[key][lang === "ru" ? 0 : 1].replace("{}", value);
-        doc.setFontSize(10);
-        doc.text(`- ${line}`, 10, y); y += 6;
-        if (y > 270) { doc.addPage(); y = 10; }
-      }
-    }
-    y += 4;
+  html += "<h3>Общие сведения:</h3>";
+  for (const key of s.sections.common) {
+    if (d[key]) html += `- ${s.fields[key][0]} - ${d[key]}<br>`;
   }
 
-  doc.save(`techsheet_${r["Outside diameter, (mm)"]}x${r["Wall Thickness, (mm)"]}_${r["Pipe grade"]}_${lang}.pdf`);
+  html += "<h3>Параметры тела трубы:</h3>";
+  for (const key of s.sections.pipe) {
+    if (d[key]) html += `- ${s.fields[key][0]} - ${d[key]}<br>`;
+  }
+
+  html += "<h3>Характеристики соединения:</h3>";
+  for (const key of s.sections.connection) {
+    if (d[key]) html += `- ${s.fields[key][0]} - ${d[key]}<br>`;
+  }
+
+  html += "<h3>Прочностные характеристики:</h3>";
+  for (const key of s.sections.strength) {
+    if (d[key]) html += `- ${s.fields[key][0]} - ${d[key]}<br>`;
+  }
+
+  document.getElementById("result").innerHTML = html;
 }
