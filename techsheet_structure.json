@@ -26,17 +26,17 @@
     }
   },
   "fields": {
-    "Name": [
-      "Наименование",
-      "Name"
+    "Standard": [
+      "Нормативный документ - {}",
+      "Standard - {}"
     ],
     "Manufacture": [
-      "Способ производства",
-      "Manufacture"
+      "Способ производства - {}",
+      "Manufacture - {}"
     ],
     "Execution type": [
-      "Тип исполнения",
-      "Execution type"
+      "Тип исполнения - {}",
+      "Execution type - {}"
     ],
     "Outside diameter, (mm)": [
       "Наружный диаметр трубы - {} мм",
@@ -50,17 +50,13 @@
       "Тип резьбы - {}",
       "Thread type - {}"
     ],
-    "Standard": [
-      "Нормативный документ - {}",
-      "Standard - {}"
-    ],
     "Drift type": [
       "Тип шаблона - {}",
       "Drift type - {}"
     ],
     "Weight, (kN/m)": [
       "Теоретический вес 1 м колонны - {} кг/м",
-      "Theoretical weight per 1 m - {} kg/m"
+      "Weight per 1 m - {} kg/m"
     ],
     "Inside diameter, (mm)": [
       "Внутренний диаметр трубы - {} мм",
@@ -72,7 +68,7 @@
     ],
     "Internal yield pressure, (MPa)": [
       "Мин. внутр. давление до предела текучести тела трубы - {} МПа",
-      "Min. internal yield pressure (pipe) - {} MPa"
+      "Internal yield pressure (pipe) - {} MPa"
     ],
     "Collapse pressure, (MPa)": [
       "Сминающее давление тела трубы - {} МПа",
