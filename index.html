@@ -67,7 +67,11 @@
 
   <div id="step-7" >
     <label for="drift">Тип шаблона:</label>
-    <select id="drift" onchange="stepShow(8)" disabled></select>
+    <select id="drift" disabled>
+      <option disabled selected hidden>Выберите...</option>
+      <option value="Стандартный шаблон">Стандартный шаблон</option>
+      <option value="Специальный шаблон">Специальный шаблон</option>
+    </select>
   </div>
 
   <div id="step-8" >
