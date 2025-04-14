@@ -4,6 +4,12 @@ function findPipe() {
   const result = window.currentResult;
   const language = "ru";
 
+  if (!result) {
+    document.getElementById("result").innerHTML = "<p style='color:red;'>Труба не найдена или данные не загружены.</p>";
+    window.currentResult = null;
+    return;
+  }
+
   const isTubing = (
     parseFloat(result["Outside diameter, (mm)"]) <= 114.3 &&
     !["ОТТМ", "ОТТГ"].includes(result["Thread type"])
