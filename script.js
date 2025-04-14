@@ -76,7 +76,7 @@ function stepShow(step) {
   const uniqueValues = [...new Set(filtered.map(d => d[nextField]))];
   fill(nextId, uniqueValues);
 
-  document.getElementById("step-" + step).style.display = "block";
+  document.getElementById(ids[step]).disabled = false;
 }
 
 function fill(id, items) {
