@@ -132,5 +132,15 @@
       "Группа прочности муфты - {}",
       "Coupling grade - {}"
     ]
+  },
+  "map": {
+    "standard": "Standard",
+    "thread": "Thread type",
+    "od": "Outside diameter, (mm)",
+    "wall": "Wall Thickness, (mm)",
+    "pipegrade": "Pipe grade",
+    "couplinggrade": "Coupling grade",
+    "coupling": "Coupling type",
+    "drift": "Drift type"
   }
 }

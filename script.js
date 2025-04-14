@@ -1,53 +1,97 @@
 
-let data = [];
-let structure = {};
-let language = "ru";
+function findPipe() {
+  const struct = window.structure;
+  const result = window.currentResult;
+  const language = "ru";
 
-Promise.all([
-  fetch("tube_data_multilang.json").then(res => res.json()),
-  fetch("techsheet_structure.json").then(res => res.json())
-]).then(([jsonData, jsonStruct]) => {
-  data = jsonData;
-  structure = jsonStruct;
-  initSelectors();
-});
-
-function initSelectors() {
-  fillSelect("standard", [...new Set(data.map(d => d["Standard"]))]);
-}
-
-function fillSelect(id, options) {
-  const select = document.getElementById(id);
-  select.innerHTML = '<option disabled selected hidden>Выберите...</option>';
-  options.forEach(opt => {
-    const o = document.createElement("option");
-    o.value = opt;
-    o.textContent = opt;
-    select.appendChild(o);
-  });
-}
-
-function stepShow(step) {
-  const steps = [
-    "standard", "thread", "od", "wall", "pipegrade",
-    "couplinggrade", "coupling", "drift"
-  ];
-
-  const filters = {};
-  for (let i = 0; i < step; i++) {
-    const val = document.getElementById(steps[i]).value;
-    if (!val) return;
-    filters[steps[i]] = val;
+  if (!result) {
+    document.getElementById("result").innerHTML = "<p style='color:red;'>Труба не найдена или данные не загружены.</p>";
+    window.currentResult = null;
+    return;
   }
 
-  const filtered = data.filter(d => {
-    return Object.entries(filters).every(([key, val]) => d[structure.map[key]] == val);
-  });
+  const isTubing = (
+    parseFloat(result["Outside diameter, (mm)"]) <= 114.3 &&
+    !["ОТТМ", "ОТТГ"].includes(result["Thread type"])
+  );
+  const titleTemplate = struct.title[language][isTubing ? "tubing" : "casing"];
 
-  const nextKey = steps[step];
-  if (!nextKey) return;
+  let html = "";
+  html += `<div style="text-align:center; font-size:18px; font-weight:bold; margin-bottom: 10px;">${titleTemplate
+    .replace("{OD}", result["Outside diameter, (mm)"])
+    .replace("{Wall}", result["Wall Thickness, (mm)"])
+    .replace("{PipeGrade}", result["Pipe grade"])
+    .replace("{ThreadType}", result["Thread type"])
+    .replace("{Standard}", result["Standard"])}</div>`;
 
-  const nextOptions = [...new Set(filtered.map(d => d[structure.map[nextKey]]))];
-  document.getElementById(nextKey).disabled = false;
-  fillSelect(nextKey, nextOptions);
+  document.getElementById("result").innerHTML = html;
+}
+
+
+function generatePDF() {
+  if (!window.currentResult || !window.structure) {
+    alert("Данные не загружены.");
+    return;
+  }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFont("DejaVuSans");
+
+  const r = window.currentResult;
+  const s = window.structure;
+  const lang = language;
+
+  const isTubing = (
+    parseFloat(r["Outside diameter, (mm)"]) <= 114.3 &&
+    !["ОТТМ", "ОТТГ"].includes(r["Thread type"])
+  );
+  const titleTemplate = s.title[lang][isTubing ? "tubing" : "casing"];
+
+  let y = 10;
+  doc.setFontSize(14);
+  doc.text(titleTemplate
+    .replace("{OD}", r["Outside diameter, (mm)"])
+    .replace("{Wall}", r["Wall Thickness, (mm)"])
+    .replace("{PipeGrade}", r["Pipe grade"])
+    .replace("{ThreadType}", r["Thread type"])
+    .replace("{Standard}", r["Standard"]),
+    105, y, null, null, "center");
+  y += 10;
+
+  const sections = ["common", "pipe", "connection"];
+  const fields = {
+    common: ["Standard", "Manufacture", "Execution type", "Drift type"],
+    pipe: [
+      "Outside diameter, (mm)", "Wall Thickness, (mm)", "Inside diameter, (mm)",
+      "Drift diameter, (mm)", "Weight, (kN/m)", "Pipe grade",
+      "Minimum yield strength, (MPa)", "Minimum tensile strength, (MPa)",
+      "Internal yield pressure, (MPa)", "Collapse pressure, (MPa)"
+    ],
+    connection: [
+      "Coupling type", "Coupling OD, (mm)", "Coupling ID, (mm)",
+      "Coupling length, (mm)", "Make-up loss, (mm)",
+      "Connection tension (to failure), (kN)", "Connection tension (to yield), (kN)",
+      "Connection torsion (kN)", "Internal pressure coupling, (MPa)", "Coupling grade"
+    ]
+  };
+
+  for (const sec of sections) {
+    doc.setFontSize(12);
+    doc.text(s.sections[sec][lang], 10, y); y += 6;
+    const keys = fields[sec];
+    for (const key of keys) {
+      let value = key === "Drift type"
+        ? document.getElementById("drift").value
+        : r[key];
+      if (value !== undefined && s.fields[key]) {
+        const line = s.fields[key][lang === "ru" ? 0 : 1].replace("{}", value);
+        doc.setFontSize(10);
+        doc.text(`- ${line}`, 10, y); y += 6;
+        if (y > 270) { doc.addPage(); y = 10; }
+      }
+    }
+    y += 4;
+  }
+
+  doc.save(`techsheet_${r["Outside diameter, (mm)"]}x${r["Wall Thickness, (mm)"]}_${r["Pipe grade"]}_${lang}.pdf`);
 }
