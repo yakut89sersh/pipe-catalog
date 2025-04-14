@@ -81,7 +81,7 @@ function stepShow(step) {
 
 function fill(id, items) {
   const select = document.getElementById(id);
-  select.innerHTML = "";
+  select.innerHTML = "<option disabled selected hidden>Выберите...</option>";
   items.sort((a, b) => (a > b ? 1 : -1)).forEach(item => {
     const option = document.createElement("option");
     option.value = item;
