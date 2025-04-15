@@ -1,0 +1,47 @@
+{
+  "header": "Технический лист данных",
+  "title": "Технический лист данных для обсадной трубы {OD} x {Wall} мм, гр. пр. {PipeGrade}, {ThreadType} по {Standard}",
+  "sections": {
+    "common": "Общие сведения:",
+    "pipe": "Параметры тела трубы:",
+    "connection": "Характеристики соединения:",
+    "strength": "Прочностные характеристики:"
+  },
+  "fields": {
+    "Standard": "Нормативный документ - {}",
+    "Manufacture": "Способ производства - {}",
+    "Execution type": "Тип исполнения - {}",
+    "Outside diameter, (mm)": "Наружный диаметр трубы - {} мм",
+    "Wall Thickness, (mm)": "Толщина стенки - {} мм",
+    "Thread type": "Тип резьбы - {}",
+    "Drift type": "Тип шаблона - {}",
+    "Weight, (kN/m)": "Теоретический вес 1 м колонны - {} кг/м",
+    "Inside diameter, (mm)": "Внутренний диаметр трубы - {} мм",
+    "Drift diameter, (mm)": "Диаметр шаблона - {} мм",
+    "Internal yield pressure, (MPa)": "Мин. внутр. давление до предела текучести тела трубы - {} МПа",
+    "Collapse pressure, (MPa)": "Сминающее давление тела трубы - {} МПа",
+    "Pipe grade": "Группа прочности трубы - {}",
+    "Minimum yield strength, (MPa)": "Минимальный предел текучести - {} МПа",
+    "Minimum tensile strength, (MPa)": "Минимальный предел прочности - {} МПа",
+    "Coupling type": "Тип муфты - {}",
+    "Coupling OD, (mm)": "Наружный диаметр муфты - {} мм",
+    "Coupling ID, (mm)": "Внутренний диаметр муфты - {} мм",
+    "Coupling length, (mm)": "Длина муфты - {} мм",
+    "Make-up loss, (mm)": "Потеря длины при свинчивании - {} мм",
+    "Connection tension (to failure), (kN)": "Растяжение до разрушения резьбового соединения - {} кН",
+    "Connection tension (to yield), (kN)": "Растяжение до предела текучести резьбового соединения - {} кН",
+    "Connection torsion (kN)": "Страгивающая нагрузка резьбового соединения - {} кН",
+    "Internal pressure coupling, (MPa)": "Мин. внутр. давление до предела текучести муфты - {} МПа",
+    "Coupling grade": "Группа прочности муфты - {}"
+  },
+  "map": {
+    "standard": "Standard",
+    "thread": "Thread type",
+    "od": "Outside diameter, (mm)",
+    "wall": "Wall Thickness, (mm)",
+    "pipegrade": "Pipe grade",
+    "couplinggrade": "Coupling grade",
+    "coupling": "Coupling type",
+    "drift": "Drift type"
+  }
+}
