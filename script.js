@@ -90,9 +90,9 @@ function findPipe() {
     return;
   }
 
-  // определение наименования трубы
+  // Определение наименования трубы в нужной форме
   const isTubing = result["Thread type"] === "гладкая" && result["Outside diameter, (mm)"] < 114.3;
-  const pipeType = isTubing ? "НКТ" : "Обсадная труба";
+  const pipeType = isTubing ? "НКТ" : "обсадной трубы";
 
   let html = `<h2 style="text-align:center">${structure.title
     .replace("{PipeType}", pipeType)
@@ -116,8 +116,6 @@ function findPipe() {
   for (const key of structure.sections_order.connection) {
     if (result[key]) html += `- ${structure.fields[key]} - ${result[key]}<br>`;
   }
-
-  // блок прочностных характеристик удалён по инструкции
 
   document.getElementById("result").innerHTML = html;
 }
