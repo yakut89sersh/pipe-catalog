@@ -91,6 +91,7 @@ function findPipe() {
   }
 
   let html = `<h2 style="text-align:center">${structure.title
+    .replace("{PipeType}", result["Type"])
     .replace("{OD}", result["Outside diameter, (mm)"])
     .replace("{Wall}", result["Wall Thickness, (mm)"])
     .replace("{PipeGrade}", result["Pipe grade"])
