@@ -1,101 +1,113 @@
 
 let data = [];
 let structure = {};
+let language = "ru";
 
-Promise.all([
-  fetch("tube_data_multilang.json").then(res => res.json()),
-  fetch("techsheet_structure.json").then(res => res.json())
-]).then(([jsonData, jsonStruct]) => {
-  data = jsonData;
-  structure = jsonStruct;
-  initSelectors();
-});
+fetch("tube_data_multilang.json")
+  .then(res => res.json())
+  .then(json => {
+    data = json;
+    fillInitialOptions();
+  });
 
-function initSelectors() {
-  fillSelect("standard", [...new Set(data.map(d => d["Standard"]))]);
+fetch("techsheet_structure.json")
+  .then(res => res.json())
+  .then(json => {
+    structure = json;
+  });
+
+function fillInitialOptions() {
+  const standards = [...new Set(data.map(d => d["Standard"]))];
+  fill("standard", standards);
 }
 
-function fillSelect(id, options) {
+function fill(id, items) {
   const select = document.getElementById(id);
-  select.innerHTML = '<option disabled selected hidden>Выберите...</option>';
-  options.forEach(opt => {
-    const o = document.createElement("option");
-    o.value = opt;
-    o.textContent = opt;
-    select.appendChild(o);
+  select.innerHTML = "";
+  const defaultOption = document.createElement("option");
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  defaultOption.textContent = "";
+  select.appendChild(defaultOption);
+  items.sort().forEach(item => {
+    const option = document.createElement("option");
+    option.value = item;
+    option.textContent = item;
+    select.appendChild(option);
   });
 }
 
-function stepShow(step) {
-  const steps = ["standard", "thread", "od", "wall", "pipegrade", "couplinggrade", "coupling", "drift"];
-  if (!structure.map) return;
+document.getElementById("standard").addEventListener("change", () => stepShow("thread", "Standard"));
+document.getElementById("thread").addEventListener("change", () => stepShow("od", "Thread type"));
+document.getElementById("od").addEventListener("change", () => stepShow("wall", "Outside diameter, (mm)"));
+document.getElementById("wall").addEventListener("change", () => stepShow("grade", "Wall Thickness, (mm)"));
+document.getElementById("grade").addEventListener("change", () => stepShow("coupling_grade", "Pipe grade"));
+document.getElementById("coupling_grade").addEventListener("change", () => stepShow("coupling", "Coupling grade"));
+document.getElementById("coupling").addEventListener("change", () => stepShow("drift", "Coupling type"));
 
-  const filters = {};
-  for (let i = 0; i < step; i++) {
-    const val = document.getElementById(steps[i]).value;
-    if (!val) return;
-    filters[steps[i]] = val;
-  }
+function stepShow(nextId, filterKey) {
+  const filters = {
+    "standard": document.getElementById("standard").value,
+    "thread": document.getElementById("thread").value,
+    "od": document.getElementById("od").value,
+    "wall": document.getElementById("wall").value,
+    "grade": document.getElementById("grade").value,
+    "coupling_grade": document.getElementById("coupling_grade").value,
+    "coupling": document.getElementById("coupling").value
+  };
 
-  const filtered = data.filter(d =>
-    Object.entries(filters).every(([key, val]) => d[structure.map[key]] == val)
-  );
+  let filtered = data;
+  Object.entries(filters).forEach(([key, val]) => {
+    if (val) {
+      const field = document.getElementById(key).getAttribute("data-field");
+      filtered = filtered.filter(d => d[field] == val);
+    }
+  });
 
-  const nextKey = steps[step];
-  if (!nextKey) return;
-
-  const nextOptions = [...new Set(filtered.map(d => d[structure.map[nextKey]]))];
-  document.getElementById(nextKey).disabled = false;
-  fillSelect(nextKey, nextOptions);
+  const nextField = document.getElementById(nextId).getAttribute("data-field");
+  const items = [...new Set(filtered.map(d => d[nextField]))];
+  fill(nextId, items);
 }
 
-function findPipe() {
-  const fields = ["standard", "thread", "od", "wall", "pipegrade", "couplinggrade", "coupling", "drift"];
-  const values = {};
-  for (const f of fields) {
-    const el = document.getElementById(f);
-    if (!el || !el.value) return;
-    values[f] = el.value;
-  }
+document.getElementById("findBtn").addEventListener("click", findPipe);
 
-  const result = data.find(d =>
-    Object.entries(values).every(([key, val]) => d[structure.map[key]] == val)
-  );
+function findPipe() {
+  const filters = {
+    "Standard": document.getElementById("standard").value,
+    "Thread type": document.getElementById("thread").value,
+    "Outside diameter, (mm)": parseFloat(document.getElementById("od").value),
+    "Wall Thickness, (mm)": parseFloat(document.getElementById("wall").value),
+    "Pipe grade": document.getElementById("grade").value,
+    "Coupling grade": document.getElementById("coupling_grade").value,
+    "Coupling type": document.getElementById("coupling").value,
+    "Drift Option": document.getElementById("drift").value
+  };
+
+  const result = data.find(d => Object.entries(filters).every(([k, v]) => d[k] == v));
+  const resultContainer = document.getElementById("result");
 
   if (!result) {
-    document.getElementById("result").innerHTML = "<p style='color:red;'>Труба не найдена.</p>";
+    resultContainer.innerHTML = "<p style='color:red;'>Труба не найдена.</p>";
     return;
   }
 
-  window.currentResult = result;
-  showResult(result);
-}
+  const s = structure;
+  let html = `<h3 style="text-align:center; font-size: 18px;">${s.title.replace("{OD}", result["Outside diameter, (mm)"]).replace("{Wall}", result["Wall Thickness, (mm)"]).replace("{PipeGrade}", result["Pipe grade"]).replace("{ThreadType}", result["Thread type"]).replace("{Standard}", result["Standard"])}</h3>`;
 
-function showResult(r) {
-  const f = structure.fields;
-  const s = structure.sections;
+  html += `<h4>${s.sections.common}</h4>`;
+  for (const key of s.sections_order.common) {
+    if (result[key] !== undefined) html += `- ${s.fields[key]} - ${result[key]}<br>`;
+  }
 
-  const resultBlock = [];
+  html += `<h4>${s.sections.pipe}</h4>`;
+  for (const key of s.sections_order.pipe) {
+    if (result[key] !== undefined) html += `- ${s.fields[key]} - ${result[key]}<br>`;
+  }
 
-  resultBlock.push("<h2 style='text-align:center'>Технический лист данных для " +
-    (r["Outside diameter, (mm)"] <= 114.3 && !["ОТТМ", "ОТТГ"].includes(r["Thread type"]) ? "НКТ" : "обсадной трубы") +
-    ` ${r["Outside diameter, (mm)"]} x ${r["Wall Thickness, (mm)"]} мм, гр. пр. ${r["Pipe grade"]}, ${r["Thread type"]} по ${r["Standard"]}</h2>`);
+  html += `<h4>${s.sections.connection}</h4>`;
+  for (const key of s.sections_order.connection) {
+    if (result[key] !== undefined) html += `- ${s.fields[key]} - ${result[key]}<br>`;
+  }
 
-  resultBlock.push("<h3>Общие сведения:</h3>");
-  for (const key of s.common)
-    if (r[key]) resultBlock.push(`- ${f[key]} - ${r[key]}<br>`);
-
-  resultBlock.push("<h3>Параметры тела трубы:</h3>");
-  for (const key of s.pipe)
-    if (r[key]) resultBlock.push(`- ${f[key]} - ${r[key]}<br>`);
-
-  resultBlock.push("<h3>Характеристики соединения:</h3>");
-  for (const key of s.connection)
-    if (r[key]) resultBlock.push(`- ${f[key]} - ${r[key]}<br>`);
-
-  resultBlock.push("<h3>Прочностные характеристики:</h3>");
-  for (const key of s.strength)
-    if (r[key]) resultBlock.push(`- ${f[key]} - ${r[key]}<br>`);
-
-  document.getElementById("result").innerHTML = resultBlock.join("\n");
+  document.getElementById("result").innerHTML = html;
 }
