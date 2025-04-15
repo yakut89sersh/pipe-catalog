@@ -95,7 +95,8 @@ function findPipe() {
     .replace("{Wall}", result["Wall Thickness, (mm)"])
     .replace("{PipeGrade}", result["Pipe grade"])
     .replace("{ThreadType}", result["Thread type"])
-    .replace("{Standard}", result["Standard"])}</h2>`;
+    .replace("{Standard}", result["Standard"])
+    .replace("{Type}", result["Type"])}</h2>`;
 
   html += `<h3>${structure.sections.common}</h3>`;
   for (const key of structure.sections_order.common) {
@@ -109,11 +110,6 @@ function findPipe() {
 
   html += `<h3>${structure.sections.connection}</h3>`;
   for (const key of structure.sections_order.connection) {
-    if (result[key]) html += `- ${structure.fields[key]} - ${result[key]}<br>`;
-  }
-
-  html += `<h3>${structure.sections.strength}</h3>`;
-  for (const key of structure.sections_order.strength) {
     if (result[key]) html += `- ${structure.fields[key]} - ${result[key]}<br>`;
   }
 
