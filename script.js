@@ -9,6 +9,7 @@ Promise.all([
   data = jsonData;
   structure = jsonStruct;
   initSelectors();
+  document.getElementById("findBtn").disabled = false;
 });
 
 function initSelectors() {
@@ -60,6 +61,11 @@ function stepShow(step) {
 }
 
 function findPipe() {
+  if (!structure || !structure.sections || !structure.sections.common) {
+    alert("Данные структуры не загружены. Пожалуйста, подождите и попробуйте снова.");
+    return;
+  }
+
   const map = {
     standard: "Standard",
     thread: "Thread type",
