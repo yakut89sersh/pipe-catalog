@@ -90,14 +90,17 @@ function findPipe() {
     return;
   }
 
+  // определение наименования трубы
+  const isTubing = result["Thread type"] === "гладкая" && result["Outside diameter, (mm)"] < 114.3;
+  const pipeType = isTubing ? "НКТ" : "Обсадная труба";
+
   let html = `<h2 style="text-align:center">${structure.title
-    .replace("{PipeType}", result["Type"])
+    .replace("{PipeType}", pipeType)
     .replace("{OD}", result["Outside diameter, (mm)"])
     .replace("{Wall}", result["Wall Thickness, (mm)"])
     .replace("{PipeGrade}", result["Pipe grade"])
     .replace("{ThreadType}", result["Thread type"])
-    .replace("{Standard}", result["Standard"])
-    .replace("{Type}", result["Type"])}</h2>`;
+    .replace("{Standard}", result["Standard"])}</h2>`;
 
   html += `<h3>${structure.sections.common}</h3>`;
   for (const key of structure.sections_order.common) {
@@ -113,6 +116,8 @@ function findPipe() {
   for (const key of structure.sections_order.connection) {
     if (result[key]) html += `- ${structure.fields[key]} - ${result[key]}<br>`;
   }
+
+  // блок прочностных характеристик удалён по инструкции
 
   document.getElementById("result").innerHTML = html;
 }
