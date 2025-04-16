@@ -87,35 +87,35 @@ function findPipe() {
   const result = data.find(d => Object.entries(selected).every(([k, v]) => d[k] == v));
   if (!result) {
     document.getElementById("result").innerHTML = "<p style='color:red;'>Труба не найдена.</p>";
+    document.getElementById("downloadBtn").style.display = "none";
     return;
   }
 
-  // Определение наименования трубы в нужной форме
-  const isTubing = result["Thread type"] === "гладкая" && result["Outside diameter, (mm)"] < 114.3;
+  // Определение наименования типа трубы
+  const isTubing = result["Name"]?.toLowerCase().includes("нкт");
   const pipeType = isTubing ? "НКТ" : "обсадной трубы";
 
-  let html = `<h2 style="text-align:center">${structure.title
-    .replace("{PipeType}", pipeType)
-    .replace("{OD}", result["Outside diameter, (mm)"])
-    .replace("{Wall}", result["Wall Thickness, (mm)"])
-    .replace("{PipeGrade}", result["Pipe grade"])
-    .replace("{ThreadType}", result["Thread type"])
-    .replace("{Standard}", result["Standard"])}</h2>`;
+  // Формирование заголовка
+  const title = `Технический лист данных для ${pipeType} ${result["Outside diameter, (mm)"]} x ${result["Wall Thickness, (mm)"]} мм, гр. пр. ${result["Pipe grade"]}, ${result["Thread type"]} по ${result["Standard"]}`;
 
-  html += `<h3>${structure.sections.common}</h3>`;
-  for (const key of structure.sections_order.common) {
-    if (result[key]) html += `- ${structure.fields[key]} - ${result[key]}<br>`;
-  }
-
-  html += `<h3>${structure.sections.pipe}</h3>`;
-  for (const key of structure.sections_order.pipe) {
-    if (result[key]) html += `- ${structure.fields[key]} - ${result[key]}<br>`;
-  }
-
-  html += `<h3>${structure.sections.connection}</h3>`;
-  for (const key of structure.sections_order.connection) {
-    if (result[key]) html += `- ${structure.fields[key]} - ${result[key]}<br>`;
-  }
-
+  // Визуализация HTML
+  const html = renderTechsheetHTML(result, structure, title);
   document.getElementById("result").innerHTML = html;
+
+  // Показ кнопки PDF
+  document.getElementById("downloadBtn").style.display = "block";
+}
+
+function downloadPDF() {
+  if (!window.jspdf || !window.jsPDF || !structure) return;
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const el = document.getElementById("result");
+  doc.html(el, {
+    callback: function (doc) {
+      doc.save("techsheet.pdf");
+    },
+    x: 10,
+    y: 10
+  });
 }
