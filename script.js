@@ -61,11 +61,6 @@ function stepShow(step) {
 }
 
 function findPipe() {
-  if (!structure || !structure.sections || !structure.sections.common) {
-    alert("Данные структуры не загружены. Пожалуйста, подождите и попробуйте снова.");
-    return;
-  }
-
   const map = {
     standard: "Standard",
     thread: "Thread type",
@@ -84,38 +79,23 @@ function findPipe() {
     selected[map[k]] = isNaN(val) ? val : parseFloat(val);
   }
 
-  const result = data.find(d => Object.entries(selected).every(([k, v]) => d[k] == v));
+  let result = data.find(d => Object.entries(selected).every(([k, v]) => d[k] == v));
+
   if (!result) {
     document.getElementById("result").innerHTML = "<p style='color:red;'>Труба не найдена.</p>";
     document.getElementById("downloadBtn").style.display = "none";
     return;
   }
 
-  // Определение наименования типа трубы
-  const isTubing = result["Name"]?.toLowerCase().includes("нкт");
-  const pipeType = isTubing ? "НКТ" : "обсадной трубы";
+  if ((result["Standard"] === "ГОСТ 632-80" || result["Standard"] === "ГОСТ 633-80") && !result["Production quality"]) {
+    result["Production quality"] = "Исполнение А";
+  }
 
-  // Формирование заголовка
-  const title = `Технический лист данных для ${pipeType} ${result["Outside diameter, (mm)"]} x ${result["Wall Thickness, (mm)"]} мм, гр. пр. ${result["Pipe grade"]}, ${result["Thread type"]} по ${result["Standard"]}`;
-
-  // Визуализация HTML
-  const html = renderTechsheetHTML(result, structure, title);
+  const html = renderTechsheetHTML(result, structure);
   document.getElementById("result").innerHTML = html;
-
-  // Показ кнопки PDF
   document.getElementById("downloadBtn").style.display = "block";
 }
 
 function downloadPDF() {
-  if (!window.jspdf || !window.jsPDF || !structure) return;
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF();
-  const el = document.getElementById("result");
-  doc.html(el, {
-    callback: function (doc) {
-      doc.save("techsheet.pdf");
-    },
-    x: 10,
-    y: 10
-  });
+  alert("Скачивание PDF пока не подключено к этому дизайну.");
 }
