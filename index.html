@@ -5,19 +5,76 @@
   <meta charset="UTF-8">
   <title>Каталог обсадных труб и НКТ</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-
-  <!-- Подключаем новые файлы -->
-  <link rel="stylesheet" href="techsheet_style.css">
-  <script src="renderTechsheetHTML.js"></script>
-
-  <!-- Основной скрипт -->
   <script src="script.js" defer></script>
-
+  <script src="DejaVuSans_base64.js"></script>
   <style>
-    body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: auto; }
-    h1 { text-align: center; }
-    select, button { margin-bottom: 10px; width: 100%; padding: 8px; font-size: 14px; }
-    #result { margin-top: 20px; line-height: 1.6; }
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    select, button {
+      margin-bottom: 10px;
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+    }
+    #result {
+      margin-top: 20px;
+    }
+    .techsheet {
+      font-family: sans-serif;
+      margin-top: 30px;
+    }
+    .techsheet h2 {
+      font-size: 18px;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .block {
+      margin-bottom: 30px;
+    }
+    .block-title {
+      font-weight: bold;
+      padding: 6px 10px;
+      background-color: #444;
+      color: white;
+      text-align: left;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .row:nth-child(even) {
+      background-color: #f0f0f0;
+    }
+    .row:nth-child(odd) {
+      background-color: #e0e0e0;
+    }
+    .label {
+      width: 70%;
+      padding: 6px 10px;
+      box-sizing: border-box;
+      font-weight: normal;
+      word-break: break-word;
+    }
+    .value {
+      width: 30%;
+      padding: 6px 10px;
+      box-sizing: border-box;
+      font-weight: bold;
+    }
+    #downloadBtn {
+      margin-top: 20px;
+      display: none;
+      width: 100%;
+      padding: 10px;
+    }
   </style>
 </head>
 <body>
@@ -48,8 +105,7 @@
   <select id="drift" disabled></select>
 
   <button id="findBtn" onclick="findPipe()" disabled>Найти трубу</button>
-  <button onclick="generatePDF()">Скачать PDF-версию</button>
-
   <div id="result"></div>
+  <button id="downloadBtn" onclick="downloadPDF()">Скачать PDF-версию</button>
 </body>
 </html>
