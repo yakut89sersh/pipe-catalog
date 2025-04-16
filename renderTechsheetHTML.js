@@ -1,58 +1,90 @@
 
-function renderTechsheetHTML(result, structure) {
-  function createBlock(title, rows, zebraColors) {
-    let html = `<div class="block"><div class="block-header">${title}</div><table class="zebra-table">`;
-    rows.forEach(([key, val], i) => {
-      const rowClass = i % 2 === 0 ? zebraColors[0] : zebraColors[1];
-      html += `<tr class="${rowClass}">
-                 <td class="key">${key}</td>
-                 <td class="val">${val}</td>
-               </tr>`;
-    });
-    html += `</table></div>`;
-    return html;
-  }
+function renderTechsheetHTML(data) {
+  const container = document.getElementById("result");
+  container.innerHTML = "";
 
-  const r = result;
-  const s = structure;
-
-  const blocks = [];
-  const zebraMap = {
-    common: ['zebra-blue', 'zebra-light'],
-    pipe: ['zebra-green', 'zebra-light'],
-    connection: ['zebra-red', 'zebra-light']
+  const addRow = (table, key, val) => {
+    const row = document.createElement("tr");
+    row.innerHTML = `<td class="key">${key}</td><td class="val">${val}</td>`;
+    table.appendChild(row);
   };
 
-  const sections = ['common', 'pipe', 'connection'];
-  for (const sec of sections) {
-    const title = s.sections[sec];
-    const keys = s.sections_order[sec];
-    const rows = [];
-    for (const key of keys) {
-      if (r[key] !== undefined && r[key] !== null && r[key] !== "") {
-        // только одно значение растяжения соединения
-        if (sec === "connection" && (
-          key === "Connection tension (to failure), (kN)" ||
-          key === "Yield Strength in Tension, (kN)" ||
-          key === "Shear-out strength of the threaded connection, (kN)")) {
-          if (rows.some(row => row[0].includes("соединения"))) continue;
-        }
-        rows.push([s.fields[key], r[key]]);
-      }
-    }
-    blocks.push(createBlock(title, rows, zebraMap[sec]));
+  const addBlock = (title, className) => {
+    const block = document.createElement("div");
+    block.className = "block";
+
+    const header = document.createElement("div");
+    header.className = "block-header";
+    header.textContent = title;
+    block.appendChild(header);
+
+    const table = document.createElement("table");
+    table.className = "zebra-table " + className;
+    block.appendChild(table);
+
+    container.appendChild(block);
+    return table;
+  };
+
+  const title = document.createElement("div");
+  title.className = "techsheet-title";
+  const pipeType = data["Name"]?.toLowerCase().includes("нкт") ? "НКТ" : "обсадной трубы";
+  title.textContent = `Технический лист данных для ${pipeType} ${data["Outside diameter, (mm)"]} x ${data["Wall Thickness, (mm)"]} мм, гр. пр. ${data["Pipe grade"]}, ${data["Thread type"]} по ${data["Standard"]}`;
+  container.appendChild(title);
+
+  // Общие сведения
+  const common = addBlock("Общие сведения:", "zebra-blue");
+  addRow(common, "Наименование", data["Name"]);
+  addRow(common, "Способ производства", data["Process of manufacture"]);
+  if (data["Production quality"]) {
+    addRow(common, "Тип исполнения", data["Production quality"]);
+  } else if (
+    data["Standard"] === "ГОСТ 632-80" ||
+    data["Standard"] === "ГОСТ 633-80"
+  ) {
+    addRow(common, "Тип исполнения", "Исполнение А");
+  }
+  addRow(common, "Наружный диаметр трубы, (мм)", data["Outside diameter, (mm)"]);
+  addRow(common, "Толщина стенки, (мм)", data["Wall Thickness, (mm)"]);
+  addRow(common, "Тип резьбы", data["Thread type"]);
+  addRow(common, "Нормативный документ", data["Standard"]);
+  addRow(common, "Тип шаблона", data["Drift Option"]);
+  addRow(common, "Теоретический вес 1 м колонны, (кг/м)", data["Weight, (kg/m)"]);
+
+  // Параметры тела трубы
+  const pipe = addBlock("Параметры тела трубы:", "zebra-green");
+  addRow(pipe, "Внутренний диаметр трубы, (мм)", data["Inside diameter, (mm)"]);
+  addRow(pipe, "Диаметр шаблона, (мм)", data["Drift diameter, (mm)"]);
+  addRow(pipe, "Растяжение до предела текучести тела трубы, кН", data["Body tension (to yield), (kN)"]);
+  addRow(pipe, "Минимальное внутреннее давление до предела текучести тела трубы, (МПа)", data["Internal yield pressure, (MPa)"]);
+  addRow(pipe, "Сминающее давление тела трубы, (МПа)", data["Collapse pressure, (MPa)"]);
+  addRow(pipe, "Группа прочности трубы", data["Pipe grade"]);
+  addRow(pipe, "Минимальный предел текучести, (МПа)", data["Minimum yield strength, (MPa)"]);
+  addRow(pipe, "Минимальный предел прочности, (МПа)", data["Minimum tensile strength, (MPa)"]);
+
+  // Характеристики соединения
+  const conn = addBlock("Характеристики соединения:", "zebra-red");
+  addRow(conn, "Тип муфты", data["Coupling type"]);
+  addRow(conn, "Наружный диаметр муфты, (мм)", data["Coupling OD, (mm)"]);
+  if (data["Coupling ID, (mm)"]) {
+    addRow(conn, "Внутренний диаметр муфты, (мм)", data["Coupling ID, (mm)"]);
+  }
+  addRow(conn, "Длина муфты, (мм)", data["Coupling length, (mm)"]);
+  addRow(conn, "Потеря длины при свинчивании, (мм)", data["Make-up loss, (mm)"]);
+
+  const tensionKey = [
+    "Connection tension (to failure), (kN)",
+    "Yield Strength in Tension, (kN)",
+    "Shear-out strength of the threaded connection, (kN)",
+  ].find(k => data[k]);
+  if (tensionKey) {
+    addRow(conn, tensionKey.replace(/\s*\(.*?\)/, ""), data[tensionKey]);
   }
 
-  const titleText = s.title
-    .replace("{PipeType}", r["Name"] === "НКТ" ? "НКТ" : "обсадной трубы")
-    .replace("{OD}", r["Outside diameter, (mm)"])
-    .replace("{Wall}", r["Wall Thickness, (mm)"])
-    .replace("{PipeGrade}", r["Pipe grade"])
-    .replace("{ThreadType}", r["Thread type"])
-    .replace("{Standard}", r["Standard"]);
+  if (data["Min. Internal Yield Pressure Coupling, Mpa"]) {
+    addRow(conn, "Минимальное внутреннее давление до предела текучести муфты, (МПа)", data["Min. Internal Yield Pressure Coupling, Mpa"]);
+  }
+  addRow(conn, "Группа прочности муфты", data["Coupling grade"]);
 
-  document.getElementById("result").innerHTML = `
-    <div class="techsheet-title">${titleText}</div>
-    ${blocks.join("<div class='block-gap'></div>")}
-  `;
+  document.getElementById("downloadBtn").style.display = "block";
 }
