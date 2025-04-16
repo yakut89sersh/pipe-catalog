@@ -2,19 +2,17 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Каталог обсадных труб и НКТ</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <script src="DejaVuSans_base64.js"></script>
-  <script src="renderTechsheetHTML.js"></script> <!-- ВАЖНО -->
+  <script src="renderTechsheetHTML.js"></script>
   <script src="script.js" defer></script>
-
   <style>
     body {
       font-family: sans-serif;
       padding: 20px;
-      max-width: 900px;
+      max-width: 1000px;
       margin: auto;
     }
     h1 {
@@ -29,47 +27,66 @@
     #result {
       margin-top: 20px;
     }
+
     .techsheet {
       font-family: sans-serif;
       margin-top: 30px;
     }
-    .techsheet h2 {
+    .techsheet-title {
+      font-weight: bold;
       font-size: 18px;
       text-align: center;
-      font-weight: bold;
       margin-bottom: 20px;
     }
-    .block {
-      margin-bottom: 30px;
-    }
-    .block-title {
+    .block-header {
       font-weight: bold;
-      padding: 6px 10px;
-      background-color: #444;
+      padding: 8px 12px;
       color: white;
+      background-color: #3a3a3a;
       text-align: left;
     }
-    .row {
-      display: flex;
-      flex-wrap: wrap;
+    .block-gap {
+      height: 20px;
     }
-    .row:nth-child(even) {
-      background-color: #f0f0f0;
+    .zebra-table {
+      width: 100%;
+      border-collapse: collapse;
     }
-    .row:nth-child(odd) {
-      background-color: #e0e0e0;
+    .zebra-blue tr:nth-child(even) {
+      background-color: #e3f2fd;
     }
-    .label {
+    .zebra-blue tr:nth-child(odd) {
+      background-color: #bbdefb;
+    }
+    .zebra-green tr:nth-child(even) {
+      background-color: #e8f5e9;
+    }
+    .zebra-green tr:nth-child(odd) {
+      background-color: #c8e6c9;
+    }
+    .zebra-red tr:nth-child(even) {
+      background-color: #ffebee;
+    }
+    .zebra-red tr:nth-child(odd) {
+      background-color: #ffcdd2;
+    }
+    .zebra-light tr:nth-child(even) {
+      background-color: #f5f5f5;
+    }
+    .zebra-light tr:nth-child(odd) {
+      background-color: #eeeeee;
+    }
+    .zebra-table td {
+      padding: 8px 10px;
+      vertical-align: top;
+      word-wrap: break-word;
+    }
+    .key {
       width: 70%;
-      padding: 6px 10px;
-      box-sizing: border-box;
       font-weight: normal;
-      word-break: break-word;
     }
-    .value {
+    .val {
       width: 30%;
-      padding: 6px 10px;
-      box-sizing: border-box;
       font-weight: bold;
     }
     #downloadBtn {
@@ -112,7 +129,3 @@
   <button id="downloadBtn" onclick="downloadPDF()">Скачать PDF-версию</button>
 </body>
 </html>
-
-
-<!-- force rebuild -->
-
