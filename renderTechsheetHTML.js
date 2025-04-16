@@ -1,90 +1,70 @@
-
-function renderTechsheetHTML(data) {
-  const container = document.getElementById("result");
-  container.innerHTML = "";
-
-  const addRow = (table, key, val) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `<td class="key">${key}</td><td class="val">${val}</td>`;
-    table.appendChild(row);
+function renderTechsheetHTML(result) {
+  const blocks = {
+    common: {
+      title: "Общие сведения:",
+      color: "#dde8f0",
+      rows: [
+        ["Name", "Наименование"],
+        ["Process of manufacture", "Способ производства"],
+        ["Outside diameter, (mm)", "Наружный диаметр трубы, (мм)"],
+        ["Wall Thickness, (mm)", "Толщина стенки, (мм)"],
+        ["Thread type", "Тип резьбы"],
+        ["Standard", "Нормативный документ"],
+        ["Production quality", "Тип исполнения"],
+        ["Drift Option", "Тип шаблона"],
+        ["Weight, (kg/m)", "Теоретический вес 1 м колонны, (кг/м)"]
+      ]
+    },
+    pipe: {
+      title: "Параметры тела трубы:",
+      color: "#eaf1ea",
+      rows: [
+        ["Inside diameter, (mm)", "Внутренний диаметр трубы, (мм)"],
+        ["Drift diameter, (mm)", "Диаметр шаблона, (мм)"],
+        ["Body tension (to yield), (kN)", "Растяжение до предела текучести тела трубы, кН"],
+        ["Internal yield pressure, (MPa)", "Минимальное внутреннее давление до предела текучести тела трубы, (МПа)"],
+        ["Collapse pressure, (MPa)", "Сминающее давление тела трубы, (МПа)"],
+        ["Pipe grade", "Группа прочности трубы"],
+        ["Minimum yield strength, (MPa)", "Минимальный предел текучести, (МПа)"],
+        ["Minimum tensile strength, (MPa)", "Минимальный предел прочности, (МПа)"]
+      ]
+    },
+    connection: {
+      title: "Характеристики соединения:",
+      color: "#f3ede2",
+      rows: [
+        ["Coupling type", "Тип муфты"],
+        ["Coupling OD, (mm)", "Наружный диаметр муфты, (мм)"],
+        ["Coupling ID, (mm)", "Внутренний диаметр муфты, (мм)"],
+        ["Coupling length, (mm)", "Длина муфты, (мм)"],
+        ["Make-up loss, (mm)", "Потеря длины при свинчивании, (мм)"],
+        ["Connection tension (to failure), (kN)", "Растяжение до разрушения резьбового соединения, кН"],
+        ["Yield Strength in Tension, (kN)", "Растяжение до предела текучести резьбового соединения, кН"],
+        ["Shear-out strength of the threaded connection, (kN)", "Страгивающая нагрузка резьбового соединения, кН"],
+        ["Min. Internal Yield Pressure Coupling, Mpa", "Минимальное внутреннее давление до предела текучести муфты, (МПа)"],
+        ["Coupling grade", "Группа прочности муфты"]
+      ]
+    }
   };
 
-  const addBlock = (title, className) => {
-    const block = document.createElement("div");
-    block.className = "block";
-
-    const header = document.createElement("div");
-    header.className = "block-header";
-    header.textContent = title;
-    block.appendChild(header);
-
-    const table = document.createElement("table");
-    table.className = "zebra-table " + className;
-    block.appendChild(table);
-
-    container.appendChild(block);
-    return table;
-  };
-
-  const title = document.createElement("div");
-  title.className = "techsheet-title";
-  const pipeType = data["Name"]?.toLowerCase().includes("нкт") ? "НКТ" : "обсадной трубы";
-  title.textContent = `Технический лист данных для ${pipeType} ${data["Outside diameter, (mm)"]} x ${data["Wall Thickness, (mm)"]} мм, гр. пр. ${data["Pipe grade"]}, ${data["Thread type"]} по ${data["Standard"]}`;
-  container.appendChild(title);
-
-  // Общие сведения
-  const common = addBlock("Общие сведения:", "zebra-blue");
-  addRow(common, "Наименование", data["Name"]);
-  addRow(common, "Способ производства", data["Process of manufacture"]);
-  if (data["Production quality"]) {
-    addRow(common, "Тип исполнения", data["Production quality"]);
-  } else if (
-    data["Standard"] === "ГОСТ 632-80" ||
-    data["Standard"] === "ГОСТ 633-80"
-  ) {
-    addRow(common, "Тип исполнения", "Исполнение А");
-  }
-  addRow(common, "Наружный диаметр трубы, (мм)", data["Outside diameter, (mm)"]);
-  addRow(common, "Толщина стенки, (мм)", data["Wall Thickness, (mm)"]);
-  addRow(common, "Тип резьбы", data["Thread type"]);
-  addRow(common, "Нормативный документ", data["Standard"]);
-  addRow(common, "Тип шаблона", data["Drift Option"]);
-  addRow(common, "Теоретический вес 1 м колонны, (кг/м)", data["Weight, (kg/m)"]);
-
-  // Параметры тела трубы
-  const pipe = addBlock("Параметры тела трубы:", "zebra-green");
-  addRow(pipe, "Внутренний диаметр трубы, (мм)", data["Inside diameter, (mm)"]);
-  addRow(pipe, "Диаметр шаблона, (мм)", data["Drift diameter, (mm)"]);
-  addRow(pipe, "Растяжение до предела текучести тела трубы, кН", data["Body tension (to yield), (kN)"]);
-  addRow(pipe, "Минимальное внутреннее давление до предела текучести тела трубы, (МПа)", data["Internal yield pressure, (MPa)"]);
-  addRow(pipe, "Сминающее давление тела трубы, (МПа)", data["Collapse pressure, (MPa)"]);
-  addRow(pipe, "Группа прочности трубы", data["Pipe grade"]);
-  addRow(pipe, "Минимальный предел текучести, (МПа)", data["Minimum yield strength, (MPa)"]);
-  addRow(pipe, "Минимальный предел прочности, (МПа)", data["Minimum tensile strength, (MPa)"]);
-
-  // Характеристики соединения
-  const conn = addBlock("Характеристики соединения:", "zebra-red");
-  addRow(conn, "Тип муфты", data["Coupling type"]);
-  addRow(conn, "Наружный диаметр муфты, (мм)", data["Coupling OD, (mm)"]);
-  if (data["Coupling ID, (mm)"]) {
-    addRow(conn, "Внутренний диаметр муфты, (мм)", data["Coupling ID, (mm)"]);
-  }
-  addRow(conn, "Длина муфты, (мм)", data["Coupling length, (mm)"]);
-  addRow(conn, "Потеря длины при свинчивании, (мм)", data["Make-up loss, (mm)"]);
-
-  const tensionKey = [
-    "Connection tension (to failure), (kN)",
-    "Yield Strength in Tension, (kN)",
-    "Shear-out strength of the threaded connection, (kN)",
-  ].find(k => data[k]);
-  if (tensionKey) {
-    addRow(conn, tensionKey.replace(/\s*\(.*?\)/, ""), data[tensionKey]);
+  function renderBlock(block, data) {
+    const rows = block.rows
+      .filter(([key]) => data[key])
+      .map(([key, label], i) => {
+        return `<div class="row" style="background:${i % 2 === 0 ? "#fff" : block.color}">
+          <div class="label">${label}</div>
+          <div class="value">${data[key]}</div>
+        </div>`;
+      })
+      .join("");
+    return `<div class="block">
+      <div class="block-title">${block.title}</div>
+      ${rows}
+    </div>`;
   }
 
-  if (data["Min. Internal Yield Pressure Coupling, Mpa"]) {
-    addRow(conn, "Минимальное внутреннее давление до предела текучести муфты, (МПа)", data["Min. Internal Yield Pressure Coupling, Mpa"]);
-  }
-  addRow(conn, "Группа прочности муфты", data["Coupling grade"]);
+  const pipeType = (result["Name"] || "").toLowerCase().includes("нкт") ? "НКТ" : "обсадной трубы";
+  const title = `<h2><strong>Технический лист данных для ${pipeType} ${result["Outside diameter, (mm)"]} x ${result["Wall Thickness, (mm)"]} мм, гр. пр. ${result["Pipe grade"]}, ${result["Thread type"]} по ${result["Standard"]}</strong></h2>`;
 
-  document.getElementById("downloadBtn").style.display = "block";
+  return `<div class="techsheet">${title}${renderBlock(blocks.common, result)}${renderBlock(blocks.pipe, result)}${renderBlock(blocks.connection, result)}</div>`;
 }
