@@ -1,51 +1,44 @@
 
-function renderTechsheetHTML(result, structure) {
-  const container = document.createElement("div");
-  container.className = "techsheet";
-
-  const title = document.createElement("h2");
-  title.textContent = structure.title
-    .replace("{PipeType}", result["Name"])
-    .replace("{OD}", result["Outside diameter, (mm)"])
-    .replace("{Wall}", result["Wall Thickness, (mm)"])
-    .replace("{PipeGrade}", result["Pipe grade"])
-    .replace("{ThreadType}", result["Thread type"])
-    .replace("{Standard}", result["Standard"]);
-  container.appendChild(title);
-
-  const blockColors = ["#d5e8f6", "#d9f2e4", "#fef2cc"];
-  const sectionKeys = ["common", "pipe", "connection"];
-  sectionKeys.forEach((section, index) => {
-    const block = document.createElement("div");
-    block.className = "block";
-
-    const blockTitle = document.createElement("div");
-    blockTitle.className = "block-title";
-    blockTitle.style.backgroundColor = "#444";
-    blockTitle.textContent = structure.sections[section];
-    block.appendChild(blockTitle);
-
-    structure.sections_order[section].forEach((key, i) => {
-      if (!result[key]) return;
-      const row = document.createElement("div");
-      row.className = "row";
-      row.style.backgroundColor = i % 2 === 0 ? blockColors[index] : "#ffffff";
-
-      const label = document.createElement("div");
-      label.className = "label";
-      label.textContent = structure.fields[key];
-
-      const value = document.createElement("div");
-      value.className = "value";
-      value.textContent = result[key];
-
-      row.appendChild(label);
-      row.appendChild(value);
-      block.appendChild(row);
+function renderTechsheetHTML(structure, result, pipeType) {
+  const createBlock = (title, rows, color) => {
+    let html = `<div class="block" style="background-color:${color}; border-radius:5px; margin-bottom:20px;">`;
+    html += `<div class="block-title">${title}</div>`;
+    rows.forEach(({ label, value }, index) => {
+      html += `
+        <div class="row" style="background-color:${index % 2 === 0 ? '#f0f4f8' : '#e8eff4'};">
+          <div class="label">${label}</div>
+          <div class="value">${value}</div>
+        </div>`;
     });
+    html += `</div>`;
+    return html;
+  };
 
-    container.appendChild(block);
+  const getValue = key => result[key] ?? null;
+  const getLabel = key => structure.fields[key] ?? key;
+
+  const sectionColors = {
+    common: '#dceeff',
+    pipe: '#d9f7ef',
+    connection: '#fff3cc'
+  };
+
+  const sections = ['common', 'pipe', 'connection'];
+  let html = `<div class="techsheet">`;
+  html += `<h2>Технический лист данных для ${pipeType}</h2>`;
+
+  sections.forEach(sec => {
+    const rows = [];
+    for (const key of structure.sections_order[sec]) {
+      if (result[key] !== undefined && result[key] !== null && result[key] !== "") {
+        rows.push({ label: getLabel(key), value: result[key] });
+      }
+    }
+    if (rows.length > 0) {
+      html += createBlock(structure.sections[sec], rows, sectionColors[sec]);
+    }
   });
 
-  return container;
+  html += `</div>`;
+  return html;
 }

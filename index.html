@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Каталог обсадных труб и НКТ</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script src="DejaVuSans_base64.js"></script>
   <script src="renderTechsheetHTML.js"></script>
   <script src="script.js" defer></script>
@@ -12,7 +11,7 @@
     body {
       font-family: sans-serif;
       padding: 20px;
-      max-width: 1000px;
+      max-width: 900px;
       margin: auto;
     }
     h1 {
@@ -27,66 +26,50 @@
     #result {
       margin-top: 20px;
     }
-
     .techsheet {
       font-family: sans-serif;
       margin-top: 30px;
     }
-    .techsheet-title {
-      font-weight: bold;
+    .techsheet h2 {
       font-size: 18px;
       text-align: center;
+      font-weight: bold;
       margin-bottom: 20px;
     }
-    .block-header {
+    .block {
+      margin-bottom: 30px;
+    }
+    .block-title {
       font-weight: bold;
-      padding: 8px 12px;
+      padding: 6px 10px;
+      background-color: #444;
       color: white;
-      background-color: #3a3a3a;
       text-align: left;
     }
-    .block-gap {
-      height: 20px;
+    .row {
+      display: flex;
+      flex-wrap: wrap;
     }
-    .zebra-table {
-      width: 100%;
-      border-collapse: collapse;
+    .block-common .row:nth-child(even) {
+      background-color: #e6f0ff;
     }
-    .zebra-blue tr:nth-child(even) {
-      background-color: #e3f2fd;
+    .block-pipe .row:nth-child(even) {
+      background-color: #e6fff0;
     }
-    .zebra-blue tr:nth-child(odd) {
-      background-color: #bbdefb;
+    .block-connection .row:nth-child(even) {
+      background-color: #fff4cc;
     }
-    .zebra-green tr:nth-child(even) {
-      background-color: #e8f5e9;
-    }
-    .zebra-green tr:nth-child(odd) {
-      background-color: #c8e6c9;
-    }
-    .zebra-red tr:nth-child(even) {
-      background-color: #ffebee;
-    }
-    .zebra-red tr:nth-child(odd) {
-      background-color: #ffcdd2;
-    }
-    .zebra-light tr:nth-child(even) {
-      background-color: #f5f5f5;
-    }
-    .zebra-light tr:nth-child(odd) {
-      background-color: #eeeeee;
-    }
-    .zebra-table td {
-      padding: 8px 10px;
-      vertical-align: top;
-      word-wrap: break-word;
-    }
-    .key {
+    .label {
       width: 70%;
+      padding: 6px 10px;
+      box-sizing: border-box;
       font-weight: normal;
+      word-break: break-word;
     }
-    .val {
+    .value {
       width: 30%;
+      padding: 6px 10px;
+      box-sizing: border-box;
       font-weight: bold;
     }
     #downloadBtn {
@@ -99,31 +82,22 @@
 </head>
 <body>
   <h1>Каталог обсадных труб и НКТ</h1>
-
   <label>Нормативный документ:</label>
   <select id="standard" onchange="stepShow(1)"></select>
-
   <label>Тип резьбы:</label>
   <select id="thread" onchange="stepShow(2)" disabled></select>
-
   <label>Наружный диаметр трубы (мм):</label>
   <select id="od" onchange="stepShow(3)" disabled></select>
-
   <label>Толщина стенки (мм):</label>
   <select id="wall" onchange="stepShow(4)" disabled></select>
-
   <label>Группа прочности тела трубы:</label>
   <select id="pipegrade" onchange="stepShow(5)" disabled></select>
-
   <label>Группа прочности муфты:</label>
   <select id="couplinggrade" onchange="stepShow(6)" disabled></select>
-
   <label>Тип муфты:</label>
   <select id="coupling" onchange="stepShow(7)" disabled></select>
-
   <label>Тип шаблона:</label>
   <select id="drift" disabled></select>
-
   <button id="findBtn" onclick="findPipe()" disabled>Найти трубу</button>
   <div id="result"></div>
   <button id="downloadBtn" onclick="downloadPDF()">Скачать PDF-версию</button>
