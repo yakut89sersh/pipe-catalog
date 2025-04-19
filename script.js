@@ -61,6 +61,11 @@ function stepShow(step) {
 }
 
 function findPipe() {
+  if (!structure || !structure.sections || !structure.sections.common) {
+    alert("Данные структуры не загружены. Пожалуйста, подождите и попробуйте снова.");
+    return;
+  }
+
   const map = {
     standard: "Standard",
     thread: "Thread type",
@@ -79,23 +84,16 @@ function findPipe() {
     selected[map[k]] = isNaN(val) ? val : parseFloat(val);
   }
 
-  let result = data.find(d => Object.entries(selected).every(([k, v]) => d[k] == v));
-
+  const result = data.find(d => Object.entries(selected).every(([k, v]) => d[k] == v));
   if (!result) {
     document.getElementById("result").innerHTML = "<p style='color:red;'>Труба не найдена.</p>";
     document.getElementById("downloadBtn").style.display = "none";
     return;
   }
 
-  if ((result["Standard"] === "ГОСТ 632-80" || result["Standard"] === "ГОСТ 633-80") && !result["Production quality"]) {
-    result["Production quality"] = "Исполнение А";
-  }
-
-  const html = renderTechsheetHTML(result, structure);
-  document.getElementById("result").innerHTML = html;
+  const pipeType = result["Name"].startsWith("НКТ") ? "НКТ" : "обсадной трубы";
+  const html = renderTechsheetHTML(structure, result, pipeType);
+  document.getElementById("result").innerHTML = "";
+  document.getElementById("result").appendChild(html);
   document.getElementById("downloadBtn").style.display = "block";
-}
-
-function downloadPDF() {
-  alert("Скачивание PDF пока не подключено к этому дизайну.");
 }
