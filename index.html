@@ -1,46 +1,105 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
   <title>Каталог обсадных труб и НКТ</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script src="DejaVuSans_base64.js"></script>
+  <script src="renderTechsheetHTML.js"></script>
   <script src="script.js" defer></script>
   <style>
-    body { font-family: sans-serif; padding: 20px; max-width: 800px; margin: auto; }
-    h1 { text-align: center; }
-    select, button { margin-bottom: 10px; width: 100%; padding: 8px; font-size: 14px; }
-    #result { margin-top: 20px; line-height: 1.6; }
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+    }
+    select, button {
+      margin-bottom: 10px;
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+    }
+    #result {
+      margin-top: 20px;
+    }
+    .techsheet {
+      font-family: sans-serif;
+      margin-top: 30px;
+    }
+    .techsheet h2 {
+      font-size: 18px;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    .block {
+      margin-bottom: 30px;
+    }
+    .block-title {
+      font-weight: bold;
+      padding: 6px 10px;
+      background-color: #444;
+      color: white;
+      text-align: left;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .block-common .row:nth-child(even) {
+      background-color: #e6f0ff;
+    }
+    .block-pipe .row:nth-child(even) {
+      background-color: #e6fff0;
+    }
+    .block-connection .row:nth-child(even) {
+      background-color: #fff4cc;
+    }
+    .label {
+      width: 70%;
+      padding: 6px 10px;
+      box-sizing: border-box;
+      font-weight: normal;
+      word-break: break-word;
+    }
+    .value {
+      width: 30%;
+      padding: 6px 10px;
+      box-sizing: border-box;
+      font-weight: bold;
+    }
+    #downloadBtn {
+      margin-top: 20px;
+      display: none;
+      width: 100%;
+      padding: 10px;
+    }
   </style>
 </head>
 <body>
   <h1>Каталог обсадных труб и НКТ</h1>
-
   <label>Нормативный документ:</label>
   <select id="standard" onchange="stepShow(1)"></select>
-
   <label>Тип резьбы:</label>
   <select id="thread" onchange="stepShow(2)" disabled></select>
-
   <label>Наружный диаметр трубы (мм):</label>
   <select id="od" onchange="stepShow(3)" disabled></select>
-
   <label>Толщина стенки (мм):</label>
   <select id="wall" onchange="stepShow(4)" disabled></select>
-
   <label>Группа прочности тела трубы:</label>
   <select id="pipegrade" onchange="stepShow(5)" disabled></select>
-
   <label>Группа прочности муфты:</label>
   <select id="couplinggrade" onchange="stepShow(6)" disabled></select>
-
   <label>Тип муфты:</label>
   <select id="coupling" onchange="stepShow(7)" disabled></select>
-
   <label>Тип шаблона:</label>
   <select id="drift" disabled></select>
-
   <button id="findBtn" onclick="findPipe()" disabled>Найти трубу</button>
   <div id="result"></div>
+  <button id="downloadBtn" onclick="downloadPDF()">Скачать PDF-версию</button>
 </body>
 </html>
