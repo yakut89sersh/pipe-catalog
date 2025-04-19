@@ -1,3 +1,4 @@
+
 let data = [];
 let structure = {};
 
@@ -78,31 +79,22 @@ function findPipe() {
     selected[map[k]] = isNaN(val) ? val : parseFloat(val);
   }
 
-  let result = data.find(d => Object.entries(selected).every(([k, v]) => d[k] == v));
+  const result = data.find(d =>
+    Object.entries(selected).every(([k, v]) => d[k] == v)
+  );
   if (!result) {
     document.getElementById("result").innerHTML = "<p style='color:red;'>Труба не найдена.</p>";
-    document.getElementById("downloadBtn").style.display = "none";
     return;
   }
 
+  // Для ГОСТ 632-80 и ГОСТ 633-80 по умолчанию добавляем тип исполнения, если отсутствует
   if ((result["Standard"] === "ГОСТ 632-80" || result["Standard"] === "ГОСТ 633-80") && !result["Production quality"]) {
     result["Production quality"] = "Исполнение А";
   }
 
-  const isTubing = result["Thread type"] === "гладкая" && result["Outside diameter, (mm)"] < 114.3;
-  const pipeType = isTubing ? "НКТ" : "обсадной трубы";
-
-  const techsheetElement = renderTechsheetHTML(structure, result, pipeType);
-  const container = document.getElementById("result");
-  container.innerHTML = ""; // очищаем
-  if (typeof techsheetElement === "string") {
-    container.innerHTML = techsheetElement;
-  } else {
-    container.appendChild(techsheetElement);
-  }
+  const htmlBlock = renderTechsheetHTML(result, structure);
+  const resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = "";
+  resultDiv.appendChild(htmlBlock);
   document.getElementById("downloadBtn").style.display = "block";
-}
-
-function downloadPDF() {
-  alert("Скачивание PDF будет доступно позже.");
 }
