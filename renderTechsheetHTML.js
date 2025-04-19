@@ -1,44 +1,62 @@
 
-function renderTechsheetHTML(structure, result, pipeType) {
-  const createBlock = (title, rows, color) => {
-    let html = `<div class="block" style="background-color:${color}; border-radius:5px; margin-bottom:20px;">`;
-    html += `<div class="block-title">${title}</div>`;
-    rows.forEach(({ label, value }, index) => {
-      html += `
-        <div class="row" style="background-color:${index % 2 === 0 ? '#f0f4f8' : '#e8eff4'};">
-          <div class="label">${label}</div>
-          <div class="value">${value}</div>
-        </div>`;
-    });
-    html += `</div>`;
-    return html;
-  };
+function renderTechsheetHTML(result, structure) {
+  const sections = structure.sections;
+  const order = structure.sections_order;
+  const fields = structure.fields;
 
-  const getValue = key => result[key] ?? null;
-  const getLabel = key => structure.fields[key] ?? key;
+  function createRow(label, value, rowClass = "") {
+    const row = document.createElement("div");
+    row.className = "row " + rowClass;
 
-  const sectionColors = {
-    common: '#dceeff',
-    pipe: '#d9f7ef',
-    connection: '#fff3cc'
-  };
+    const labelDiv = document.createElement("div");
+    labelDiv.className = "label";
+    labelDiv.textContent = label;
 
-  const sections = ['common', 'pipe', 'connection'];
-  let html = `<div class="techsheet">`;
-  html += `<h2>Технический лист данных для ${pipeType}</h2>`;
+    const valueDiv = document.createElement("div");
+    valueDiv.className = "value";
+    valueDiv.textContent = value;
 
-  sections.forEach(sec => {
-    const rows = [];
-    for (const key of structure.sections_order[sec]) {
-      if (result[key] !== undefined && result[key] !== null && result[key] !== "") {
-        rows.push({ label: getLabel(key), value: result[key] });
+    row.appendChild(labelDiv);
+    row.appendChild(valueDiv);
+    return row;
+  }
+
+  function createBlock(title, keys, color) {
+    const block = document.createElement("div");
+    block.className = "block";
+    block.style.backgroundColor = color;
+
+    const titleDiv = document.createElement("div");
+    titleDiv.className = "block-title";
+    titleDiv.textContent = title;
+    block.appendChild(titleDiv);
+
+    const inner = document.createElement("div");
+    let isEven = true;
+
+    keys.forEach(k => {
+      if (result[k] !== undefined && result[k] !== null && result[k] !== "") {
+        inner.appendChild(createRow(fields[k], result[k], isEven ? "even" : "odd"));
+        isEven = !isEven;
       }
-    }
-    if (rows.length > 0) {
-      html += createBlock(structure.sections[sec], rows, sectionColors[sec]);
-    }
-  });
+    });
 
-  html += `</div>`;
-  return html;
+    block.appendChild(inner);
+    return block;
+  }
+
+  const container = document.createElement("div");
+  container.className = "techsheet";
+
+  const pipeType = result["Name"] === "НКТ" ? "НКТ" : "обсадной трубы";
+
+  const heading = document.createElement("h2");
+  heading.innerHTML = `Технический лист данных для ${pipeType} ${result["Outside diameter, (mm)"]} x ${result["Wall Thickness, (mm)"]} мм, гр. пр. ${result["Pipe grade"]}, ${result["Thread type"]} по ${result["Standard"]}`;
+  container.appendChild(heading);
+
+  container.appendChild(createBlock(sections.common, order.common, "#dbeeff"));
+  container.appendChild(createBlock(sections.pipe, order.pipe, "#d6f5db"));
+  container.appendChild(createBlock(sections.connection, order.connection, "#fff0c9"));
+
+  return container;
 }
