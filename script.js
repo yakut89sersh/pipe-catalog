@@ -92,7 +92,7 @@ function findPipe() {
   const isTubing = result["Thread type"] === "гладкая" && result["Outside diameter, (mm)"] < 114.3;
   const pipeType = isTubing ? "НКТ" : "обсадной трубы";
 
-  const techsheetElement = renderTechsheetHTML(result, structure, pipeType);
+  const techsheetElement = renderTechsheetHTML(structure, result, pipeType);
   const container = document.getElementById("result");
   container.innerHTML = ""; // очищаем
   if (typeof techsheetElement === "string") {
