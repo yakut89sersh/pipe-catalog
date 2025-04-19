@@ -1,3 +1,4 @@
+
 let data = [];
 let structure = {};
 
@@ -60,6 +61,11 @@ function stepShow(step) {
 }
 
 function findPipe() {
+  if (!structure || !structure.sections || !structure.sections.common) {
+    alert("Данные структуры не загружены. Пожалуйста, подождите и попробуйте снова.");
+    return;
+  }
+
   const map = {
     standard: "Standard",
     thread: "Thread type",
@@ -78,31 +84,38 @@ function findPipe() {
     selected[map[k]] = isNaN(val) ? val : parseFloat(val);
   }
 
-  let result = data.find(d => Object.entries(selected).every(([k, v]) => d[k] == v));
+  const result = data.find(d => Object.entries(selected).every(([k, v]) => d[k] == v));
   if (!result) {
     document.getElementById("result").innerHTML = "<p style='color:red;'>Труба не найдена.</p>";
-    document.getElementById("downloadBtn").style.display = "none";
     return;
   }
 
-  if ((result["Standard"] === "ГОСТ 632-80" || result["Standard"] === "ГОСТ 633-80") && !result["Production quality"]) {
-    result["Production quality"] = "Исполнение А";
-  }
-
+  // Определение наименования трубы в нужной форме
   const isTubing = result["Thread type"] === "гладкая" && result["Outside diameter, (mm)"] < 114.3;
   const pipeType = isTubing ? "НКТ" : "обсадной трубы";
 
-  const techsheetElement = renderTechsheetHTML(result, structure, pipeType);
-  const container = document.getElementById("result");
-  container.innerHTML = ""; // очищаем
-  if (typeof techsheetElement === "string") {
-    container.innerHTML = techsheetElement;
-  } else {
-    container.appendChild(techsheetElement);
-  }
-  document.getElementById("downloadBtn").style.display = "block";
-}
+  let html = `<h2 style="text-align:center">${structure.title
+    .replace("{PipeType}", pipeType)
+    .replace("{OD}", result["Outside diameter, (mm)"])
+    .replace("{Wall}", result["Wall Thickness, (mm)"])
+    .replace("{PipeGrade}", result["Pipe grade"])
+    .replace("{ThreadType}", result["Thread type"])
+    .replace("{Standard}", result["Standard"])}</h2>`;
 
-function downloadPDF() {
-  alert("Скачивание PDF будет доступно позже.");
+  html += `<h3>${structure.sections.common}</h3>`;
+  for (const key of structure.sections_order.common) {
+    if (result[key]) html += `- ${structure.fields[key]} - ${result[key]}<br>`;
+  }
+
+  html += `<h3>${structure.sections.pipe}</h3>`;
+  for (const key of structure.sections_order.pipe) {
+    if (result[key]) html += `- ${structure.fields[key]} - ${result[key]}<br>`;
+  }
+
+  html += `<h3>${structure.sections.connection}</h3>`;
+  for (const key of structure.sections_order.connection) {
+    if (result[key]) html += `- ${structure.fields[key]} - ${result[key]}<br>`;
+  }
+
+  document.getElementById("result").innerHTML = html;
 }
