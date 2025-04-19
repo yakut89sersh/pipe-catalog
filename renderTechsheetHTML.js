@@ -1,68 +1,56 @@
 
 function renderTechsheetHTML(result, structure) {
-  function createBlock(title, keys, zebraClass) {
-    const block = document.createElement("div");
-    block.className = "block";
+  const sections = ['common', 'pipe', 'connection'];
+  const colors = {
+    common: ['#e0efff', '#d4e9fb'],
+    pipe: ['#e0fff0', '#d3f7e5'],
+    connection: ['#fff3d9', '#fcefd0']
+  };
 
-    const blockTitle = document.createElement("div");
-    blockTitle.className = "block-title";
-    blockTitle.textContent = title;
-    block.appendChild(blockTitle);
+  const title = document.createElement('h2');
+  title.style.textAlign = 'center';
+  title.style.fontWeight = 'bold';
+  title.innerText = `Технический лист данных для ${result['Name'] === 'НКТ' ? 'НКТ' : 'обсадной трубы'} ${result['Outside diameter, (mm)']} x ${result['Wall Thickness, (mm)']} мм, гр. пр. ${result['Pipe grade']}, ${result['Thread type']} по ${result['Standard']}`;
 
-    keys.forEach((key, index) => {
-      const value = result[key];
-      if (value === undefined || value === null || value === "null") return;
-
-      const row = document.createElement("div");
-      row.className = "row " + zebraClass;
-
-      const label = document.createElement("div");
-      label.className = "label";
-      label.textContent = structure.fields[key];
-      row.appendChild(label);
-
-      const val = document.createElement("div");
-      val.className = "value";
-      val.textContent = value;
-      row.appendChild(val);
-
-      block.appendChild(row);
-    });
-
-    return block;
-  }
-
-  // Выбор только одного из трёх параметров растяжения соединения
-  const tensionKeys = [
-    "Connection tension (to failure), (kN)",
-    "Yield Strength in Tension, (kN)",
-    "Shear-out strength of the threaded connection, (kN)"
-  ];
-  const connectionKeysFiltered = [...structure.sections_order.connection];
-  const tensionKeyToShow = tensionKeys.find(key => result[key] !== undefined && result[key] !== null && result[key] !== "null");
-  tensionKeys.forEach(k => {
-    if (k !== tensionKeyToShow) {
-      const i = connectionKeysFiltered.indexOf(k);
-      if (i !== -1) connectionKeysFiltered.splice(i, 1);
-    }
-  });
-
-  const container = document.createElement("div");
-  container.className = "techsheet";
-
-  const title = document.createElement("h2");
-  title.textContent = structure.title
-    .replace("{PipeType}", result["Name"] === "НКТ" ? "НКТ" : "обсадной трубы")
-    .replace("{OD}", result["Outside diameter, (mm)"])
-    .replace("{Wall}", result["Wall Thickness, (mm)"])
-    .replace("{PipeGrade}", result["Pipe grade"])
-    .replace("{ThreadType}", result["Thread type"])
-    .replace("{Standard}", result["Standard"]);
+  const container = document.createElement('div');
   container.appendChild(title);
 
-  container.appendChild(createBlock(structure.sections.common, structure.sections_order.common, "zebra-blue"));
-  container.appendChild(createBlock(structure.sections.pipe, structure.sections_order.pipe, "zebra-green"));
-  container.appendChild(createBlock(structure.sections.connection, connectionKeysFiltered, "zebra-yellow"));
+  sections.forEach(section => {
+    const block = document.createElement('div');
+    block.className = 'block';
+
+    const heading = document.createElement('div');
+    heading.className = 'block-title';
+    heading.innerText = structure.sections[section];
+    block.appendChild(heading);
+
+    let zebra = colors[section];
+    let count = 0;
+
+    structure.sections_order[section].forEach(key => {
+      if (result[key] !== null && result[key] !== undefined) {
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.style.backgroundColor = zebra[count % 2];
+
+        const label = document.createElement('div');
+        label.className = 'label';
+        label.innerText = structure.fields[key];
+
+        const value = document.createElement('div');
+        value.className = 'value';
+        value.innerText = result[key];
+
+        row.appendChild(label);
+        row.appendChild(value);
+        block.appendChild(row);
+
+        count++;
+      }
+    });
+
+    container.appendChild(block);
+  });
 
   return container;
 }
