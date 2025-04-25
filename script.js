@@ -1,13 +1,16 @@
 
 let data = [];
 let structure = {};
+let recommendations = {};
 
 Promise.all([
   fetch("tube_data_multilang.json").then(res => res.json()),
-  fetch("techsheet_structure.json").then(res => res.json())
-]).then(([jsonData, jsonStruct]) => {
+  fetch("techsheet_structure.json").then(res => res.json()),
+  fetch("makeup_recommendations.json").then(res => res.json())
+]).then(([jsonData, jsonStruct, jsonRec]) => {
   data = jsonData;
   structure = jsonStruct;
+  recommendations = jsonRec;
   initSelectors();
   document.getElementById("findBtn").disabled = false;
 });
@@ -66,6 +69,7 @@ function findPipe() {
     return;
   }
 
+
   const map = {
     standard: "Standard",
     thread: "Thread type",
@@ -119,6 +123,17 @@ for (const key of structure.sections_order.connection) {
   if (result[key]) html += `<tr><td>${structure.fields[key]}</td><td>${result[key]}</td></tr>`;
 }
 html += `</table>`;
+
+
+// Добавляем рекомендации по моменту свинчивания
+const threadType = result["Thread type"];
+if (recommendations[threadType]) {
+  html += `<h3>Рекомендации по моменту свинчивания</h3>`;
+  html += `<div class="makeup-recommendation">${recommendations[threadType]}</div>`;
+}
+
+
+
 
   document.getElementById("result").innerHTML = html;
 }
