@@ -11,36 +11,31 @@
     h1 { text-align: center; }
     select, button { margin-bottom: 10px; width: 100%; padding: 8px; font-size: 14px; }
     #result { margin-top: 20px; line-height: 1.6; }
-	
-/* Общий стиль таблицы: задаём ширину, убираем двойные линии между ячейками, отступ снизу */
 .tech-table {
-  width: 100%;                    /* таблица занимает всю ширину блока */
-  border-collapse: collapse;     /* границы ячеек объединяются в одну линию */
-  margin-bottom: 30px;           /* отступ снизу между блоками */
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
 }
 
-/* Стиль всех ячеек таблицы */
 .tech-table td {
-  border: 1px solid #ccc;        /* серая рамка вокруг каждой ячейки */
-  padding: 8px 12px;             /* внутренние отступы (сверху/снизу 8px, слева/справа 12px) */
-  vertical-align: top;           /* выравнивание содержимого по верхнему краю */
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  vertical-align: top;
 }
 
-/* Чётные строки таблицы (2-я, 4-я, 6-я...) — для зебры */
 .tech-table tr:nth-child(even) {
-  background-color: #f9f9f9;     /* светло-серый фон для улучшения читаемости */
+  background-color: #f9f9f9;
 }
 
-/* Первая колонка в каждой строке (названия параметров) */
 .tech-table td:first-child {
-  font-weight: bold;             /* делаем текст жирным */
-  width: 40%;                    /* задаём ширину столбца (можно регулировать) */
-  text-align: left;              /* выравнивание текста по левому краю */
+  font-weight: bold;
+  width: 70%;        /* Название параметра — широкое */
+  text-align: left;
 }
 
-/* Вторая колонка в каждой строке (значения параметров) */
 .tech-table td:last-child {
-  text-align: right;             /* выравнивание текста по правому краю */
+  width: 30%;        /* Значение — уже */
+  text-align: right;
 }
 	
   </style>
