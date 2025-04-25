@@ -102,20 +102,23 @@ function findPipe() {
     .replace("{ThreadType}", result["Thread type"])
     .replace("{Standard}", result["Standard"])}</h2>`;
 
-  html += `<h3>${structure.sections.common}</h3>`;
-  for (const key of structure.sections_order.common) {
-    if (result[key]) html += `- ${structure.fields[key]} - ${result[key]}<br>`;
-  }
+  html += `<h3>${structure.sections.common}</h3><table class="tech-table">`;
+for (const key of structure.sections_order.common) {
+  if (result[key]) html += `<tr><td>${structure.fields[key]}</td><td>${result[key]}</td></tr>`;
+}
+html += `</table>`;
 
-  html += `<h3>${structure.sections.pipe}</h3>`;
-  for (const key of structure.sections_order.pipe) {
-    if (result[key]) html += `- ${structure.fields[key]} - ${result[key]}<br>`;
-  }
+html += `<h3>${structure.sections.pipe}</h3><table class="tech-table">`;
+for (const key of structure.sections_order.pipe) {
+  if (result[key]) html += `<tr><td>${structure.fields[key]}</td><td>${result[key]}</td></tr>`;
+}
+html += `</table>`;
 
-  html += `<h3>${structure.sections.connection}</h3>`;
-  for (const key of structure.sections_order.connection) {
-    if (result[key]) html += `- ${structure.fields[key]} - ${result[key]}<br>`;
-  }
+html += `<h3>${structure.sections.connection}</h3><table class="tech-table">`;
+for (const key of structure.sections_order.connection) {
+  if (result[key]) html += `<tr><td>${structure.fields[key]}</td><td>${result[key]}</td></tr>`;
+}
+html += `</table>`;
 
   document.getElementById("result").innerHTML = html;
 }
