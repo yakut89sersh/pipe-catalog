@@ -164,5 +164,7 @@ function downloadPDF() {
     jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
   };
 
-  html2pdf().set(opt).from(element).save();
+  setTimeout(() => {
+    html2pdf().set(opt).from(element).save();
+  }, 150); // 150 мс — оптимально
 }
