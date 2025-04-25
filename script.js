@@ -142,6 +142,10 @@ if (recommendations[threadType]) {
 
 function downloadPDF() {
   const element = document.getElementById("result");
+  const btn = document.getElementById("downloadBtn");
+
+  // Временно скрыть кнопку перед экспортом
+  btn.style.display = "none";
 
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
@@ -153,18 +157,21 @@ function downloadPDF() {
   const cleanOD = od.toString().replace(",", ".").replace(/\s+/g, '');
   const cleanWall = wall.toString().replace(",", ".").replace(/\s+/g, '');
 
-  // Вот тут добавляем стандарт в имя файла
   const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
 
   const opt = {
-    margin:       0.5,
+    margin:       [0.3, 0.3, 0.3, 0.3], // немного уменьшенные отступы
     filename:     filename,
     image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2 },
+    html2canvas:  { scale: 2, scrollY: 0 },
     jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
   };
 
+  // Ждём перерисовку DOM перед генерацией PDF
   setTimeout(() => {
-    html2pdf().set(opt).from(element).save();
-  }, 150); // 150 мс — оптимально
+    html2pdf().set(opt).from(element).save().then(() => {
+      // Показываем кнопку обратно после генерации
+      btn.style.display = "block";
+    });
+  }, 300);
 }
