@@ -143,9 +143,22 @@ if (recommendations[threadType]) {
 function downloadPDF() {
   const element = document.getElementById("result");
 
+  const standard = document.getElementById("standard").value || "";
+  const thread = document.getElementById("thread").value || "";
+  const od = document.getElementById("od").value || "";
+  const wall = document.getElementById("wall").value || "";
+
+  const cleanStandard = standard.replace(/\s+/g, '');
+  const cleanThread = thread.replace(/\s+/g, '');
+  const cleanOD = od.toString().replace(",", ".").replace(/\s+/g, '');
+  const cleanWall = wall.toString().replace(",", ".").replace(/\s+/g, '');
+
+  // Вот тут добавляем стандарт в имя файла
+  const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
+
   const opt = {
     margin:       0.5,
-    filename:     'techsheet.pdf',
+    filename:     filename,
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { scale: 2 },
     jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
