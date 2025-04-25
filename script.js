@@ -144,12 +144,19 @@ function downloadPDF() {
   const element = document.getElementById("result");
   const btn = document.getElementById("downloadBtn");
 
-  // Сохраняем исходное значение ширины
-  const originalWidth = element.style.maxWidth;
-  element.style.maxWidth = "none";
-
-  // Временно скрываем кнопку перед экспортом
   btn.style.display = "none";
+
+  // Добавим временные стили для адаптивной таблицы
+  const tables = element.querySelectorAll(".tech-table");
+  tables.forEach(table => {
+    table.style.tableLayout = "fixed";
+    table.style.width = "100%";
+  });
+  const cells = element.querySelectorAll(".tech-table td");
+  cells.forEach(cell => {
+    cell.style.wordBreak = "break-word";
+    cell.style.whiteSpace = "normal";
+  });
 
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
@@ -173,8 +180,6 @@ function downloadPDF() {
 
   setTimeout(() => {
     html2pdf().set(opt).from(element).save().then(() => {
-      // Возвращаем исходную ширину и кнопку
-      element.style.maxWidth = originalWidth;
       btn.style.display = "block";
     });
   }, 300);
