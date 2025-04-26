@@ -147,18 +147,18 @@ async function downloadPDF() {
   btn.style.display = "none";
 
   // Сохраняем оригинальные стили
+  const originalTransform = element.style.transform;
+  const originalTransformOrigin = element.style.transformOrigin;
   const originalWidth = element.style.width;
   const originalMaxWidth = element.style.maxWidth;
-  const originalMinWidth = element.style.minWidth;
   const originalMargin = element.style.margin;
-  const originalPadding = element.style.padding;
 
-  // Устанавливаем фиксированную ширину для A4 (210мм ≈ 794px при 96dpi)
-  element.style.width = "794px";
-  element.style.maxWidth = "794px";
-  element.style.minWidth = "794px";
-  element.style.margin = "0 auto";
-  element.style.padding = "20px";
+  // Временно масштабируем содержимое
+  element.style.transform = "scale(0.8)";         // Уменьшаем до 80%
+  element.style.transformOrigin = "top left";     // Масштабируем от верхнего левого угла
+  element.style.width = "1250px";                 // Реальная ширина блока перед масштабированием
+  element.style.maxWidth = "none";
+  element.style.margin = "0";
 
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
@@ -177,30 +177,24 @@ async function downloadPDF() {
     filename: filename,
     image: { type: 'jpeg', quality: 1 },
     html2canvas: {
-      scale: 2,
+      scale: 2,              // Хорошее качество
       scrollY: 0,
-      windowWidth: 794,
+      windowWidth: 1000,     // Приближаем к реальной ширине A4
       windowHeight: element.scrollHeight,
       useCORS: true
     },
     jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait' }
   };
 
-  try {
-    // Ждём 300 мс (обновление DOM) перед началом
-    await new Promise(resolve => setTimeout(resolve, 300));
-
-    // Генерация PDF
-    await html2pdf().set(opt).from(element).save();
-  } catch (error) {
-    console.error("Ошибка при сохранении PDF:", error);
-  } finally {
-    // Возвращаем оригинальные стили
-    element.style.width = originalWidth;
-    element.style.maxWidth = originalMaxWidth;
-    element.style.minWidth = originalMinWidth;
-    element.style.margin = originalMargin;
-    element.style.padding = originalPadding;
-    btn.style.display = "block";
-  }
+  setTimeout(() => {
+    html2pdf().set(opt).from(element).save().then(() => {
+      // Возвращаем стили обратно
+      element.style.transform = originalTransform;
+      element.style.transformOrigin = originalTransformOrigin;
+      element.style.width = originalWidth;
+      element.style.maxWidth = originalMaxWidth;
+      element.style.margin = originalMargin;
+      btn.style.display = "block";
+    });
+  }, 300);
 }
