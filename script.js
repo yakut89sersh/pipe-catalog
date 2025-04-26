@@ -140,11 +140,25 @@ if (recommendations[threadType]) {
   document.getElementById("downloadBtn").style.display = "block";
 }
 
-function downloadPDF() {
+async function downloadPDF() {
   const element = document.getElementById("result");
   const btn = document.getElementById("downloadBtn");
 
   btn.style.display = "none";
+
+  // Сохраняем оригинальные стили
+  const originalWidth = element.style.width;
+  const originalMaxWidth = element.style.maxWidth;
+  const originalMinWidth = element.style.minWidth;
+  const originalMargin = element.style.margin;
+  const originalPadding = element.style.padding;
+
+  // Устанавливаем фиксированную ширину для A4 (210мм ≈ 794px при 96dpi)
+  element.style.width = "794px";
+  element.style.maxWidth = "794px";
+  element.style.minWidth = "794px";
+  element.style.margin = "0 auto";
+  element.style.padding = "20px";
 
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
@@ -158,25 +172,6 @@ function downloadPDF() {
 
   const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
 
-  // Клонируем элемент
-  const cloned = element.cloneNode(true);
-  const wrapper = document.createElement('div');
-
-  wrapper.appendChild(cloned);
-  document.body.appendChild(wrapper);
-
-  // Стили для клона
-  const A4_WIDTH_PX = 794;
-  wrapper.style.width = `${A4_WIDTH_PX}px`;
-  wrapper.style.margin = "0 auto";
-  wrapper.style.padding = "20px";
-  wrapper.style.background = "#fff";
-  wrapper.style.position = "relative";
-  wrapper.style.overflow = "hidden";
-
-  cloned.style.width = "100%";
-  cloned.style.background = "#fff";
-
   const opt = {
     margin: [10, 10, 10, 10],
     filename: filename,
@@ -184,17 +179,28 @@ function downloadPDF() {
     html2canvas: {
       scale: 2,
       scrollY: 0,
-      windowWidth: A4_WIDTH_PX,
-      windowHeight: wrapper.scrollHeight,
+      windowWidth: 794,
+      windowHeight: element.scrollHeight,
       useCORS: true
     },
     jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait' }
   };
 
-  setTimeout(() => {
-    html2pdf().set(opt).from(wrapper).save().then(() => {
-      document.body.removeChild(wrapper); // Удаляем клон после сохранения
-      btn.style.display = "block"; // Возвращаем кнопку
-    });
-  }, 300);
+  try {
+    // Ждём 300 мс (обновление DOM) перед началом
+    await new Promise(resolve => setTimeout(resolve, 300));
+
+    // Генерация PDF
+    await html2pdf().set(opt).from(element).save();
+  } catch (error) {
+    console.error("Ошибка при сохранении PDF:", error);
+  } finally {
+    // Возвращаем оригинальные стили
+    element.style.width = originalWidth;
+    element.style.maxWidth = originalMaxWidth;
+    element.style.minWidth = originalMinWidth;
+    element.style.margin = originalMargin;
+    element.style.padding = originalPadding;
+    btn.style.display = "block";
+  }
 }
