@@ -88,6 +88,8 @@ select, button, label {
   margin-bottom: 10px;
 }
 
+
+
 /* Адаптивность под мобильные */
 @media screen and (max-width: 600px) {
   h1 {
@@ -107,9 +109,53 @@ select, button, label {
     padding: 8px;
   }
 
-  .tech-table td {
-    font-size: 13px;
-    padding: 6px 8px;
+  /* Тех таблица на мобилках */
+  .tech-table {
+    width: 100%;
+    table-layout: auto; /* Вместо fixed */
   }
+
+  .tech-table td {
+    font-size: 12px; /* Чуть мельче текст */
+    padding: 4px 6px;
+  }
+
+  .tech-table td:first-child,
+  .tech-table td:last-child {
+    width: auto; /* Убираем 70%/30% на мобилках */
+  }
+} /* <-- Здесь правильно закрываем media-запрос */
+
+
+
+
+
+
+
+
+#pdfContent {
+  width: 794px;
+  margin: 0 auto;
+  font-size: 12px;
 }
 
+#pdfContent .tech-table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+#pdfContent .tech-table td {
+  padding: 4px 6px;
+  font-size: 12px;
+  word-break: break-word;
+}
+
+#pdfContent h2, #pdfContent h3 {
+  text-align: center;
+  margin: 10px 0;
+}
+
+#pdfContent .makeup-recommendation {
+  margin-top: 10px;
+  font-size: 12px;
+}
