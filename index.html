@@ -11,97 +11,108 @@
   
   <script src="script.js" defer></script>
   <style>
-  body {
-    font-family: sans-serif;
-    padding: 20px;
-    max-width: 800px;
-    margin: auto;
-  }
+body { 
+  font-family: sans-serif; 
+  padding: 20px; 
+  max-width: 800px; 
+  margin: auto; 
+}
+h1 { 
+  text-align: center; 
+}
+select, button { 
+  margin-bottom: 10px; 
+  width: 100%; 
+  padding: 8px; 
+  font-size: 14px; 
+}
+#result { 
+  margin-top: 20px; 
+  line-height: 1.6; 
+}
 
+.tech-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+  table-layout: auto; /* позволяем адаптацию ширины */
+}
+
+.tech-table td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  vertical-align: top;
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.tech-table td:first-child {
+  font-weight: bold;
+  width: 65%; /* Название параметра шире */
+  text-align: left;
+}
+
+.tech-table td:last-child {
+  width: 35%; /* Значение чуть уже */
+  text-align: center;
+}
+
+@media screen and (max-width: 600px) {
   h1 {
-    text-align: center;
+    font-size: 20px;
   }
 
   select, button {
-    margin-bottom: 10px;
-    width: 100%;
-    padding: 8px;
     font-size: 14px;
-  }
-
-  #result {
-    margin-top: 20px;
-    line-height: 1.6;
-  }
-
-  .tech-table {
-    table-layout: fixed;
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 30px;
-    word-wrap: break-word;
-  }
-
-  .tech-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+    padding: 8px;
   }
 
   .tech-table td {
-    border: 1px solid #ccc;
-    padding: 8px 12px;
-    vertical-align: top;
-    word-break: break-word;
-    white-space: normal;
-    overflow-wrap: break-word;
+    font-size: 13px;
+    padding: 6px 8px;
   }
 
   .tech-table td:first-child {
-    font-weight: bold;
-    width: 75%;
-    text-align: left;
+    width: 60%;
   }
 
   .tech-table td:last-child {
-    width: 25%;
-    max-width: 200px;
-    text-align: center;
+    width: 40%;
+  }
+}
+
+.makeup-recommendation {
+  text-align: justify;
+  text-justify: inter-word;
+  margin-top: 20px;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.makeup-recommendation li {
+  margin-bottom: 10px;
+}
+
+@media print {
+  .tech-table {
+    table-layout: auto !important;
+    width: 100% !important;
+  }
+
+  .tech-table td {
+    word-break: break-word !important;
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
   }
 
   .makeup-recommendation {
     text-align: justify;
     text-justify: inter-word;
-    margin-top: 20px;
-    white-space: normal;
-    overflow-wrap: break-word;
+    white-space: normal !important;
+    overflow-wrap: break-word !important;
   }
-
-  .makeup-recommendation li {
-    margin-bottom: 10px;
-  }
-
-  @media screen and (max-width: 600px) {
-    h1 {
-      font-size: 20px;
-    }
-
-    select, button {
-      font-size: 14px;
-      padding: 8px;
-    }
-
-    .tech-table td {
-      font-size: 13px;
-      padding: 6px 8px;
-    }
-
-    .tech-table td:first-child {
-      width: 60%;
-    }
-
-    .tech-table td:last-child {
-      width: 40%;
-    }
-  }
+}
 </style>
 </head>
 <body>
