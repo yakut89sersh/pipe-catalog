@@ -51,12 +51,13 @@ select, button, label {
 
 .tech-table td {
   border: 1px solid #ccc;
-  padding: 8px 12px;
+  padding: 4px 12px; /* Было 8px, стало 4px */
   vertical-align: top;
   word-break: break-word;
   overflow-wrap: break-word;
   white-space: normal;
   font-size: 14px;
+  line-height: 1.2;
 }
 
 .tech-table tr:nth-child(even) {
