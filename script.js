@@ -144,12 +144,10 @@ function downloadPDF() {
   const element = document.getElementById("result");
   const btn = document.getElementById("downloadBtn");
 
-  // Скрыть кнопку перед экспортом
   btn.style.display = "none";
 
-  // Жестко установить ширину блока под формат A4
-  const originalWidth = element.style.width;
-  element.style.width = '794px';
+  // Установить жёсткую ширину блока
+  element.style.width = "794px"; // A4 по ширине в пикселях при 96 DPI
 
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
@@ -164,18 +162,17 @@ function downloadPDF() {
   const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
 
   const opt = {
-    margin:       [0.5, 0.5, 0.5, 0.5],
-    filename:     filename,
-    image:        { type: 'jpeg', quality: 0.98 },
-    html2canvas:  { scale: 2, scrollY: 0 },
-    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+    margin: [0.3, 0.3, 0.3, 0.3],
+    filename: filename,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, scrollY: 0 },
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
   };
 
   setTimeout(() => {
     html2pdf().set(opt).from(element).save().then(() => {
-      // После сохранения возвращаем всё обратно
-      element.style.width = originalWidth;
       btn.style.display = "block";
+      element.style.width = ""; // Сбрасываем обратно
     });
   }, 300);
 }
