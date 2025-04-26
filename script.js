@@ -141,32 +141,31 @@ if (recommendations[threadType]) {
 }
 
 function downloadPDF() {
-  const element = document.getElementById("result");
-  const btn = document.getElementById("downloadBtn");
+  const result = document.getElementById("result");
+  const downloadBtn = document.getElementById("downloadBtn");
 
-  btn.style.display = "none";
+  // Скрываем кнопку скачивания
+  downloadBtn.style.display = "none";
 
-  // Сохраняем оригинальные стили
-  const originalBodyWidth = document.body.style.width;
-  const originalHtmlWidth = document.documentElement.style.width;
-  const originalBodyMaxWidth = document.body.style.maxWidth;
+  // Создаем клон блока
+  const clone = result.cloneNode(true);
+  clone.id = "result-clone";
+  clone.style.width = "794px";
+  clone.style.maxWidth = "794px";
+  clone.style.minWidth = "794px";
+  clone.style.margin = "0 auto";
+  clone.style.padding = "20px";
+  clone.style.background = "#fff"; // обязательно белый фон
+  clone.style.fontSize = window.getComputedStyle(result).fontSize; // оставляем тот же шрифт
 
-  const originalWidth = element.style.width;
-  const originalMaxWidth = element.style.maxWidth;
-  const originalMinWidth = element.style.minWidth;
-  const originalMargin = element.style.margin;
-  const originalPadding = element.style.padding;
+  // Прячем клон с экрана
+  clone.style.position = "fixed";
+  clone.style.top = "-9999px";
+  clone.style.left = "-9999px";
+  clone.style.zIndex = "-1";
 
-  // Устанавливаем фиктивные стили
-  document.body.style.width = "794px";
-  document.body.style.maxWidth = "794px";
-  document.documentElement.style.width = "794px";
-
-  element.style.width = "794px";
-  element.style.maxWidth = "794px";
-  element.style.minWidth = "794px";
-  element.style.margin = "0 auto";
-  element.style.padding = "20px";
+  // Добавляем клон в body
+  document.body.appendChild(clone);
 
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
@@ -188,26 +187,18 @@ function downloadPDF() {
       scale: 2,
       scrollY: 0,
       windowWidth: 794,
-      windowHeight: element.scrollHeight,
+      windowHeight: clone.scrollHeight,
       useCORS: true
     },
     jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait' }
   };
 
   setTimeout(() => {
-    html2pdf().set(opt).from(element).save().then(() => {
-      // Возвращаем оригинальные стили
-      document.body.style.width = originalBodyWidth;
-      document.body.style.maxWidth = originalBodyMaxWidth;
-      document.documentElement.style.width = originalHtmlWidth;
-
-      element.style.width = originalWidth;
-      element.style.maxWidth = originalMaxWidth;
-      element.style.minWidth = originalMinWidth;
-      element.style.margin = originalMargin;
-      element.style.padding = originalPadding;
-
-      btn.style.display = "block";
+    html2pdf().set(opt).from(clone).save().then(() => {
+      // Убираем клон после сохранения
+      document.body.removeChild(clone);
+      // Возвращаем кнопку
+      downloadBtn.style.display = "block";
     });
   }, 300);
 }
