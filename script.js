@@ -143,27 +143,19 @@ if (recommendations[threadType]) {
 function downloadPDF() {
   const element = document.getElementById("pdfContent");
   const btn = document.getElementById("downloadBtn");
-  const html = document.documentElement;
-  const body = document.body;
 
   // Скрываем кнопку перед сохранением
   btn.style.display = "none";
 
-  // Сохраняем оригинальные стили
+  // Сохраняем оригинальные стили элемента
   const originalWidth = element.style.width;
-  const originalMaxWidth = element.style.maxWidth;
   const originalFontSize = element.style.fontSize;
   const originalMargin = element.style.margin;
-  const originalHtmlWidth = html.style.width;
-  const originalBodyWidth = body.style.width;
 
-  // Фиксируем ширину и шрифт на время скриншота
+  // Устанавливаем фиксированные стили только для #pdfContent
   element.style.width = "794px";
-  element.style.maxWidth = "794px";
   element.style.fontSize = "12px";
   element.style.margin = "0 auto";
-  html.style.width = "794px";
-  body.style.width = "794px";
 
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
@@ -193,13 +185,10 @@ function downloadPDF() {
 
   setTimeout(() => {
     html2pdf().set(opt).from(element).save().then(() => {
-      // Возвращаем стили обратно
+      // Возвращаем оригинальные стили
       element.style.width = originalWidth;
-      element.style.maxWidth = originalMaxWidth;
       element.style.fontSize = originalFontSize;
       element.style.margin = originalMargin;
-      html.style.width = originalHtmlWidth;
-      body.style.width = originalBodyWidth;
       btn.style.display = "block";
     });
   }, 300);
