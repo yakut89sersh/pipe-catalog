@@ -135,7 +135,7 @@ if (recommendations[threadType]) {
 
 
 
-  document.getElementById("result").innerHTML = html;
+  document.getElementById("pdfContent").innerHTML = html;
   
   document.getElementById("downloadBtn").style.display = "block";
 }
