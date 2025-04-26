@@ -144,26 +144,32 @@ function downloadPDF() {
   const element = document.getElementById("result");
   const btn = document.getElementById("downloadBtn");
 
+  // Скрываем кнопку перед сохранением
   btn.style.display = "none";
 
-  // ВАЖНО: фиксируем ширину для PDF
+  // Сохраняем старые стили
   const originalWidth = element.style.width;
-  element.style.width = "794px"; // Жёсткая ширина под A4 (при 96 dpi)
+  const originalFontSize = element.style.fontSize;
 
-  // Ставим шрифт и таблицу чуть поменьше
+  // Устанавливаем фиксированную ширину для правильного скриншота
+  element.style.width = "780px";
   element.style.fontSize = "12px";
 
-  const tables = element.querySelectorAll(".tech-table");
-  tables.forEach(table => {
-    table.style.tableLayout = "fixed";
-    table.style.width = "100%";
+  // Дополнительно уменьшаем шрифт и исправляем стили таблиц
+  const techTables = element.querySelectorAll('.tech-table');
+  techTables.forEach(table => {
+    table.style.tableLayout = 'fixed';
+    table.style.width = '100%';
+    table.style.fontSize = '10px'; // уменьшаем шрифт в таблице
   });
 
-  const cells = element.querySelectorAll(".tech-table td");
-  cells.forEach(cell => {
-    cell.style.wordBreak = "break-word";
-    cell.style.whiteSpace = "normal";
-    cell.style.overflowWrap = "break-word";
+  const techCells = element.querySelectorAll('.tech-table td');
+  techCells.forEach(cell => {
+    cell.style.wordBreak = 'break-word';
+    cell.style.whiteSpace = 'normal';
+    cell.style.overflowWrap = 'break-word';
+    cell.style.padding = '6px 8px'; // чуть меньше паддинги
+    cell.style.fontSize = '10px';   // уменьшаем шрифт в ячейках
   });
 
   const standard = document.getElementById("standard").value || "";
@@ -179,18 +185,19 @@ function downloadPDF() {
   const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
 
   const opt = {
-    margin: [0.3, 0.3, 0.3, 0.3],
+    margin: [0.5, 0.5, 0.5, 0.5], // нормальные отступы
     filename: filename,
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, scrollY: 0 },
-    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    html2canvas: { scale: 2, scrollY: 0, windowWidth: 1200 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
   setTimeout(() => {
     html2pdf().set(opt).from(element).save().then(() => {
+      // Возвращаем старые стили после генерации
+      element.style.width = originalWidth;
+      element.style.fontSize = originalFontSize;
       btn.style.display = "block";
-      element.style.width = originalWidth; // Возвращаем старую ширину
-      element.style.fontSize = ""; // Возвращаем размер шрифта
     });
   }, 300);
 }
