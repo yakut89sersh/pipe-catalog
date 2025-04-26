@@ -140,26 +140,26 @@ if (recommendations[threadType]) {
   document.getElementById("downloadBtn").style.display = "block";
 }
 
-async function downloadPDF() {
+function downloadPDF() {
   const element = document.getElementById("result");
   const btn = document.getElementById("downloadBtn");
 
+  // Скрываем кнопку перед сохранением
   btn.style.display = "none";
 
   // Сохраняем оригинальные стили
-  const originalTransform = element.style.transform;
-  const originalTransformOrigin = element.style.transformOrigin;
   const originalWidth = element.style.width;
   const originalMaxWidth = element.style.maxWidth;
+  const originalFontSize = element.style.fontSize;
   const originalMargin = element.style.margin;
 
-  // Временно масштабируем содержимое
-  element.style.transform = "scale(0.8)";         // Уменьшаем до 80%
-  element.style.transformOrigin = "top left";     // Масштабируем от верхнего левого угла
-  element.style.width = "1250px";                 // Реальная ширина блока перед масштабированием
-  element.style.maxWidth = "none";
-  element.style.margin = "0";
+  // Фиксируем ширину и шрифт на время скриншота
+  element.style.width = "794px";         // A4 по ширине (210 мм = 794px)
+  element.style.maxWidth = "794px";
+  element.style.fontSize = "12px";        // Немного уменьшаем текст
+  element.style.margin = "0 auto";
 
+  // Формируем имя файла
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
   const od = document.getElementById("od").value || "";
@@ -172,27 +172,28 @@ async function downloadPDF() {
 
   const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
 
+  // Настройки для html2pdf
   const opt = {
-    margin: [10, 10, 10, 10],
+    margin: [10, 10, 10, 10], // отступы в пикселях
     filename: filename,
-    image: { type: 'jpeg', quality: 1 },
+    image: { type: 'jpeg', quality: 0.98 },
     html2canvas: {
-      scale: 2,              // Хорошее качество
+      scale: 2,                // хорошее качество
       scrollY: 0,
-      windowWidth: 1000,     // Приближаем к реальной ширине A4
+      windowWidth: 794,        // фиксированная ширина под A4
       windowHeight: element.scrollHeight,
       useCORS: true
     },
     jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait' }
   };
 
+  // Ждём, пока применятся стили
   setTimeout(() => {
     html2pdf().set(opt).from(element).save().then(() => {
-      // Возвращаем стили обратно
-      element.style.transform = originalTransform;
-      element.style.transformOrigin = originalTransformOrigin;
+      // После генерации возвращаем старые стили
       element.style.width = originalWidth;
       element.style.maxWidth = originalMaxWidth;
+      element.style.fontSize = originalFontSize;
       element.style.margin = originalMargin;
       btn.style.display = "block";
     });
