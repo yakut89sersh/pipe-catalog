@@ -1,0 +1,78 @@
+/* styles.css */
+
+body {
+  font-family: sans-serif;
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+select, button, label {
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 8px;
+  font-size: 14px; /* Размер шрифта как у label */
+}
+
+#result {
+  margin-top: 20px;
+  line-height: 1.6;
+}
+
+.tech-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+  table-layout: fixed;
+}
+
+.tech-table td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  vertical-align: top;
+  word-break: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+  font-size: 14px; /* Сделали шрифт такой же, как у label */
+}
+
+.tech-table td:first-child {
+  font-weight: bold;
+  text-align: left;
+  width: 70%;
+}
+
+.tech-table td:last-child {
+  text-align: center;
+  width: 30%;
+}
+
+.makeup-recommendation {
+  text-align: justify;
+  text-justify: inter-word;
+  margin-top: 20px;
+}
+
+.makeup-recommendation li {
+  margin-bottom: 10px;
+}
+
+@media screen and (max-width: 600px) {
+  h1 {
+    font-size: 20px;
+  }
+
+  select, button, label {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .tech-table td {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+}
