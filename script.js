@@ -140,32 +140,35 @@ if (recommendations[threadType]) {
   document.getElementById("downloadBtn").style.display = "block";
 }
 
-function downloadPDF() {
+async function downloadPDF() {
   const result = document.getElementById("result");
   const downloadBtn = document.getElementById("downloadBtn");
 
-  // Скрываем кнопку скачивания
   downloadBtn.style.display = "none";
 
-  // Создаем клон блока
+  // Клонируем блок с уже загруженными данными
   const clone = result.cloneNode(true);
   clone.id = "result-clone";
+
+  // Стили для клона
   clone.style.width = "794px";
   clone.style.maxWidth = "794px";
   clone.style.minWidth = "794px";
   clone.style.margin = "0 auto";
   clone.style.padding = "20px";
-  clone.style.background = "#fff"; // обязательно белый фон
-  clone.style.fontSize = window.getComputedStyle(result).fontSize; // оставляем тот же шрифт
+  clone.style.background = "#fff";
+  clone.style.fontSize = window.getComputedStyle(result).fontSize;
 
-  // Прячем клон с экрана
-  clone.style.position = "fixed";
-  clone.style.top = "-9999px";
-  clone.style.left = "-9999px";
+  // Клон должен быть ВИДИМЫМ для скриншота
+  clone.style.position = "absolute";
+  clone.style.top = "0";
+  clone.style.left = "0";
   clone.style.zIndex = "-1";
+  clone.style.opacity = "0";
 
-  // Добавляем клон в body
   document.body.appendChild(clone);
+
+  await new Promise(resolve => setTimeout(resolve, 200)); // Пауза 200мс чтобы браузер успел отрисовать
 
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
@@ -193,12 +196,8 @@ function downloadPDF() {
     jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait' }
   };
 
-  setTimeout(() => {
-    html2pdf().set(opt).from(clone).save().then(() => {
-      // Убираем клон после сохранения
-      document.body.removeChild(clone);
-      // Возвращаем кнопку
-      downloadBtn.style.display = "block";
-    });
-  }, 300);
+  await html2pdf().set(opt).from(clone).save();
+
+  document.body.removeChild(clone);
+  downloadBtn.style.display = "block";
 }
