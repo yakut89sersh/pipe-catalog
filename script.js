@@ -142,34 +142,33 @@ if (recommendations[threadType]) {
 
 async function downloadPDF() {
   const result = document.getElementById("result");
-  const downloadBtn = document.getElementById("downloadBtn");
+  const btn = document.getElementById("downloadBtn");
 
-  downloadBtn.style.display = "none";
+  // Скрываем кнопку перед скриншотом
+  btn.style.display = "none";
 
-  // Клонируем блок с уже загруженными данными
+  // Клонируем содержимое блока
   const clone = result.cloneNode(true);
-  clone.id = "result-clone";
 
-  // Стили для клона
+  // Стилизация клона для печати (фиксированная ширина A4)
   clone.style.width = "794px";
   clone.style.maxWidth = "794px";
   clone.style.minWidth = "794px";
   clone.style.margin = "0 auto";
   clone.style.padding = "20px";
-  clone.style.background = "#fff";
-  clone.style.fontSize = window.getComputedStyle(result).fontSize;
 
-  // Клон должен быть ВИДИМЫМ для скриншота
+  // Скрываем клон визуально, но он будет виден для html2canvas
   clone.style.position = "absolute";
+  clone.style.left = "-9999px";
   clone.style.top = "0";
-  clone.style.left = "0";
-  clone.style.zIndex = "-1";
-  clone.style.opacity = "0";
 
+  // Добавляем клон на страницу
   document.body.appendChild(clone);
 
-  await new Promise(resolve => setTimeout(resolve, 200)); // Пауза 200мс чтобы браузер успел отрисовать
+  // Даём браузеру время на отрисовку
+  await new Promise(resolve => setTimeout(resolve, 300));
 
+  // Генерация имени файла
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
   const od = document.getElementById("od").value || "";
@@ -182,22 +181,25 @@ async function downloadPDF() {
 
   const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
 
+  // Настройки html2pdf
   const opt = {
-    margin: [10, 10, 10, 10],
+    margin: [10, 10, 10, 10], // отступы в px
     filename: filename,
     image: { type: 'jpeg', quality: 1 },
     html2canvas: {
       scale: 2,
       scrollY: 0,
-      windowWidth: 794,
-      windowHeight: clone.scrollHeight,
       useCORS: true
     },
     jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait' }
   };
 
+  // Генерируем PDF с клона
   await html2pdf().set(opt).from(clone).save();
 
+  // Удаляем клон после сохранения
   document.body.removeChild(clone);
-  downloadBtn.style.display = "block";
+
+  // Показываем кнопку снова
+  btn.style.display = "block";
 }
