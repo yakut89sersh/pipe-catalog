@@ -1,21 +1,39 @@
 /* styles.css */
 
+/* Общие настройки страницы */
 body {
-  font-family: sans-serif;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
   padding: 20px;
   max-width: 800px;
   margin: auto;
+  color: #333;
 }
 
 h1 {
   text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 22px;
+  margin: 30px 0 20px 0;
+}
+
+h3 {
+  font-size: 18px;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  color: #444;
 }
 
 select, button, label {
   margin-bottom: 10px;
   width: 100%;
   padding: 8px;
-  font-size: 14px; /* Размер шрифта как у label */
+  font-size: 14px;
 }
 
 #result {
@@ -23,6 +41,7 @@ select, button, label {
   line-height: 1.6;
 }
 
+/* Таблицы технических данных */
 .tech-table {
   width: 100%;
   border-collapse: collapse;
@@ -35,11 +54,12 @@ select, button, label {
   padding: 8px 12px;
   vertical-align: top;
   word-break: break-word;
-  white-space: normal;
   overflow-wrap: break-word;
-  font-size: 14px; /* Сделали шрифт такой же, как у label */
+  white-space: normal;
+  font-size: 14px;
 }
 
+/* Первый и второй столбец в таблицах */
 .tech-table td:first-child {
   font-weight: bold;
   text-align: left;
@@ -51,19 +71,30 @@ select, button, label {
   width: 30%;
 }
 
+/* Блок рекомендаций */
 .makeup-recommendation {
   text-align: justify;
   text-justify: inter-word;
   margin-top: 20px;
+  font-size: 14px;
 }
 
 .makeup-recommendation li {
   margin-bottom: 10px;
 }
 
+/* Адаптивность под мобильные */
 @media screen and (max-width: 600px) {
   h1 {
-    font-size: 20px;
+    font-size: 22px;
+  }
+
+  h2 {
+    font-size: 18px;
+  }
+
+  h3 {
+    font-size: 16px;
   }
 
   select, button, label {
