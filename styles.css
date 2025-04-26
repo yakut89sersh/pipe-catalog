@@ -113,29 +113,3 @@ select, button, label {
   }
 }
 
-#pdfContent {
-  width: 794px;
-  margin: 0 auto;
-  font-size: 12px;
-}
-
-#pdfContent .tech-table {
-  width: 100%;
-  table-layout: fixed;
-}
-
-#pdfContent .tech-table td {
-  padding: 4px 6px;
-  font-size: 12px;
-  word-break: break-word;
-}
-
-#pdfContent h2, #pdfContent h3 {
-  text-align: center;
-  margin: 10px 0;
-}
-
-#pdfContent .makeup-recommendation {
-  margin-top: 10px;
-  font-size: 12px;
-}
