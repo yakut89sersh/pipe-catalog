@@ -147,7 +147,7 @@ function downloadPDF() {
   btn.style.display = "none";
 
   const originalWidth = element.style.width;
-  element.style.width = "780px"; // ставим ближе к реальной ширине A4
+  element.style.width = "600px"; // <-- ставим 600px
   element.style.fontSize = "12px";
 
   const tables = element.querySelectorAll(".tech-table");
@@ -176,10 +176,10 @@ function downloadPDF() {
   const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
 
   const opt = {
-    margin: [0.5, 0.5, 0.5, 0.5],
+    margin: [0.3, 0.3, 0.3, 0.3],
     filename: filename,
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 1.5, scrollY: 0 },
+    html2canvas: { scale: 2, scrollY: 0 }, // Можно scale оставить 2
     jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
   };
 
