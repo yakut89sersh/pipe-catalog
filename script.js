@@ -140,32 +140,11 @@ if (recommendations[threadType]) {
   document.getElementById("downloadBtn").style.display = "block";
 }
 
-async function downloadPDF() {
+function downloadPDF() {
   const element = document.getElementById("result");
   const btn = document.getElementById("downloadBtn");
 
   btn.style.display = "none";
-
-  // Клонируем содержимое result
-  const clone = element.cloneNode(true);
-  clone.style.width = "794px";
-  clone.style.maxWidth = "794px";
-  clone.style.minWidth = "794px";
-  clone.style.margin = "0 auto";
-  clone.style.padding = "20px";
-  clone.style.backgroundColor = "#ffffff"; // на всякий случай белый фон
-
-  // Создаём скрытый контейнер
-  const container = document.createElement("div");
-  container.style.position = "fixed";
-  container.style.top = "-9999px";
-  container.style.left = "0";
-  container.style.width = "794px";
-  container.appendChild(clone);
-  document.body.appendChild(container);
-
-  // Даём браузеру время отрисовать
-  await new Promise(resolve => setTimeout(resolve, 300));
 
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
@@ -179,27 +158,55 @@ async function downloadPDF() {
 
   const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
 
+  // Создаем клон элемента
+  const clonedElement = element.cloneNode(true);
+  document.body.appendChild(clonedElement);
+
+  // Вычисляем масштаб
+  const A4_WIDTH_PX = 794; // ширина A4 в px
+  const realWidth = clonedElement.scrollWidth;
+  let scale = 1;
+
+  if (realWidth > A4_WIDTH_PX) {
+    scale = A4_WIDTH_PX / realWidth;
+  }
+
+  // Применяем масштаб
+  clonedElement.style.transform = `scale(${scale})`;
+  clonedElement.style.transformOrigin = "top left";
+  clonedElement.style.width = realWidth + "px";
+  clonedElement.style.maxWidth = realWidth + "px";
+  clonedElement.style.minWidth = realWidth + "px";
+  clonedElement.style.background = "#fff";
+  clonedElement.style.margin = "0 auto";
+  clonedElement.style.padding = "20px";
+
+  const wrapper = document.createElement('div');
+  wrapper.appendChild(clonedElement);
+  wrapper.style.width = `${A4_WIDTH_PX}px`;
+  wrapper.style.height = "auto";
+  wrapper.style.background = "#fff";
+
+  document.body.appendChild(wrapper);
+
   const opt = {
     margin: [10, 10, 10, 10],
     filename: filename,
     image: { type: 'jpeg', quality: 1 },
     html2canvas: {
       scale: 2,
-      scrollX: 0,
       scrollY: 0,
-      windowWidth: 794,
-      windowHeight: clone.scrollHeight,
-      backgroundColor: "#ffffff",
-      letterRendering: true,
+      windowWidth: A4_WIDTH_PX,
+      windowHeight: wrapper.scrollHeight,
       useCORS: true
     },
     jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait' }
   };
 
-  await html2pdf().set(opt).from(clone).save();
-
-  // Убираем временный контейнер
-  document.body.removeChild(container);
-
-  btn.style.display = "block";
+  setTimeout(() => {
+    html2pdf().set(opt).from(wrapper).save().then(() => {
+      document.body.removeChild(wrapper);
+      btn.style.display = "block";
+    });
+  }, 300);
 }
