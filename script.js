@@ -144,17 +144,22 @@ function downloadPDF() {
   const element = document.getElementById("result");
   const btn = document.getElementById("downloadBtn");
 
+  // Скрываем кнопку перед сохранением
   btn.style.display = "none";
 
-  // Сохраняем оригинальные стили
+  // Сохраняем оригинальные стили, чтобы потом вернуть
   const originalWidth = element.style.width;
   const originalMaxWidth = element.style.maxWidth;
+  const originalMinWidth = element.style.minWidth;
   const originalMargin = element.style.margin;
+  const originalPadding = element.style.padding;
 
-  // Фиксируем ширину на время сохранения
+  // Устанавливаем фиксированную ширину для A4 (210мм ≈ 794px при 96dpi)
   element.style.width = "794px";
   element.style.maxWidth = "794px";
+  element.style.minWidth = "794px";
   element.style.margin = "0 auto";
+  element.style.padding = "20px";
 
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
@@ -169,19 +174,27 @@ function downloadPDF() {
   const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
 
   const opt = {
-    margin: [10, 10, 10, 10],
+    margin: [10, 10, 10, 10], // отступы в px
     filename: filename,
     image: { type: 'jpeg', quality: 1 },
-    html2canvas: { scale: 2, scrollY: 0, windowWidth: 1200 }, // <= ВАЖНО: фиксированная ширина окна
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } // <= Единицы mm для стабильности
+    html2canvas: {
+      scale: 2,
+      scrollY: 0,
+      windowWidth: 794, // принудительно рисуем на "листе" 794px шириной
+      windowHeight: element.scrollHeight, // высота автоматически
+      useCORS: true // если будут картинки (на будущее)
+    },
+    jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait' }
   };
 
   setTimeout(() => {
     html2pdf().set(opt).from(element).save().then(() => {
-      // Возвращаем оригинальные стили
+      // Возвращаем оригинальные стили обратно
       element.style.width = originalWidth;
       element.style.maxWidth = originalMaxWidth;
+      element.style.minWidth = originalMinWidth;
       element.style.margin = originalMargin;
+      element.style.padding = originalPadding;
       btn.style.display = "block";
     });
   }, 300);
