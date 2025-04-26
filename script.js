@@ -146,13 +146,15 @@ function downloadPDF() {
 
   btn.style.display = "none";
 
-  // Сохраняем оригинальный стиль
-  const originalStyle = element.getAttribute("style") || "";
+  // Сохраняем оригинальные стили
+  const originalWidth = element.style.width;
+  const originalMaxWidth = element.style.maxWidth;
+  const originalMargin = element.style.margin;
 
-  // Устанавливаем фиксированную ширину для печати (ширина листа A4 при 96dpi = 794px)
+  // Устанавливаем фиксированную ширину только на время сохранения
   element.style.width = "794px";
   element.style.maxWidth = "794px";
-  element.style.margin = "0 auto";  // Центрируем
+  element.style.margin = "0 auto";
 
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
@@ -176,8 +178,10 @@ function downloadPDF() {
 
   setTimeout(() => {
     html2pdf().set(opt).from(element).save().then(() => {
-      // После генерации возвращаем оригинальные стили
-      element.setAttribute("style", originalStyle);
+      // Возвращаем оригинальные стили обратно
+      element.style.width = originalWidth;
+      element.style.maxWidth = originalMaxWidth;
+      element.style.margin = originalMargin;
       btn.style.display = "block";
     });
   }, 300);
