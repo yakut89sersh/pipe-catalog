@@ -10,8 +10,7 @@
   <!-- Подключаем внешний CSS -->
   <link rel="stylesheet" href="styles.css">
   
-  
-  <!-- Скрипты ПОДКЛЮЧАЕМ ПОТОМ -->
+    <!-- Скрипты ПОДКЛЮЧАЕМ ПОТОМ -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script src="script.js" defer></script>
 
@@ -44,7 +43,10 @@
   <select id="drift" disabled></select>
 
   <button id="findBtn" onclick="findPipe()" disabled>Найти трубу</button>
-  <div id="result"></div>
+  
+ <div id="pdfContent">
+  <!-- Сюда подставлять технический лист -->
+</div>
   
   <button id="downloadBtn" onclick="downloadPDF()" style="display:none; margin-top:20px;">Скачать PDF-версию</button>
   

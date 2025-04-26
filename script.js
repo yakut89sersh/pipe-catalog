@@ -141,7 +141,7 @@ if (recommendations[threadType]) {
 }
 
 function downloadPDF() {
-  const element = document.getElementById("result");
+  const element = document.getElementById("pdfContent");
   const btn = document.getElementById("downloadBtn");
   const html = document.documentElement;
   const body = document.body;
