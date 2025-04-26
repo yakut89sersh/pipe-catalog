@@ -144,44 +144,45 @@ function downloadPDF() {
   const element = document.getElementById("result");
   const btn = document.getElementById("downloadBtn");
 
-  btn.style.display = "none";
+  btn.style.display = "none"; // Скрываем кнопку
 
-  // Сохраняем оригинальные стили
+  // Сохраняем старые стили
   const originalWidth = element.style.width;
-  const originalMaxWidth = element.style.maxWidth;
-  const originalMargin = element.style.margin;
+  const originalFontSize = element.style.fontSize;
 
-  // Устанавливаем фиксированную ширину только на время сохранения
-  element.style.width = "794px";
-  element.style.maxWidth = "794px";
-  element.style.margin = "0 auto";
+  // Временно задаём ширину и шрифт
+  element.style.width = "800px";
+  element.style.fontSize = "14px";
 
-  const standard = document.getElementById("standard").value || "";
-  const thread = document.getElementById("thread").value || "";
-  const od = document.getElementById("od").value || "";
-  const wall = document.getElementById("wall").value || "";
+  // Исправляем таблицы
+  const tables = element.querySelectorAll(".tech-table");
+  tables.forEach(table => {
+    table.style.width = "100%";
+    table.style.tableLayout = "fixed";
+  });
 
-  const cleanStandard = standard.replace(/\s+/g, '');
-  const cleanThread = thread.replace(/\s+/g, '');
-  const cleanOD = od.toString().replace(",", ".").replace(/\s+/g, '');
-  const cleanWall = wall.toString().replace(",", ".").replace(/\s+/g, '');
-
-  const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
+  const cells = element.querySelectorAll(".tech-table td");
+  cells.forEach(cell => {
+    cell.style.wordBreak = "break-word";
+    cell.style.whiteSpace = "normal";
+    cell.style.overflowWrap = "break-word";
+    cell.style.padding = "6px 8px";
+    cell.style.fontSize = "13px";
+  });
 
   const opt = {
-    margin: [10, 10, 10, 10],
-    filename: filename,
-    image: { type: 'jpeg', quality: 1 },
-    html2canvas: { scale: 2, scrollY: 0 },
-    jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait' }
+    margin: [0.5, 0.5, 0.5, 0.5],
+    filename: 'Techsheet.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2, scrollY: 0, windowWidth: 1400 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
   setTimeout(() => {
     html2pdf().set(opt).from(element).save().then(() => {
-      // Возвращаем оригинальные стили обратно
+      // Возвращаем стили
       element.style.width = originalWidth;
-      element.style.maxWidth = originalMaxWidth;
-      element.style.margin = originalMargin;
+      element.style.fontSize = originalFontSize;
       btn.style.display = "block";
     });
   }, 300);
