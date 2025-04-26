@@ -51,7 +51,7 @@ select, button, label {
 
 .tech-table td {
   border: 1px solid #ccc;
-  padding: 4px 12px; /* Было 8px, стало 4px */
+  padding: 6px 12px; /* Было 8px, стало 6px */
   vertical-align: top;
   word-break: break-word;
   overflow-wrap: break-word;
