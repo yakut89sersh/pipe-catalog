@@ -146,8 +146,11 @@ function downloadPDF() {
 
   btn.style.display = "none";
 
+  // ВАЖНО: фиксируем ширину для PDF
   const originalWidth = element.style.width;
-  element.style.width = "600px"; // <-- ставим 600px
+  element.style.width = "794px"; // Жёсткая ширина под A4 (при 96 dpi)
+
+  // Ставим шрифт и таблицу чуть поменьше
   element.style.fontSize = "12px";
 
   const tables = element.querySelectorAll(".tech-table");
@@ -179,15 +182,15 @@ function downloadPDF() {
     margin: [0.3, 0.3, 0.3, 0.3],
     filename: filename,
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, scrollY: 0 }, // Можно scale оставить 2
+    html2canvas: { scale: 2, scrollY: 0 },
     jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
   };
 
   setTimeout(() => {
     html2pdf().set(opt).from(element).save().then(() => {
       btn.style.display = "block";
-      element.style.width = originalWidth;
-      element.style.fontSize = "";
+      element.style.width = originalWidth; // Возвращаем старую ширину
+      element.style.fontSize = ""; // Возвращаем размер шрифта
     });
   }, 300);
 }
