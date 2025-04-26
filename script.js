@@ -146,8 +146,22 @@ function downloadPDF() {
 
   btn.style.display = "none";
 
-  // Установить жёсткую ширину блока
-  element.style.width = "794px"; // A4 по ширине в пикселях при 96 DPI
+  const originalWidth = element.style.width;
+  element.style.width = "780px"; // ставим ближе к реальной ширине A4
+  element.style.fontSize = "12px";
+
+  const tables = element.querySelectorAll(".tech-table");
+  tables.forEach(table => {
+    table.style.tableLayout = "fixed";
+    table.style.width = "100%";
+  });
+
+  const cells = element.querySelectorAll(".tech-table td");
+  cells.forEach(cell => {
+    cell.style.wordBreak = "break-word";
+    cell.style.whiteSpace = "normal";
+    cell.style.overflowWrap = "break-word";
+  });
 
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
@@ -162,17 +176,18 @@ function downloadPDF() {
   const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
 
   const opt = {
-    margin: [0.3, 0.3, 0.3, 0.3],
+    margin: [0.5, 0.5, 0.5, 0.5],
     filename: filename,
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, scrollY: 0 },
+    html2canvas: { scale: 1.5, scrollY: 0 },
     jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
   };
 
   setTimeout(() => {
     html2pdf().set(opt).from(element).save().then(() => {
       btn.style.display = "block";
-      element.style.width = ""; // Сбрасываем обратно
+      element.style.width = originalWidth;
+      element.style.fontSize = "";
     });
   }, 300);
 }
