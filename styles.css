@@ -59,6 +59,10 @@ select, button, label {
   font-size: 14px;
 }
 
+.tech-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
 /* Первый и второй столбец в таблицах */
 .tech-table td:first-child {
   font-weight: bold;
