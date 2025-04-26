@@ -158,36 +158,24 @@ function downloadPDF() {
 
   const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
 
-  // Создаем клон элемента
-  const clonedElement = element.cloneNode(true);
-  document.body.appendChild(clonedElement);
-
-  // Вычисляем масштаб
-  const A4_WIDTH_PX = 794; // ширина A4 в px
-  const realWidth = clonedElement.scrollWidth;
-  let scale = 1;
-
-  if (realWidth > A4_WIDTH_PX) {
-    scale = A4_WIDTH_PX / realWidth;
-  }
-
-  // Применяем масштаб
-  clonedElement.style.transform = `scale(${scale})`;
-  clonedElement.style.transformOrigin = "top left";
-  clonedElement.style.width = realWidth + "px";
-  clonedElement.style.maxWidth = realWidth + "px";
-  clonedElement.style.minWidth = realWidth + "px";
-  clonedElement.style.background = "#fff";
-  clonedElement.style.margin = "0 auto";
-  clonedElement.style.padding = "20px";
-
+  // Клонируем элемент
+  const cloned = element.cloneNode(true);
   const wrapper = document.createElement('div');
-  wrapper.appendChild(clonedElement);
-  wrapper.style.width = `${A4_WIDTH_PX}px`;
-  wrapper.style.height = "auto";
-  wrapper.style.background = "#fff";
 
+  wrapper.appendChild(cloned);
   document.body.appendChild(wrapper);
+
+  // Стили для клона
+  const A4_WIDTH_PX = 794;
+  wrapper.style.width = `${A4_WIDTH_PX}px`;
+  wrapper.style.margin = "0 auto";
+  wrapper.style.padding = "20px";
+  wrapper.style.background = "#fff";
+  wrapper.style.position = "relative";
+  wrapper.style.overflow = "hidden";
+
+  cloned.style.width = "100%";
+  cloned.style.background = "#fff";
 
   const opt = {
     margin: [10, 10, 10, 10],
@@ -205,8 +193,8 @@ function downloadPDF() {
 
   setTimeout(() => {
     html2pdf().set(opt).from(wrapper).save().then(() => {
-      document.body.removeChild(wrapper);
-      btn.style.display = "block";
+      document.body.removeChild(wrapper); // Удаляем клон после сохранения
+      btn.style.display = "block"; // Возвращаем кнопку
     });
   }, 300);
 }
