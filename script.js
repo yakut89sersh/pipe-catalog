@@ -140,23 +140,9 @@ if (recommendations[threadType]) {
   document.getElementById("downloadBtn").style.display = "block";
 }
 
-function downloadPDF() {
+async function downloadPDF() {
   const element = document.getElementById("pdfContent");
-  const btn = document.getElementById("downloadBtn");
-
-  // Скрываем кнопку перед сохранением
-  btn.style.display = "none";
-
-  // Сохраняем оригинальные стили элемента
-  const originalWidth = element.style.width;
-  const originalFontSize = element.style.fontSize;
-  const originalMargin = element.style.margin;
-
-  // Устанавливаем фиксированные стили только для #pdfContent
-  element.style.width = "794px";
-  element.style.fontSize = "12px";
-  element.style.margin = "0 auto";
-
+  
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
   const od = document.getElementById("od").value || "";
@@ -172,24 +158,20 @@ function downloadPDF() {
   const opt = {
     margin: [10, 10, 10, 10],
     filename: filename,
-    image: { type: 'jpeg', quality: 0.98 },
+    image: { type: 'jpeg', quality: 1 },
     html2canvas: {
       scale: 2,
       scrollY: 0,
-      windowWidth: 794,
-      windowHeight: element.scrollHeight,
+      windowWidth: 794, // фиксированная ширина для скриншота
       useCORS: true
     },
     jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait' }
   };
 
-  setTimeout(() => {
-    html2pdf().set(opt).from(element).save().then(() => {
-      // Возвращаем оригинальные стили
-      element.style.width = originalWidth;
-      element.style.fontSize = originalFontSize;
-      element.style.margin = originalMargin;
-      btn.style.display = "block";
-    });
-  }, 300);
+  const btn = document.getElementById("downloadBtn");
+  btn.style.display = "none"; // скрыть кнопку
+  
+  await html2pdf().from(element).set(opt).save();
+
+  btn.style.display = "block"; // показать кнопку обратно
 }
