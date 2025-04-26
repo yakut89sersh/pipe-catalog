@@ -121,7 +121,7 @@ select, button, label {
 /* Специальные стили для PDF */
 @media print {
   #pdfContent {
-    width: 794px;
+    width: 100%;
     margin: 0 auto;
     font-size: 12px;
   }
