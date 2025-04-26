@@ -143,6 +143,8 @@ if (recommendations[threadType]) {
 function downloadPDF() {
   const element = document.getElementById("result");
   const btn = document.getElementById("downloadBtn");
+  const html = document.documentElement;
+  const body = document.body;
 
   // Скрываем кнопку перед сохранением
   btn.style.display = "none";
@@ -152,14 +154,17 @@ function downloadPDF() {
   const originalMaxWidth = element.style.maxWidth;
   const originalFontSize = element.style.fontSize;
   const originalMargin = element.style.margin;
+  const originalHtmlWidth = html.style.width;
+  const originalBodyWidth = body.style.width;
 
   // Фиксируем ширину и шрифт на время скриншота
-  element.style.width = "794px";         // A4 по ширине (210 мм = 794px)
+  element.style.width = "794px";
   element.style.maxWidth = "794px";
-  element.style.fontSize = "12px";        // Немного уменьшаем текст
+  element.style.fontSize = "12px";
   element.style.margin = "0 auto";
+  html.style.width = "794px";
+  body.style.width = "794px";
 
-  // Формируем имя файла
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
   const od = document.getElementById("od").value || "";
@@ -172,29 +177,29 @@ function downloadPDF() {
 
   const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
 
-  // Настройки для html2pdf
   const opt = {
-    margin: [10, 10, 10, 10], // отступы в пикселях
+    margin: [10, 10, 10, 10],
     filename: filename,
     image: { type: 'jpeg', quality: 0.98 },
     html2canvas: {
-      scale: 2,                // хорошее качество
+      scale: 2,
       scrollY: 0,
-      windowWidth: 794,        // фиксированная ширина под A4
+      windowWidth: 794,
       windowHeight: element.scrollHeight,
       useCORS: true
     },
     jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait' }
   };
 
-  // Ждём, пока применятся стили
   setTimeout(() => {
     html2pdf().set(opt).from(element).save().then(() => {
-      // После генерации возвращаем старые стили
+      // Возвращаем стили обратно
       element.style.width = originalWidth;
       element.style.maxWidth = originalMaxWidth;
       element.style.fontSize = originalFontSize;
       element.style.margin = originalMargin;
+      html.style.width = originalHtmlWidth;
+      body.style.width = originalBodyWidth;
       btn.style.display = "block";
     });
   }, 300);
