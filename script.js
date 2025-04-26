@@ -144,10 +144,17 @@ function downloadPDF() {
   const element = document.getElementById("result");
   const btn = document.getElementById("downloadBtn");
 
-  // Скрываем кнопку перед экспортом
+  // Скрываем кнопку, чтобы она не попала в PDF
   btn.style.display = "none";
 
-  // Получаем параметры для имени файла
+  // Сохраняем исходные стили, чтобы потом вернуть
+  const originalWidth = element.style.width;
+  const originalMaxWidth = element.style.maxWidth;
+
+  // Фиксируем ширину для красивого экспорта
+  element.style.width = "800px";
+  element.style.maxWidth = "800px";
+
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
   const od = document.getElementById("od").value || "";
@@ -161,22 +168,18 @@ function downloadPDF() {
   const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
 
   const opt = {
-    margin: [20, 20, 20, 20], // отступы в pt (1 pt ≈ 0.35 мм)
-    filename: filename,
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { 
-      scale: 2,               // хорошее качество
-      scrollY: 0,
-      width: 800,             // ширина для правильного масштаба
-      windowWidth: 800        // ширина окна для корректного рендера
-    },
-    jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+    margin:       [0.3, 0.3, 0.3, 0.3],
+    filename:     filename,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2, scrollY: 0 },
+    jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
   };
 
-  // Немного подождать, чтобы DOM обновился
   setTimeout(() => {
     html2pdf().set(opt).from(element).save().then(() => {
-      // Показываем кнопку обратно
+      // После сохранения возвращаем всё как было
+      element.style.width = originalWidth;
+      element.style.maxWidth = originalMaxWidth;
       btn.style.display = "block";
     });
   }, 300);
