@@ -144,16 +144,12 @@ function downloadPDF() {
   const element = document.getElementById("result");
   const btn = document.getElementById("downloadBtn");
 
-  // Скрываем кнопку, чтобы она не попала в PDF
+  // Скрыть кнопку перед экспортом
   btn.style.display = "none";
 
-  // Сохраняем исходные стили, чтобы потом вернуть
+  // Жестко установить ширину блока под формат A4
   const originalWidth = element.style.width;
-  const originalMaxWidth = element.style.maxWidth;
-
-  // Фиксируем ширину для красивого экспорта
-  element.style.width = "800px";
-  element.style.maxWidth = "800px";
+  element.style.width = '794px';
 
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
@@ -168,7 +164,7 @@ function downloadPDF() {
   const filename = `Techsheet_${cleanOD}x${cleanWall}_${cleanThread}_${cleanStandard}.pdf`;
 
   const opt = {
-    margin:       [0.3, 0.3, 0.3, 0.3],
+    margin:       [0.5, 0.5, 0.5, 0.5],
     filename:     filename,
     image:        { type: 'jpeg', quality: 0.98 },
     html2canvas:  { scale: 2, scrollY: 0 },
@@ -177,9 +173,8 @@ function downloadPDF() {
 
   setTimeout(() => {
     html2pdf().set(opt).from(element).save().then(() => {
-      // После сохранения возвращаем всё как было
+      // После сохранения возвращаем всё обратно
       element.style.width = originalWidth;
-      element.style.maxWidth = originalMaxWidth;
       btn.style.display = "block";
     });
   }, 300);
