@@ -16,16 +16,27 @@ Promise.all([
 });
 
 function initSelectors() {
-  // Сначала блокируем все селекты кроме "Тип трубы"
+  // Активируем только первый список "Тип трубы"
+  fillSelect("name", [...new Set(data.map(d => d["Name"]))]);
+  
+  // Все остальные селекты делаем неактивными и пустыми
   const steps = ["standard", "thread", "od", "wall", "pipegrade", "couplinggrade", "coupling", "drift"];
   for (const id of steps) {
     const select = document.getElementById(id);
     select.innerHTML = '<option disabled selected hidden>Выберите...</option>';
     select.disabled = true;
   }
+}
 
-  // Теперь заполняем только "Тип трубы"
-  fillSelect("name", [...new Set(data.map(d => d["Name"]))]);
+function fillSelect(id, options) {
+  const select = document.getElementById(id);
+  select.innerHTML = '<option disabled selected hidden>Выберите...</option>';
+  options.forEach(opt => {
+    const o = document.createElement("option");
+    o.value = opt;
+    o.textContent = opt;
+    select.appendChild(o);
+  });
 }
 
 function stepShow(step) {
@@ -60,7 +71,15 @@ function stepShow(step) {
   const options = [...new Set(filtered.map(d => d[nextField]))];
   
   document.getElementById(nextKey).disabled = false;
-  fillSelect(nextKey, options);
+  const nextSelect = document.getElementById(nextKey);
+nextSelect.innerHTML = '<option disabled selected hidden>Выберите...</option>';
+options.forEach(opt => {
+  const o = document.createElement("option");
+  o.value = opt;
+  o.textContent = opt;
+  nextSelect.appendChild(o);
+});
+nextSelect.disabled = false;
 }
 
 function findPipe() {
@@ -153,7 +172,6 @@ if (recommendations[threadType]) {
 async function downloadPDF() {
   const element = document.getElementById("pdfContent");
 
-const name = document.getElementById("name").value || "";
 const standard = document.getElementById("standard").value || "";
 const thread = document.getElementById("thread").value || "";
 const od = document.getElementById("od").value || "";
