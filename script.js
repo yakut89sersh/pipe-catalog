@@ -17,20 +17,30 @@ Promise.all([
 
 function initSelectors() {
   // Активируем только первый список "Тип трубы"
-  fillSelect("name", [...new Set(data.map(d => d["Name"]))]);
+  fillSelect("name", [...new Set(data.map(d => d["Name"]))], true);
   
-  // Все остальные селекты делаем неактивными и пустыми
+  // Все остальные селекты делаем неактивными и без подсказки
   const steps = ["standard", "thread", "od", "wall", "pipegrade", "couplinggrade", "coupling", "drift"];
   for (const id of steps) {
     const select = document.getElementById(id);
-    select.innerHTML = '<option disabled selected hidden>Выберите...</option>';
+    select.innerHTML = "";
     select.disabled = true;
   }
 }
 
-function fillSelect(id, options) {
+function fillSelect(id, options, withPlaceholder = true) {
   const select = document.getElementById(id);
-  select.innerHTML = '<option disabled selected hidden>Выберите...</option>';
+  select.innerHTML = "";
+
+  if (withPlaceholder) {
+    const placeholder = document.createElement("option");
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    placeholder.hidden = true;
+    placeholder.textContent = "Выберите...";
+    select.appendChild(placeholder);
+  }
+
   options.forEach(opt => {
     const o = document.createElement("option");
     o.value = opt;
@@ -38,6 +48,12 @@ function fillSelect(id, options) {
     select.appendChild(o);
   });
 }
+
+
+
+
+
+
 
 function stepShow(step) {
   const steps = ["name", "standard", "thread", "od", "wall", "pipegrade", "couplinggrade", "coupling", "drift"];
@@ -50,7 +66,7 @@ function stepShow(step) {
 
   const map = {
     name: "Name",
-	standard: "Standard",
+    standard: "Standard",
     thread: "Thread type",
     od: "Outside diameter, (mm)",
     wall: "Wall Thickness, (mm)",
@@ -70,17 +86,35 @@ function stepShow(step) {
   const nextField = map[nextKey];
   const options = [...new Set(filtered.map(d => d[nextField]))];
   
-  document.getElementById(nextKey).disabled = false;
   const nextSelect = document.getElementById(nextKey);
-nextSelect.innerHTML = '<option disabled selected hidden>Выберите...</option>';
-options.forEach(opt => {
-  const o = document.createElement("option");
-  o.value = opt;
-  o.textContent = opt;
-  nextSelect.appendChild(o);
-});
-nextSelect.disabled = false;
-}
+  nextSelect.disabled = false;
+  nextSelect.innerHTML = ""; // сначала очищаем
+
+  // Добавляем подсказку только если есть опции
+  if (options.length > 0) {
+    const placeholder = document.createElement("option");
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    placeholder.hidden = true;
+    placeholder.textContent = "Выберите...";
+    nextSelect.appendChild(placeholder);
+
+    options.forEach(opt => {
+      const o = document.createElement("option");
+      o.value = opt;
+      o.textContent = opt;
+      nextSelect.appendChild(o);
+    });
+  }
+} // <-- Здесь обязательно закрыть скобку!
+
+
+
+
+
+
+
+
 
 function findPipe() {
   if (!structure || !structure.sections || !structure.sections.common) {
