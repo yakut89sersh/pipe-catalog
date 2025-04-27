@@ -16,7 +16,7 @@ Promise.all([
 });
 
 function initSelectors() {
-  fillSelect("standard", [...new Set(data.map(d => d["Standard"]))]);
+  fillSelect("name", [...new Set(data.map(d => d["Name"]))]);
 }
 
 function fillSelect(id, options) {
@@ -31,7 +31,7 @@ function fillSelect(id, options) {
 }
 
 function stepShow(step) {
-  const steps = ["standard", "thread", "od", "wall", "pipegrade", "couplinggrade", "coupling", "drift"];
+  const steps = ["name", "standard", "thread", "od", "wall", "pipegrade", "couplinggrade", "coupling", "drift"];
   const selected = {};
   for (let i = 0; i < step; i++) {
     const val = document.getElementById(steps[i]).value;
@@ -40,7 +40,8 @@ function stepShow(step) {
   }
 
   const map = {
-    standard: "Standard",
+    name: "Name",
+	standard: "Standard",
     thread: "Thread type",
     od: "Outside diameter, (mm)",
     wall: "Wall Thickness, (mm)",
@@ -71,7 +72,8 @@ function findPipe() {
 
 
   const map = {
-    standard: "Standard",
+    name: "Name",
+	standard: "Standard",
     thread: "Thread type",
     od: "Outside diameter, (mm)",
     wall: "Wall Thickness, (mm)",
@@ -128,6 +130,8 @@ html += `</table>`;
 // Добавляем рекомендации по моменту свинчивания
 const threadType = result["Thread type"];
 if (recommendations[threadType]) {
+  html += `<div class="page-break"></div>`;  // <<< Добавляем разрыв страницы
+
   html += `<h3>Рекомендации по моменту свинчивания согласно ГОСТ 34380-2017:</h3>`;
   html += `<div class="makeup-recommendation">${recommendations[threadType]}</div>`;
 }
@@ -143,10 +147,11 @@ if (recommendations[threadType]) {
 async function downloadPDF() {
   const element = document.getElementById("pdfContent");
 
-  const standard = document.getElementById("standard").value || "";
-  const thread = document.getElementById("thread").value || "";
-  const od = document.getElementById("od").value || "";
-  const wall = document.getElementById("wall").value || "";
+const name = document.getElementById("name").value || "";
+const standard = document.getElementById("standard").value || "";
+const thread = document.getElementById("thread").value || "";
+const od = document.getElementById("od").value || "";
+const wall = document.getElementById("wall").value || "";
 
   const cleanStandard = standard.replace(/\s+/g, '');
   const cleanThread = thread.replace(/\s+/g, '');
