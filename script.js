@@ -52,6 +52,42 @@ function fillSelect(id, options, withPlaceholder = true) {
 
 
 
+const units = {
+  "Outside diameter": "мм",
+  "Wall Thickness": "мм",
+  "Weight": "кг/м",
+  "Inside diameter": "мм",
+  "Drift diameter": "мм",
+  "Body tension (to yield)": "кН",
+  "Internal yield pressure": "МПа",
+  "Collapse pressure": "МПа",
+  "Coupling OD": "мм",
+  "Coupling ID": "мм",
+  "Coupling length": "мм",
+  "Make-up loss": "мм",
+  "Connection tension (to failure)": "кН",
+  "Yield Strength in Tension": "кН",
+  "Shear-out strength of the threaded connection": "кН",
+  "Min. Internal Yield Pressure Coupling": "МПа",
+  // и так далее
+};
+
+
+let value = data[key];
+if (units[key] && value !== "") {
+  value += " " + units[key];
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -167,21 +203,39 @@ if (name.toLowerCase() === "нкт") {
     .replace("{ThreadType}", result["Thread type"])
     .replace("{Standard}", result["Standard"])}</h2>`;
 
-  html += `<h3>${structure.sections.common}</h3><table class="tech-table">`;
+ html += `<h3>${structure.sections.common}</h3><table class="tech-table">`;
 for (const key of structure.sections_order.common) {
-  if (result[key]) html += `<tr><td>${structure.fields[key]}</td><td>${result[key]}</td></tr>`;
+  if (result[key]) {
+    let value = result[key];
+    if (units[key] && value !== "") {
+      value += " " + units[key];
+    }
+    html += `<tr><td>${structure.fields[key]}</td><td>${value}</td></tr>`;
+  }
 }
 html += `</table>`;
 
 html += `<h3>${structure.sections.pipe}</h3><table class="tech-table">`;
 for (const key of structure.sections_order.pipe) {
-  if (result[key]) html += `<tr><td>${structure.fields[key]}</td><td>${result[key]}</td></tr>`;
+  if (result[key]) {
+    let value = result[key];
+    if (units[key] && value !== "") {
+      value += " " + units[key];
+    }
+    html += `<tr><td>${structure.fields[key]}</td><td>${value}</td></tr>`;
+  }
 }
 html += `</table>`;
 
 html += `<h3>${structure.sections.connection}</h3><table class="tech-table">`;
 for (const key of structure.sections_order.connection) {
-  if (result[key]) html += `<tr><td>${structure.fields[key]}</td><td>${result[key]}</td></tr>`;
+  if (result[key]) {
+    let value = result[key];
+    if (units[key] && value !== "") {
+      value += " " + units[key];
+    }
+    html += `<tr><td>${structure.fields[key]}</td><td>${value}</td></tr>`;
+  }
 }
 html += `</table>`;
 
