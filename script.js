@@ -142,7 +142,7 @@ if (recommendations[threadType]) {
 
 async function downloadPDF() {
   const element = document.getElementById("pdfContent");
-  
+
   const standard = document.getElementById("standard").value || "";
   const thread = document.getElementById("thread").value || "";
   const od = document.getElementById("od").value || "";
@@ -160,18 +160,17 @@ async function downloadPDF() {
     filename: filename,
     image: { type: 'jpeg', quality: 1 },
     html2canvas: {
-      scale: 2,
+      scale: 3,    // ВАЖНО: увеличиваем детализацию (не windowWidth!)
       scrollY: 0,
-      windowWidth: 794, // фиксированная ширина для скриншота
       useCORS: true
     },
-    jsPDF: { unit: 'px', format: 'a4', orientation: 'portrait' }
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } // юниты в mm для a4
   };
 
   const btn = document.getElementById("downloadBtn");
-  btn.style.display = "none"; // скрыть кнопку
-  
+  btn.style.display = "none";
+
   await html2pdf().from(element).set(opt).save();
 
-  btn.style.display = "block"; // показать кнопку обратно
+  btn.style.display = "block";
 }
