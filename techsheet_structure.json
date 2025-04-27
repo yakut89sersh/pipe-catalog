@@ -18,7 +18,9 @@
       "Weight, (kg/m)"
     ],
     "pipe": [
-      "Inside diameter, (mm)",
+      "Outside diameter, (mm)",
+      "Wall Thickness, (mm)",
+	  "Inside diameter, (mm)",
       "Drift diameter, (mm)",
       "Body tension (to yield), (kN)",
       "Internal yield pressure, (MPa)",
