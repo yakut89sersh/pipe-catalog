@@ -53,23 +53,22 @@ function fillSelect(id, options, withPlaceholder = true) {
 
 
 const units = {
-  "Outside diameter": "мм",
-  "Wall Thickness": "мм",
-  "Weight": "кг/м",
-  "Inside diameter": "мм",
-  "Drift diameter": "мм",
-  "Body tension (to yield)": "кН",
-  "Internal yield pressure": "МПа",
-  "Collapse pressure": "МПа",
-  "Coupling OD": "мм",
-  "Coupling ID": "мм",
-  "Coupling length": "мм",
-  "Make-up loss": "мм",
-  "Connection tension (to failure)": "кН",
-  "Yield Strength in Tension": "кН",
-  "Shear-out strength of the threaded connection": "кН",
-  "Min. Internal Yield Pressure Coupling": "МПа",
-  // и так далее
+  "Outside diameter, (mm)": "мм",
+  "Wall Thickness, (mm)": "мм",
+  "Weight, (kg/m)": "кг/м",
+  "Inside diameter, (mm)": "мм",
+  "Drift diameter, (mm)": "мм",
+  "Body tension (to yield), (kN)": "кН",
+  "Internal yield pressure, (MPa)": "МПа",
+  "Collapse pressure, (MPa)": "МПа",
+  "Coupling OD, (mm)": "мм",
+  "Coupling ID, (mm)": "мм",
+  "Coupling length, (mm)": "мм",
+  "Make-up loss, (mm)": "мм",
+  "Connection tension (to failure, (kN)": "кН",
+  "Yield Strength in Tension, (kN)": "кН",
+  "Shear-out strength of the threaded connection, (kN)": "кН",
+  "Min. Internal Yield Pressure Coupling, Mpa": "МПа"
 };
 
 
