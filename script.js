@@ -96,9 +96,16 @@ function findPipe() {
     return;
   }
 
-  // Определение наименования трубы в нужной форме
-  const isTubing = result["Thread type"] === "гладкая" && result["Outside diameter, (mm)"] < 114.3;
-  const pipeType = isTubing ? "НКТ" : "обсадной трубы";
+  // Определение наименования трубы для заголовка
+let name = result["Name"] || "";
+let pipeType;
+if (name.toLowerCase() === "нкт") {
+  pipeType = "НКТ";
+} else if (name.toLowerCase() === "обсадная труба") {
+  pipeType = "обсадной трубы";
+} else {
+  pipeType = name; // на всякий случай вдруг будут еще типы
+}
 
   let html = `<h2 style="text-align:center">${structure.title
     .replace("{PipeType}", pipeType)
