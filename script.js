@@ -16,18 +16,16 @@ Promise.all([
 });
 
 function initSelectors() {
-  fillSelect("name", [...new Set(data.map(d => d["Name"]))]);
-}
+  // Сначала блокируем все селекты кроме "Тип трубы"
+  const steps = ["standard", "thread", "od", "wall", "pipegrade", "couplinggrade", "coupling", "drift"];
+  for (const id of steps) {
+    const select = document.getElementById(id);
+    select.innerHTML = '<option disabled selected hidden>Выберите...</option>';
+    select.disabled = true;
+  }
 
-function fillSelect(id, options) {
-  const select = document.getElementById(id);
-  select.innerHTML = '<option disabled selected hidden>Выберите...</option>';
-  options.forEach(opt => {
-    const o = document.createElement("option");
-    o.value = opt;
-    o.textContent = opt;
-    select.appendChild(o);
-  });
+  // Теперь заполняем только "Тип трубы"
+  fillSelect("name", [...new Set(data.map(d => d["Name"]))]);
 }
 
 function stepShow(step) {
@@ -60,6 +58,7 @@ function stepShow(step) {
 
   const nextField = map[nextKey];
   const options = [...new Set(filtered.map(d => d[nextField]))];
+  
   document.getElementById(nextKey).disabled = false;
   fillSelect(nextKey, options);
 }
