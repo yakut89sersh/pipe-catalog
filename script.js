@@ -294,39 +294,6 @@ const wall = document.getElementById("wall").value || "";
   btn.style.display = "block";
 }
 
-// Добавляем форму обратной связи
-function sendFeedback() {
-  const message = document.getElementById("feedback").value.trim();
-  if (!message) {
-    alert("Пожалуйста, введите сообщение.");
-    return;
-  }
 
-  const chatId = '793067982'; // ← ВАШ chat_id
-  const botToken = 7607910564:AAGbg-Ewpo13ZkbnbQbxz98BwHnovObJlSA; // ← ВАШ токен
 
-  fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: `Новое сообщение с сайта:\n${message}`
-    })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.ok) {
-      alert("Сообщение успешно отправлено!");
-      document.getElementById("feedback").value = "";
-    } else {
-      alert("Ошибка при отправке сообщения.");
-    }
-  })
-  .catch(error => {
-    alert("Произошла ошибка при подключении к Telegram API.");
-    console.error(error);
-  });
-}
 
