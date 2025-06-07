@@ -69,6 +69,8 @@ const units = {
   "Yield Strength in Tension, (kN)": "кН",
   "Shear-out strength of the threaded connection, (kN)": "кН",
   "Min. Internal Yield Pressure Coupling, Mpa": "МПа"
+  "Minimum yield strength, (MPa)": "МПа",
+  "Minimum tensile strength, (MPa)": "МПа"
 };
 
 
