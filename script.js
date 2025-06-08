@@ -245,9 +245,7 @@ html += `</table>`;
 // Добавляем рекомендации по моменту свинчивания
 const threadType = result["Thread type"];
 if (recommendations[threadType]) {
-  html += `<div class="page-break"></div>`;  // <<< Добавляем разрыв страницы
-
-  html += `<h3>Рекомендации по свинчивания согласно ГОСТ 34380-2017:</h3>`;
+  html += `<h3>Рекомендации по свинчиванию согласно ГОСТ 34380-2017:</h3>`;
   html += `<div class="makeup-recommendation">${recommendations[threadType]}</div>`;
 }
 
