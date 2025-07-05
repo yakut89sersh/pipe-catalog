@@ -303,9 +303,6 @@ function selectTab(button) {
   buttons.forEach(btn => btn.classList.remove('active'));
   button.classList.add('active');
 
-  const buttonRect = button.getBoundingClientRect();
-  const containerRect = container.getBoundingClientRect();
-
   highlight.style.width = `${button.offsetWidth}px`;
   highlight.style.left = `${button.offsetLeft}px`;
 }
@@ -314,6 +311,9 @@ function selectTab(button) {
 window.addEventListener('DOMContentLoaded', () => {
   const activeButton = document.querySelector('.tab.active');
   if (activeButton) {
-    selectTab(activeButton);
+    // Подождем один кадр, чтобы DOM успел отрисоваться
+    requestAnimationFrame(() => {
+      selectTab(activeButton);
+    });
   }
 });
