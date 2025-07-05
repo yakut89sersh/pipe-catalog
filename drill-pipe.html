@@ -65,49 +65,49 @@
 
 
   
-  <h1>Каталог бурильных труб</h1>
+ <h1>Каталог бурильных труб</h1>
 
-  <label>Нормативный документ:</label>
-  <select id="standard" onchange="stepShow(1)"></select>
+<label>Нормативный документ:</label>
+<select id="standard" onchange="stepShow(1)"></select>
 
-  <label>Наружный диаметр трубы (мм):</label>
-  <select id="Pipe Body OD, mm" onchange="stepShow(2)" disabled></select>
+<label>Наружный диаметр трубы (мм):</label>
+<select id="od" onchange="stepShow(2)" disabled></select>
 
-  <label>Толщина стенки (мм):</label>
-  <select id="Wall Thickness, mm" onchange="stepShow(3)" disabled></select>
+<label>Толщина стенки (мм):</label>
+<select id="wall" onchange="stepShow(3)" disabled></select>
 
-  <label>Допуск по толщине стенки:</label>
-  <select id="Tolerance pipe body wall thickness, %" onchange="stepShow(4)" disabled></select>
+<label>Допуск по толщине стенки:</label>
+<select id="tolerance" onchange="stepShow(4)" disabled></select>
 
-  <label>Группа прочности:</label>
-  <select id="Pipe Grade" onchange="stepShow(5)" disabled></select>
+<label>Группа прочности:</label>
+<select id="grade" onchange="stepShow(5)" disabled></select>
 
-  <label>Тип высадки:</label>
-  <select id="Upset Type" onchange="stepShow(6)" disabled></select>
+<label>Тип высадки:</label>
+<select id="upset" onchange="stepShow(6)" disabled></select>
 
-  <label>Исполнение замка:</label>
-  <select id="Type tool joints" onchange="stepShow(7)" disabled></select>
+<label>Исполнение замка:</label>
+<select id="jointtype" onchange="stepShow(7)" disabled></select>
 
-  <label>Тип замкового соединения:</label>
-  <select id="RSC Type" onchange="stepShow(8)" disabled></select>
+<label>Тип замкового соединения:</label>
+<select id="jointstyle" onchange="stepShow(8)" disabled></select>
 
-  <label>Наружный диаметр замка:</label>
-  <select id="Coupling OD, mm" onchange="stepShow(9)" disabled></select>
+<label>Наружный диаметр замка:</label>
+<select id="od_joint" onchange="stepShow(9)" disabled></select>
 
-  <label>Внутренний диаметр замка:</label>
-  <select id="Coupling ID" onchange="stepShow(10)" disabled></select>
+<label>Внутренний диаметр замка:</label>
+<select id="id_joint" onchange="stepShow(10)" disabled></select>
 
-  <label>Группа длин:</label>
-  <select id="length_group" onchange="stepShow(11)" disabled></select>
+<label>Группа длин:</label>
+<select id="length_group" onchange="stepShow(11)" disabled></select>
 
-  <label>Длина трубы:</label>
-  <select id="pipe_length" onchange="stepShow(12)" disabled></select>
+<label>Длина трубы:</label>
+<select id="pipe_length" onchange="stepShow(12)" disabled></select>
 
-  <label>Длина ниппеля под ключ:</label>
-  <select id="Pin tong length, mm" onchange="stepShow(13)" disabled></select>
+<label>Длина ниппеля под ключ:</label>
+<select id="pin_length" onchange="stepShow(13)" disabled></select>
 
-  <label>Длина муфты под ключ:</label>
-  <select id="Box tong length, mm" disabled></select>
+<label>Длина муфты под ключ:</label>
+<select id="box_length" disabled></select>
 
   <button id="findBtn" onclick="findPipe()" disabled>Найти трубу</button>
   
