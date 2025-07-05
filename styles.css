@@ -154,31 +154,30 @@ select, button, label {
   position: relative;
   display: flex;
   justify-content: center;
-  margin-bottom: 30px;
+  margin-top: 30px;
 }
 
 .tab {
-  position: relative;
+  padding: 10px 20px;
   background: none;
   border: none;
-  padding: 10px 30px;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 16px;
   cursor: pointer;
   color: black;
+  transition: color 0.3s ease;
 }
 
 .tab.active {
   color: white;
-  z-index: 1;
+  z-index: 2;
 }
 
 .highlight {
   position: absolute;
   bottom: 0;
-  height: 36px;
-  background: black;
-  border-radius: 50px;
+  height: 100%;
+  background-color: black;
+  border-radius: 9999px;
   transition: all 0.3s ease;
-  z-index: 0;
+  z-index: 1;
 }
