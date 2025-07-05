@@ -1,5 +1,6 @@
 let data = [];
-
+let structure = {};
+let recommendations = {};
 
 
 
