@@ -101,7 +101,18 @@
 <select id="length_group" onchange="stepShow(11)" disabled></select>
 
 <label>Длина трубы:</label>
-<input type="number" id="pipe_length" step="0.01" disabled>
+<div id="pipe_length_wrapper">
+  <select id="pipe_length_select" disabled onchange="handlePipeLengthOptionChange()"></select>
+  <input type="number" id="pipe_length_input" step="0.01" style="display:none;" />
+</div>
+
+
+
+
+
+
+
+
 
 <label>Длина ниппеля под ключ:</label>
 <select id="pin_length" onchange="stepShow(13)" disabled></select>

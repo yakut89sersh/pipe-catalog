@@ -131,25 +131,47 @@ function stepShow(step) {
 // 🔽 КАСТОМНый ввод дины трубы 
 if (currentStep.id === "pipe_length") {
   const group = document.getElementById("length_group")?.value || "";
+  const select = document.getElementById("pipe_length_select");
+  const input = document.getElementById("pipe_length_input");
+  const wrapper = document.getElementById("pipe_length_wrapper");
 
-  const pipeLengthInput = document.getElementById("pipe_length");
-  pipeLengthInput.disabled = false;
+  select.disabled = false;
+  select.innerHTML = "";
 
+  const placeholder = document.createElement("option");
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  placeholder.hidden = true;
+  placeholder.textContent = "Выберите...";
+  select.appendChild(placeholder);
+
+  let defaultVal = "", min = "", max = "";
   if (group.includes("1")) {
-    pipeLengthInput.value = "6.4";
-    pipeLengthInput.min = "6.10";
-    pipeLengthInput.max = "7.01";
+    defaultVal = "6.4"; min = "6.10"; max = "7.01";
   } else if (group.includes("2")) {
-    pipeLengthInput.value = "8.96";
-    pipeLengthInput.min = "8.84";
-    pipeLengthInput.max = "9.75";
+    defaultVal = "8.96"; min = "8.84"; max = "9.75";
   } else if (group.includes("3")) {
-    pipeLengthInput.value = "12.19";
-    pipeLengthInput.min = "12.19";
-    pipeLengthInput.max = "13.72";
+    defaultVal = "12.19"; min = "12.19"; max = "13.72";
   }
 
-  pipeLengthInput.addEventListener("input", function () {
+  const defaultOption = document.createElement("option");
+  defaultOption.value = defaultVal;
+  defaultOption.textContent = defaultVal;
+  select.appendChild(defaultOption);
+
+  const manualOption = document.createElement("option");
+  manualOption.value = "manual";
+  manualOption.textContent = "Ввести вручную";
+  select.appendChild(manualOption);
+
+  input.style.display = "none";
+  input.value = "";
+  input.disabled = false;
+  input.min = min;
+  input.max = max;
+  input.step = "0.01";
+
+  input.addEventListener("input", function () {
     const val = parseFloat(this.value);
     const decimals = (this.value.split(".")[1] || "").length;
     if (decimals > 2) {
@@ -161,17 +183,26 @@ if (currentStep.id === "pipe_length") {
     }
   });
 
-  return; // прекращаем обработку списка, т.к. это поле ввода
+  return;
+}
+
+}
+
+function handlePipeLengthOptionChange() {
+  const select = document.getElementById("pipe_length_select");
+  const input = document.getElementById("pipe_length_input");
+
+  if (select.value === "manual") {
+    input.style.display = "inline-block";
+  } else {
+    input.style.display = "none";
+    input.value = ""; // очистим ручной ввод, если выбрано не "ввести вручную"
+  }
 }
 
 
 
 
-
-
-
-
-}
 
 
 
