@@ -3,9 +3,6 @@ let structure = {};
 let recommendations = {};
 
 
-
-let data = [];
-
 fetch("drill_pipes_data.json")
   .then(res => res.json())
   .then(jsonData => {
