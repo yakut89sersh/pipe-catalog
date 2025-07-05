@@ -106,7 +106,6 @@ function stepShow(step) {
 
 
 
-
   // 🔽 СТАНДАРТНАЯ ОБРАБОТКА
   const options = [...new Set(filtered.map(d => d[currentStep.key]))];
   const nextSelect = document.getElementById(currentStep.id);
@@ -128,6 +127,50 @@ function stepShow(step) {
       nextSelect.appendChild(o);
     });
   }
+
+// 🔽 КАСТОМНый ввод дины трубы 
+if (currentStep.id === "pipe_length") {
+  const group = document.getElementById("length_group")?.value || "";
+
+  const pipeLengthInput = document.getElementById("pipe_length");
+  pipeLengthInput.disabled = false;
+
+  if (group.includes("1")) {
+    pipeLengthInput.value = "6.4";
+    pipeLengthInput.min = "6.10";
+    pipeLengthInput.max = "7.01";
+  } else if (group.includes("2")) {
+    pipeLengthInput.value = "8.96";
+    pipeLengthInput.min = "8.84";
+    pipeLengthInput.max = "9.75";
+  } else if (group.includes("3")) {
+    pipeLengthInput.value = "12.19";
+    pipeLengthInput.min = "12.19";
+    pipeLengthInput.max = "13.72";
+  }
+
+  pipeLengthInput.addEventListener("input", function () {
+    const val = parseFloat(this.value);
+    const decimals = (this.value.split(".")[1] || "").length;
+    if (decimals > 2) {
+      this.setCustomValidity("Введите значение с точностью не более двух знаков после запятой.");
+    } else if (val < parseFloat(this.min) || val > parseFloat(this.max)) {
+      this.setCustomValidity("Значение вне допустимого диапазона.");
+    } else {
+      this.setCustomValidity("");
+    }
+  });
+
+  return; // прекращаем обработку списка, т.к. это поле ввода
+}
+
+
+
+
+
+
+
+
 }
 
 
