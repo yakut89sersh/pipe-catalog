@@ -61,13 +61,22 @@ function fillSelect(id, options, withPlaceholder = true) {
 function stepShow(step) {
   const selected = {};
   for (let i = 0; i < step; i++) {
-    const val = document.getElementById(steps[i].id).value;
+    const el = document.getElementById(steps[i].id);
+    const val = el?.value;
     if (!val) return;
-    selected[steps[i].id] = val;
+    selected[steps[i].key] = val;
   }
 
-  // 👉 Специальный случай — length_group всегда фиксированный
-  if (steps[step].id === "length_group") {
+  const filtered = data.filter(d =>
+    Object.entries(selected).every(([k, v]) => d[k] == v)
+  );
+
+  const currentStep = steps[step];
+  if (!currentStep) return;
+
+
+// 🔽 КАСТОМНАЯ ОБРАБОТКА ГРУППЫ ДЛИН
+  if (currentStep.id === "length_group") {
     const select = document.getElementById("length_group");
     select.disabled = false;
     select.innerHTML = "";
@@ -92,18 +101,15 @@ function stepShow(step) {
       select.appendChild(o);
     });
 
-    return;
+    return; // 🔁 Остановить выполнение дальше — важно!
   }
 
-  const filtered = data.filter(d =>
-    Object.entries(selected).every(([k, v]) => d[k] == v)
-  );
 
-  const nextKey = steps[step].key;
-  const nextId = steps[step].id;
 
-  const options = [...new Set(filtered.map(d => d[nextKey]))];
-  const nextSelect = document.getElementById(nextId);
+
+  // 🔽 СТАНДАРТНАЯ ОБРАБОТКА
+  const options = [...new Set(filtered.map(d => d[currentStep.key]))];
+  const nextSelect = document.getElementById(currentStep.id);
   nextSelect.disabled = false;
   nextSelect.innerHTML = "";
 
@@ -123,7 +129,6 @@ function stepShow(step) {
     });
   }
 }
-
 
 
 
