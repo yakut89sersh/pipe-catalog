@@ -310,3 +310,10 @@ function selectTab(button) {
   highlight.style.left = `${button.offsetLeft}px`;
 }
 
+// Вызов функции при загрузке страницы
+window.addEventListener('DOMContentLoaded', () => {
+  const activeButton = document.querySelector('.tab.active');
+  if (activeButton) {
+    selectTab(activeButton);
+  }
+});
