@@ -7,13 +7,13 @@ let recommendations = {};
 Promise.all([
   fetch("drill_pipes_data.json").then(res => res.json()),
   fetch("drill_techsheet_structure.json").then(res => res.json())
-]).then(([jsonData, jsonStruct, jsonRec]) => {
+]).then(([jsonData, jsonStruct]) => {
   data = jsonData;
   structure = jsonStruct;
-  recommendations = jsonRec;
   initSelectors();
   document.getElementById("findBtn").disabled = false;
 });
+
 
 
 
