@@ -293,18 +293,30 @@ const wall = document.getElementById("wall").value || "";
 }
 
 
-function selectTab(button) {
-  const container = button.parentElement;
-  const buttons = container.querySelectorAll('.tab');
-  const highlight = container.querySelector('.highlight');
+/* переключение между трубами */
 
-  buttons.forEach(btn => btn.classList.remove('active'));
-  button.classList.add('active');
+<script>
+  function selectTab(button) {
+    const tabs = document.querySelectorAll('.tab');
+    const highlight = document.querySelector('.highlight');
 
-  const buttonRect = button.getBoundingClientRect();
-  const containerRect = container.getBoundingClientRect();
+    tabs.forEach(tab => tab.classList.remove('active'));
+    button.classList.add('active');
 
-  highlight.style.width = `${button.offsetWidth}px`;
-  highlight.style.left = `${button.offsetLeft}px`;
-}
+    const buttonRect = button.getBoundingClientRect();
+    const containerRect = button.parentElement.getBoundingClientRect();
+
+    highlight.style.left = `${button.offsetLeft}px`;
+    highlight.style.width = `${button.offsetWidth}px`;
+  }
+
+  // При загрузке страницы установить highlight под активной вкладкой
+  window.addEventListener('DOMContentLoaded', () => {
+    const activeButton = document.querySelector('.tab.active');
+    if (activeButton) {
+      selectTab(activeButton);
+    }
+  });
+</script>
+
 

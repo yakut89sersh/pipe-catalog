@@ -148,42 +148,36 @@ select, button, label {
 }
 
 
+/* переключение между трубами */
+
 .tab-container {
-  display: flex;
   position: relative;
-  background-color: #121212;
-  padding: 6px;
-  border-radius: 9999px;
-  width: fit-content;
-  margin: 20px auto;
-  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
 }
 
 .tab {
-  color: white;
+  padding: 10px 20px;
   background: none;
   border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 9999px;
-  font-weight: 500;
   font-size: 16px;
-  z-index: 1;
-  position: relative;
+  cursor: pointer;
+  color: black;
+  transition: color 0.3s ease;
 }
 
 .tab.active {
-  color: black;
+  color: white;
+  z-index: 2;
 }
 
 .highlight {
   position: absolute;
-  background-color: white;
+  bottom: 0;
+  height: 100%;
+  background-color: black;
   border-radius: 9999px;
-  top: 6px;
-  bottom: 6px;
-  left: 6px;
-  width: 0;
   transition: all 0.3s ease;
-  z-index: 0;
+  z-index: 1;
 }
