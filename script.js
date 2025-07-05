@@ -294,10 +294,26 @@ const wall = document.getElementById("wall").value || "";
 
 
 /* переключение между трубами */
-<script>
+
 function selectTab(button) {
-  const buttons = document.querySelectorAll('.tab-button');
+  const container = button.parentElement;
+  const buttons = container.querySelectorAll('.tab');
+  const highlight = container.querySelector('.highlight');
+
   buttons.forEach(btn => btn.classList.remove('active'));
   button.classList.add('active');
+
+  highlight.style.width = `${button.offsetWidth}px`;
+  highlight.style.left = `${button.offsetLeft}px`;
 }
-</script>
+
+// Вызов функции при загрузке страницы
+window.addEventListener('DOMContentLoaded', () => {
+  const activeButton = document.querySelector('.tab.active');
+  if (activeButton) {
+    // Подождем один кадр, чтобы DOM успел отрисоваться
+    requestAnimationFrame(() => {
+      selectTab(activeButton);
+    });
+  }
+});
