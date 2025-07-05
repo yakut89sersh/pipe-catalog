@@ -18,10 +18,20 @@ function initSelectors() {
   fillSelect("standard", [...new Set(data.map(d => d["Standard"]))], true);
 
   const steps = [
-    "od", "wall", "tolerance", "grade", "upset",
-    "jointtype", "jointstyle", "od_joint", "id_joint",
-    "length_group", "pipe_length", "tong_nip", "tong_box"
-  ];
+  "Pipe Body OD, mm",
+  "Wall Thickness, mm",
+  "Tolerance pipe body wall thickness, %",
+  "Pipe Grade",
+  "Upset Type",
+  "Type tool joints",
+  "RSC Type",
+  "Coupling OD, mm",
+  "Coupling ID",
+  "length_group",
+  "pipe_length",
+  "Pin tong length, mm",
+  "Box tong length, mm"
+];
 
   for (const id of steps) {
     const select = document.getElementById(id);
