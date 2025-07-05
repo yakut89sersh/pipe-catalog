@@ -54,24 +54,56 @@ function fillSelect(id, options, withPlaceholder = true) {
   });
 }
 
+
+
+
+
 function stepShow(step) {
   const selected = {};
   for (let i = 0; i < step; i++) {
-    const el = document.getElementById(steps[i].id);
-    const val = el?.value;
+    const val = document.getElementById(steps[i].id).value;
     if (!val) return;
-    selected[steps[i].key] = val;
+    selected[steps[i].id] = val;
+  }
+
+  // 👉 Специальный случай — length_group всегда фиксированный
+  if (steps[step].id === "length_group") {
+    const select = document.getElementById("length_group");
+    select.disabled = false;
+    select.innerHTML = "";
+
+    const placeholder = document.createElement("option");
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    placeholder.hidden = true;
+    placeholder.textContent = "Выберите...";
+    select.appendChild(placeholder);
+
+    const options = [
+      "Группа длин 1 (от 6,1 до 7,01)",
+      "Группа длин 2 (от 8,84 до 9,75)",
+      "Группа длин 3 (от 12,19 до 13,72)"
+    ];
+
+    options.forEach(opt => {
+      const o = document.createElement("option");
+      o.value = opt;
+      o.textContent = opt;
+      select.appendChild(o);
+    });
+
+    return;
   }
 
   const filtered = data.filter(d =>
     Object.entries(selected).every(([k, v]) => d[k] == v)
   );
 
-  const currentStep = steps[step];
-  if (!currentStep) return;
+  const nextKey = steps[step].key;
+  const nextId = steps[step].id;
 
-  const options = [...new Set(filtered.map(d => d[currentStep.key]))];
-  const nextSelect = document.getElementById(currentStep.id);
+  const options = [...new Set(filtered.map(d => d[nextKey]))];
+  const nextSelect = document.getElementById(nextId);
   nextSelect.disabled = false;
   nextSelect.innerHTML = "";
 
@@ -91,6 +123,11 @@ function stepShow(step) {
     });
   }
 }
+
+
+
+
+
 
 function findPipe() {
   alert("Поиск трубы пока не реализован. Добавим позже.");
