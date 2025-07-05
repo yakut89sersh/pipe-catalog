@@ -1,7 +1,21 @@
 let data = [];
-let structure = {};
-let recommendations = {};
 
+const steps = [
+  { id: "standard", key: "Standard" },
+  { id: "od", key: "Pipe Body OD, mm" },
+  { id: "wall", key: "Wall Thickness, mm" },
+  { id: "tolerance", key: "Tolerance pipe body wall thickness, %" },
+  { id: "grade", key: "Pipe Grade" },
+  { id: "upset", key: "Upset Type" },
+  { id: "jointtype", key: "Type tool joints" },
+  { id: "jointstyle", key: "RSC Type" },
+  { id: "od_joint", key: "Coupling OD, mm" },
+  { id: "id_joint", key: "Coupling ID" },
+  { id: "length_group", key: "length_group" },
+  { id: "pipe_length", key: "pipe_length" },
+  { id: "tong_nip", key: "Pin tong length, mm" },
+  { id: "tong_box", key: "Box tong length, mm" }
+];
 
 fetch("drill_pipes_data.json")
   .then(res => res.json())
@@ -11,37 +25,21 @@ fetch("drill_pipes_data.json")
     document.getElementById("findBtn").disabled = false;
   });
 
-
-
-
 function initSelectors() {
   fillSelect("standard", [...new Set(data.map(d => d["Standard"]))], true);
 
-  const steps = [
-  "Pipe Body OD, mm",
-  "Wall Thickness, mm",
-  "Tolerance pipe body wall thickness, %",
-  "Pipe Grade",
-  "Upset Type",
-  "Type tool joints",
-  "RSC Type",
-  "Coupling OD, mm",
-  "Coupling ID",
-  "length_group",
-  "pipe_length",
-  "Pin tong length, mm",
-  "Box tong length, mm"
-];
-
-  for (const id of steps) {
+  for (const { id } of steps.slice(1)) {
     const select = document.getElementById(id);
-    select.innerHTML = "";
-    select.disabled = true;
+    if (select) {
+      select.innerHTML = "";
+      select.disabled = true;
+    }
   }
 }
 
 function fillSelect(id, options, withPlaceholder = true) {
   const select = document.getElementById(id);
+  if (!select) return;
   select.innerHTML = "";
 
   if (withPlaceholder) {
@@ -62,28 +60,23 @@ function fillSelect(id, options, withPlaceholder = true) {
 }
 
 function stepShow(step) {
-  const steps = [
-    "standard", "od", "wall", "tolerance", "grade", "upset",
-    "jointtype", "jointstyle", "od_joint", "id_joint",
-    "length_group", "pipe_length", "tong_nip", "tong_box"
-  ];
-
   const selected = {};
   for (let i = 0; i < step; i++) {
-    const val = document.getElementById(steps[i]).value;
+    const { id, key } = steps[i];
+    const val = document.getElementById(id)?.value;
     if (!val) return;
-    selected[steps[i]] = val;
+    selected[key] = val;
   }
 
+  const { id, key } = steps[step];
   const filtered = data.filter(d =>
     Object.entries(selected).every(([k, v]) => d[k] == v)
   );
 
-  const nextKey = steps[step];
-  if (!nextKey) return;
+  const options = [...new Set(filtered.map(d => d[key]))];
+  const nextSelect = document.getElementById(id);
+  if (!nextSelect) return;
 
-  const options = [...new Set(filtered.map(d => d[nextKey]))];
-  const nextSelect = document.getElementById(nextKey);
   nextSelect.disabled = false;
   nextSelect.innerHTML = "";
 
@@ -107,8 +100,6 @@ function stepShow(step) {
 function findPipe() {
   alert("Поиск трубы пока не реализован. Добавим позже.");
 }
-
-/* переключение между трубами */
 
 function selectTab(button) {
   const buttons = document.querySelectorAll('.tab-button');
