@@ -4,14 +4,15 @@ let recommendations = {};
 
 
 
-Promise.all([
-  fetch("drill_pipes_data.json").then(res => res.json())
-]).then(([jsonData, jsonStruct]) => {
-  data = jsonData;
-  structure = jsonStruct;
-  initSelectors();
-  document.getElementById("findBtn").disabled = false;
-});
+let data = [];
+
+fetch("drill_pipes_data.json")
+  .then(res => res.json())
+  .then(jsonData => {
+    data = jsonData;
+    initSelectors();
+    document.getElementById("findBtn").disabled = false;
+  });
 
 
 
