@@ -151,7 +151,7 @@ select, button, label {
 /* переключение между трубами */
 .tab-wrapper {
   display: flex;
-  background-color: #ffffff;
+  background-color: #0d0d1f; /* тёмный фон */
   border-radius: 999px;
   padding: 4px;
   gap: 4px;
