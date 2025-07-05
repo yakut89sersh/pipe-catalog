@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Каталог бурильных труб</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <!-- Подключаем внешний CSS -->
+  <link rel="stylesheet" href="styles.css">
+  
+    <!-- Скрипты ПОДКЛЮЧАЕМ ПОТОМ -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script src="script-drillpipe.js" defer></script>
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CRS6JQ9L1K"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-CRS6JQ9L1K');
+</script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(102492150, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/102492150" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+
+<!-- Мета-описание: отображается в поисковых системах под заголовком страницы -->
+<title>Обсадные трубы | НКТ | ГОСТ 633, ГОСТ 632, ГОСТ 31446 | Резьбовые соединения</title>
+<meta name="description" content="Каталог обсадных труб и НКТ.Резьбовые соединения ОТТМ, ОТТГ, НКМ, Батресс,ВС,Buttress,Баттресс,НКТН,НКТВ,гладкая,НКТ с высадкой.Стандартные резьбы.Технические характеристики труб.Прочностные характеристики. Моменты свинчивания.Скачайте PDF бесплатно.Бесплатный каталог. ">
+<meta name="robots" content="index, follow">
+
+
+
+</head>
+
+<body>
+  
+ <div class="tab-wrapper">
+  <button class="tab-button active" onclick="selectTab(this)">Обсадные трубы и НКТ</button>
+  <button class="tab-button" onclick="selectTab(this)">Бурильные трубы</button>
+</div>
+  
+  
+  
+  <h1>Каталог бурильных труб</h1>
+
+  <label>Нормативный документ:</label>
+  <select id="standard" onchange="stepShow(1)"></select>
+
+  <label>Наружный диаметр трубы (мм):</label>
+  <select id="od" onchange="stepShow(2)" disabled></select>
+
+  <label>Толщина стенки (мм):</label>
+  <select id="wall" onchange="stepShow(3)" disabled></select>
+
+  <label>Допуск по толщине стенки:</label>
+  <select id="tolerance" onchange="stepShow(4)" disabled></select>
+
+  <label>Группа прочности:</label>
+  <select id="grade" onchange="stepShow(5)" disabled></select>
+
+  <label>Тип высадки:</label>
+  <select id="upset" onchange="stepShow(6)" disabled></select>
+
+  <label>Исполнение замка:</label>
+  <select id="jointtype" onchange="stepShow(7)" disabled></select>
+
+  <label>Тип замкового соединения:</label>
+  <select id="jointstyle" onchange="stepShow(8)" disabled></select>
+
+  <label>Наружный диаметр замка:</label>
+  <select id="od_joint" onchange="stepShow(9)" disabled></select>
+
+  <label>Внутренний диаметр замка:</label>
+  <select id="id_joint" onchange="stepShow(10)" disabled></select>
+
+  <label>Группа длин:</label>
+  <select id="length_group" onchange="stepShow(11)" disabled></select>
+
+  <label>Длина трубы:</label>
+  <select id="pipe_length" onchange="stepShow(12)" disabled></select>
+
+  <label>Длина ниппеля под ключ:</label>
+  <select id="tong_nip" onchange="stepShow(13)" disabled></select>
+
+  <label>Длина муфты под ключ:</label>
+  <select id="tong_box" disabled></select>
+
+  <button id="findBtn" onclick="findPipe()" disabled>Найти трубу</button>
+  
+ <div id="pdfContent">
+  <!-- Сюда подставлять технический лист -->
+</div>
+  
+  <button id="downloadBtn" onclick="downloadPDF()" style="display:none; margin-top:20px;">Скачать PDF-версию</button>
+  
+ 
+
+  
+</body>
+</html>
