@@ -295,28 +295,18 @@ const wall = document.getElementById("wall").value || "";
 
 /* переключение между трубами */
 
-<script>
-  function selectTab(button) {
-    const tabs = document.querySelectorAll('.tab');
-    const highlight = document.querySelector('.highlight');
+function selectTab(button) {
+  const container = button.parentElement;
+  const buttons = container.querySelectorAll('.tab');
+  const highlight = container.querySelector('.highlight');
 
-    tabs.forEach(tab => tab.classList.remove('active'));
-    button.classList.add('active');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  button.classList.add('active');
 
-    const buttonRect = button.getBoundingClientRect();
-    const containerRect = button.parentElement.getBoundingClientRect();
+  const buttonRect = button.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
 
-    highlight.style.left = `${button.offsetLeft}px`;
-    highlight.style.width = `${button.offsetWidth}px`;
-  }
-
-  // При загрузке страницы установить highlight под активной вкладкой
-  window.addEventListener('DOMContentLoaded', () => {
-    const activeButton = document.querySelector('.tab.active');
-    if (activeButton) {
-      selectTab(activeButton);
-    }
-  });
-</script>
-
+  highlight.style.width = `${button.offsetWidth}px`;
+  highlight.style.left = `${button.offsetLeft}px`;
+}
 
