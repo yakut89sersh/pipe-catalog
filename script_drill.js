@@ -5,8 +5,7 @@ let recommendations = {};
 
 
 Promise.all([
-  fetch("drill_pipes_data.json").then(res => res.json()),
-  fetch("drill_techsheet_structure.json").then(res => res.json())
+  fetch("drill_pipes_data.json").then(res => res.json())
 ]).then(([jsonData, jsonStruct]) => {
   data = jsonData;
   structure = jsonStruct;
