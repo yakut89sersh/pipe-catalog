@@ -128,15 +128,17 @@ if (step === 11) {
 
 // 🔧 ОБРАБОТКА ШАГА "Длина ниппеля под ключ (мм)"
 if (step === 12) {
-  const values = filtered
+  const pinSelect = document.getElementById("pin_length");
+  const values = data
     .map(d => parseFloat(d["Pin tong length, mm"]))
     .filter(v => !isNaN(v));
 
   if (values.length === 0) return;
 
   activateCustomLengthField("pin_length", values);
-  // ❌ Удаляем stepShow(13); — не нужно автоактивировать следующий шаг
+  stepShow(13);
   return;
+  
 }
 
 // 🔧 ОБРАБОТКА ШАГА "Длина муфты под ключ (мм)"
