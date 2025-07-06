@@ -87,18 +87,17 @@ function stepShow(step) {
     placeholder.textContent = "Выберите...";
     select.appendChild(placeholder);
 
-    const options = [
-      "Группа длин 1 (от 6,1 до 7,01)",
-      "Группа длин 2 (от 8,84 до 9,75)",
-      "Группа длин 3 (от 12,19 до 13,72)"
-    ];
-
-    options.forEach(opt => {
-      const o = document.createElement("option");
-      o.value = opt;
-      o.textContent = opt;
-      select.appendChild(o);
-    });
+    const lengthOptions = [
+  "Группа длин 1 (от 6,1 до 7,01)",
+  "Группа длин 2 (от 8,84 до 9,75)",
+  "Группа длин 3 (от 12,19 до 13,72)"
+];
+lengthOptions.forEach(opt => {
+  const o = document.createElement("option");
+  o.value = opt;
+  o.textContent = opt;
+  select.appendChild(o);
+});
 
     // 👇 сразу активируем поле длины трубы
     document.getElementById("pipe_length_wrapper").style.display = "block";
@@ -132,28 +131,7 @@ function stepShow(step) {
     });
   }
 
-// 🔹 Стандартная обработка
-  const options = [...new Set(filtered.map(d => d[currentStep.key]))];
-  const nextSelect = document.getElementById(currentStep.id);
-  if (!nextSelect) return;
-  nextSelect.disabled = false;
-  nextSelect.innerHTML = "";
 
-  if (options.length > 0) {
-    const placeholder = document.createElement("option");
-    placeholder.disabled = true;
-    placeholder.selected = true;
-    placeholder.hidden = true;
-    placeholder.textContent = "Выберите...";
-    nextSelect.appendChild(placeholder);
-
-    options.forEach(opt => {
-      const o = document.createElement("option");
-      o.value = opt;
-      o.textContent = opt;
-      nextSelect.appendChild(o);
-    });
-  }
 }
 
 
