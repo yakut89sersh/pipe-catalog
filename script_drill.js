@@ -143,7 +143,6 @@ if (step === 12) {
 
 // 🔧 ОБРАБОТКА ШАГА "Длина муфты под ключ (мм)"
 if (step === 13) {
-  const boxSelect = document.getElementById("box_length");
   const values = data
     .map(d => parseFloat(d["Box tong length, mm"]))
     .filter(v => !isNaN(v));
@@ -152,23 +151,26 @@ if (step === 13) {
 
   activateCustomLengthField("box_length", values);
 
-  // 🔽 Активируем следующий шаг при выборе
-  boxSelect.onchange = function () {
-    const input = document.getElementById("box_length_input");
-    if (this.value !== "manual") {
-      stepShow(14);
-    } else {
+  // Назначаем onchange на select
+  const select = document.getElementById("box_length");
+  const input = document.getElementById("box_length_input");
+
+  select.onchange = function () {
+    if (this.value === "manual") {
       input.addEventListener("input", function () {
         const val = parseFloat(this.value);
         if (!isNaN(val)) {
-          stepShow(14);
+          document.getElementById("findBtn").disabled = false;
         }
       });
+    } else {
+      document.getElementById("findBtn").disabled = false;
     }
   };
 
   return;
 }
+
 
 
 
