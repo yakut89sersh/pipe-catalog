@@ -274,7 +274,23 @@ function activatePipeLengthField(group) {
 
 }
 
+const pipeLengthField = document.getElementById("pipe_length");
+if (pipeLengthField) {
+  if (select.value === "manual") {
+    input.addEventListener("input", function () {
+      pipeLengthField.value = input.value;
+      stepShow(12);
+    });
 
+    input.addEventListener("change", function () {
+      pipeLengthField.value = input.value;
+      stepShow(12);
+    });
+  } else {
+    pipeLengthField.value = select.value;
+    stepShow(12);
+  }
+}
 
 
 
