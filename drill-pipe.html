@@ -108,17 +108,17 @@
 
 
 <label>Длина ниппеля под ключ (мм):</label>
-<div id="pin_length_wrapper" style="display:none;">
-  <select id="pin_length_select" disabled></select>
-  <input type="number" id="pin_length_input" style="display:none;" step="0.01" />
+<div id="pin_length_wrapper">
+  <select id="pin_length" onchange="stepShow(13)" disabled></select>
+  <input type="number" id="pin_length_input" style="display:none;" step="0.1" />
 </div>
+
 
 <label>Длина муфты под ключ (мм):</label>
-<div id="box_length_wrapper" style="display:none;">
-  <select id="box_length_select" disabled></select>
-  <input type="number" id="box_length_input" style="display:none;" step="0.01" />
+<div id="box_length_wrapper">
+  <select id="box_length" disabled></select>
+  <input type="number" id="box_length_input" style="display:none;" step="0.1" />
 </div>
-
 
 
 
