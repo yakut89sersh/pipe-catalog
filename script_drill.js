@@ -242,7 +242,7 @@ function activatePipeLengthField() {
     }
 
      // 🔽 Активируем "Длина ниппеля под ключ (мм)"
-  stepShow(12);
+  stepShow(11);
 };
 }
 
