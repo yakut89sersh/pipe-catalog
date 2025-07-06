@@ -224,33 +224,53 @@ function activatePipeLengthField(group) {
   input.disabled = true;
 
   select.onchange = function () {
-    if (this.value === "manual") {
-      input.style.display = "inline-block";
-      input.disabled = false;
-      input.value = "";
-      input.min = min;
-      input.max = max;
-      input.step = 0.01;
+  if (this.value === "manual") {
+    input.style.display = "inline-block";
+    input.disabled = false;
+    input.value = "";
+    input.min = min;
+    input.max = max;
+    input.step = 0.01;
 
-      input.addEventListener("input", function () {
-        const val = parseFloat(this.value);
-        const decimals = (this.value.split(".")[1] || "").length;
-        if (decimals > 2) {
-          this.setCustomValidity("Не более двух знаков после запятой.");
-        } else if (val < min || val > max) {
-          this.setCustomValidity(`Введите значение от ${min} до ${max}`);
-        } else {
-          this.setCustomValidity("");
-          stepShow(12);
-        }
-      });
-    } else {
-      input.style.display = "none";
-      input.disabled = true;
-      input.value = "";
-      stepShow(12);
-    }
-  };
+    input.addEventListener("input", function () {
+      const val = parseFloat(this.value);
+      const decimals = (this.value.split(".")[1] || "").length;
+
+      if (decimals > 2) {
+        this.setCustomValidity("Не более двух знаков после запятой.");
+        this.reportValidity();
+      } else if (val < min || val > max) {
+        this.setCustomValidity(`Введите значение от ${min} до ${max}`);
+        this.reportValidity();
+      } else {
+        this.setCustomValidity("");
+        this.reportValidity();
+        stepShow(12);
+      }
+    });
+
+    // 🔒 Предотвратим ввод вне диапазона с помощью события 'change'
+    input.addEventListener("change", function () {
+      let val = parseFloat(this.value);
+      if (val < min) this.value = min;
+      if (val > max) this.value = max;
+    });
+
+    // 🔒 Блокировка скроллинга вверх/вниз за пределами диапазона
+    input.addEventListener("wheel", function (event) {
+      const val = parseFloat(this.value || min);
+      if ((event.deltaY < 0 && val >= max) || (event.deltaY > 0 && val <= min)) {
+        event.preventDefault();
+      }
+    });
+
+  } else {
+    input.style.display = "none";
+    input.disabled = true;
+    input.value = "";
+    stepShow(12);
+  }
+};
 }
 
 
