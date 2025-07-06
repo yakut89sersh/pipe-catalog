@@ -250,11 +250,13 @@ function activatePipeLengthField(group) {
     });
 
     // 🔒 Предотвратим ввод вне диапазона с помощью события 'change'
-    input.addEventListener("change", function () {
-      let val = parseFloat(this.value);
-      if (val < min) this.value = min;
-      if (val > max) this.value = max;
-    });
+input.addEventListener("change", function () {
+  let val = parseFloat(this.value);
+  if (val < min) this.value = min;
+  if (val > max) this.value = max;
+
+  stepShow(12); // ← вот эта строка решает твою проблему
+});
 
     // 🔒 Блокировка скроллинга вверх/вниз за пределами диапазона
     input.addEventListener("wheel", function (event) {
