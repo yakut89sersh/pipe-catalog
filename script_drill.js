@@ -19,7 +19,7 @@ const steps = [
   { id: "joint_type", key: "Type tool joints" },
   { id: "joint_style", key: "RSC Type" },
   { id: "od_joint", key: "Coupling OD, mm" },
-  { id: "id_joint", key: "Coupling ID" },
+  { id: "id_joint", key: "Coupling ID, mm" },
   { id: "length_group", key: "length_group" }
   // ⛔️ pipe_length — удаляем отсюда, обрабатывается отдельно
 ];
