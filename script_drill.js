@@ -129,7 +129,7 @@ if (step === 11) {
 // 🔧 ОБРАБОТКА ШАГА "Длина ниппеля под ключ (мм)"
 if (step === 12) {
   const pinSelect = document.getElementById("pin_length");
-  const values = filtered
+  const values = data
     .map(d => parseFloat(d["Pin tong length, mm"]))
     .filter(v => !isNaN(v));
 
@@ -138,8 +138,8 @@ if (step === 12) {
   activateCustomLengthField("pin_length", values);
   stepShow(13);
   return;
+  
 }
-
 
 
 
@@ -277,48 +277,20 @@ function activatePipeLengthField(group) {
     } else {
       this.setCustomValidity("");
       pipeLengthHidden.value = val;
-
-// 👉 Отдельно активируем ниппель
-const pinStep = 12;
-const selected = {};
-for (let i = 0; i < pinStep; i++) {
-  const el = document.getElementById(steps[i].id);
-  const val = el?.value;
-  if (!val) return;
-  if (steps[i].key === "Pipe Length, m") continue;
-  selected[steps[i].key] = val;
-}
-
-const filtered = data.filter(d =>
-  Object.entries(selected).every(([k, v]) => d[k] == v)
-);
-
-const values = filtered.map(d => parseFloat(d["Pin tong length, mm"])).filter(v => !isNaN(v));
-if (values.length > 0) {
-  activateCustomLengthField("pin_length", values);
-}
-
+      stepShow(12);
     }
     this.reportValidity();
   });
 
-  input.addEventListener("input", function () {
-  const val = parseFloat(this.value);
-  if (isNaN(val)) {
-    this.setCustomValidity("Введите число");
-    return;
-  } else {
-    this.setCustomValidity("");
-    pipeLengthHidden.value = val;
-
-    // 👉 ДОБАВЬ ЭТУ ПРОВЕРКУ:
-    const min = parseFloat(input.min);
-    const max = parseFloat(input.max);
-    if (val >= min && val <= max) {
-      stepShow(12); // переход к ниппелю
+  input.addEventListener("change", function () {
+    let val = parseFloat(this.value);
+    if (!isNaN(val)) {
+      if (val < min) this.value = min;
+      if (val > max) this.value = max;
+      pipeLengthHidden.value = this.value;
+      stepShow(12);
     }
-  }
-});
+  });
 }
 
 
