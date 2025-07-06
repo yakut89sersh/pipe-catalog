@@ -282,15 +282,23 @@ function activatePipeLengthField(group) {
     this.reportValidity();
   });
 
-  input.addEventListener("change", function () {
-    let val = parseFloat(this.value);
-    if (!isNaN(val)) {
-      if (val < min) this.value = min;
-      if (val > max) this.value = max;
-      pipeLengthHidden.value = this.value;
-      stepShow(12);
+  input.addEventListener("input", function () {
+  const val = parseFloat(this.value);
+  if (isNaN(val)) {
+    this.setCustomValidity("Введите число");
+    return;
+  } else {
+    this.setCustomValidity("");
+    pipeLengthHidden.value = val;
+
+    // 👉 ДОБАВЬ ЭТУ ПРОВЕРКУ:
+    const min = parseFloat(input.min);
+    const max = parseFloat(input.max);
+    if (val >= min && val <= max) {
+      stepShow(12); // переход к ниппелю
     }
-  });
+  }
+});
 }
 
 
