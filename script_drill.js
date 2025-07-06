@@ -169,9 +169,7 @@ if (allNumeric) {
 
 
 
-
-function activatePipeLengthField() {
-  const group = document.getElementById("length_group").value;
+function activatePipeLengthField(group) {
   const select = document.getElementById("pipe_length_select");
   const input = document.getElementById("pipe_length_input");
   const wrapper = document.getElementById("pipe_length_wrapper");
@@ -209,8 +207,7 @@ function activatePipeLengthField() {
   select.appendChild(opt1);
   select.appendChild(opt2);
 
-  // 👇 Устанавливаем значение по умолчанию
-  select.value = defaultValue;
+  // Не выбираем значение по умолчанию — ждем действий пользователя
 
   select.onchange = function () {
     if (this.value === "manual") {
@@ -230,19 +227,18 @@ function activatePipeLengthField() {
           this.setCustomValidity(`Введите значение от ${min} до ${max}`);
         } else {
           this.setCustomValidity("");
+          stepShow(12);
         }
       });
-
     } else {
       input.style.display = "none";
       input.disabled = true;
       input.value = "";
+      stepShow(12);
     }
-
-     // 🔽 Активируем "Длина ниппеля под ключ (мм)"
-  stepShow(11);
-};
+  };
 }
+
 
 
 
