@@ -112,7 +112,13 @@ function stepShow(step) {
   return; // Останавливаем выполнение
   }
 
-
+// ✅ ДОБАВЬ ВОТ ЭТО СЮДА
+if (step === 11) {
+  const group = document.getElementById("length_group").value;
+  if (!group) return;
+  activatePipeLengthField(group);
+  return;
+}
 
 
 
@@ -196,18 +202,27 @@ function activatePipeLengthField(group) {
     max = 13.72;
   }
 
-  const opt1 = document.createElement("option");
-  opt1.value = defaultValue;
-  opt1.textContent = defaultValue;
+  // 🔽 placeholder
+  const placeholder = document.createElement("option");
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  placeholder.hidden = true;
+  placeholder.textContent = "Выберите...";
+  select.appendChild(placeholder);
+
+  const fixedOption = document.createElement("option");
+  fixedOption.value = defaultValue;
+  fixedOption.textContent = defaultValue;
+  select.appendChild(fixedOption);
 
   const opt2 = document.createElement("option");
   opt2.value = "manual";
   opt2.textContent = "ввести вручную";
-
-  select.appendChild(opt1);
   select.appendChild(opt2);
 
-  // Не выбираем значение по умолчанию — ждем действий пользователя
+  select.value = ""; // 👉 Сброс выбора
+  input.style.display = "none";
+  input.disabled = true;
 
   select.onchange = function () {
     if (this.value === "manual") {
