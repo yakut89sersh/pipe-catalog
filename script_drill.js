@@ -312,16 +312,29 @@ function activateCustomLengthField(id, values) {
   const max = 700;
   const defaultVal = min.toFixed(1);
 
-  const opt1 = document.createElement("option");
-  opt1.value = defaultVal;
-  opt1.textContent = defaultVal;
+  // Плейсхолдер
+const placeholder = document.createElement("option");
+placeholder.disabled = true;
+placeholder.selected = true;
+placeholder.hidden = true;
+placeholder.textContent = "Выберите...";
+select.appendChild(placeholder);
 
-  const opt2 = document.createElement("option");
-  opt2.value = "manual";
-  opt2.textContent = "ввести вручную";
+// Значение из базы
+const opt1 = document.createElement("option");
+opt1.value = defaultVal;
+opt1.textContent = defaultVal;
+select.appendChild(opt1);
 
-  select.appendChild(opt1);
-  select.appendChild(opt2);
+// Ввести вручную
+const opt2 = document.createElement("option");
+opt2.value = "manual";
+opt2.textContent = "ввести вручную";
+select.appendChild(opt2);
+
+// Очищаем выбор
+select.value = "";
+
 
   select.onchange = function () {
     if (this.value === "manual") {
