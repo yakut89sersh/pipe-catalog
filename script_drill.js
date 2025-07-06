@@ -113,6 +113,7 @@ function stepShow(step) {
 
 // ✅ ДОБАВЬ ВОТ ЭТО СЮДА
 if (step === 11) {
+  console.log("step 12 ok: pipe length selected");
   const group = document.getElementById("length_group").value;
   if (!group) return;
   activatePipeLengthField(group);
