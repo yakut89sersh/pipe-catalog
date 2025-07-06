@@ -125,11 +125,6 @@ if (step === 11) {
   return;
 }
 
-if (step === 12) {
-  console.log("step 13: trying to activate pin length");
-  stepShow(13);
-  return;
-}
 
 // 🔧 ОБРАБОТКА ШАГА "Длина ниппеля под ключ (мм)"
 if (step === 12) {
@@ -142,6 +137,7 @@ if (step === 12) {
 
   activateCustomLengthField("pin_length", values);
   return;
+  stepShow(13);
 }
 
 
