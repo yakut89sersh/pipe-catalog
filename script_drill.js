@@ -61,6 +61,16 @@ function fillSelect(id, options, withPlaceholder = true) {
 
 function stepShow(step) {
   const selected = {};
+
+// 👇 Эта вставка вручную добавит значение pin_length в фильтр, чтобы активировался box_length
+if (step === 13) {
+  const pinVal = document.getElementById("pin_length")?.value;
+  if (pinVal) {
+    selected["Pin tong length, mm"] = pinVal;
+  }
+}
+
+
 for (let i = 0; i < step; i++) {
   const el = document.getElementById(steps[i].id);
   const val = el?.value;
@@ -72,6 +82,10 @@ for (let i = 0; i < step; i++) {
   selected[steps[i].key] = val;
 }
 
+if (stepIndex === 13) {
+  const pinVal = document.getElementById("pin_length").value;
+  if (pinVal) selected["Pin tong length, mm"] = pinVal;
+}
 
   const filtered = data.filter(d =>
     Object.entries(selected).every(([k, v]) => d[k] == v)
