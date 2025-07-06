@@ -19,12 +19,11 @@ const steps = [
   { id: "joint_type", key: "Type tool joints" },
   { id: "joint_style", key: "RSC Type" },
   { id: "od_joint", key: "Coupling OD, mm" },
-  { id: "id_joint", key: "Coupling ID, mm" },
-  { id: "length_group", key: "length_group" },
-  { id: "pipe_length", key: "pipe_length" },
-  { id: "pin_length", key: "Pin tong length, mm " },
-  { id: "box_length", key: "Box tong length, mm" }
+  { id: "id_joint", key: "Coupling ID" },
+  { id: "length_group", key: "length_group" }
+  // ⛔️ pipe_length — удаляем отсюда, обрабатывается отдельно
 ];
+
 
 function initSelectors() {
   fillSelect(steps[0].id, [...new Set(data.map(d => d[steps[0].key]))], true);
@@ -101,7 +100,12 @@ function stepShow(step) {
       select.appendChild(o);
     });
 
-    return; // 🔁 Остановить выполнение дальше — важно!
+    // 👇 сразу активируем поле длины трубы
+    document.getElementById("pipe_length_wrapper").style.display = "block";
+    activatePipeLengthField(select.value); // если уже выбрано значение
+    select.onchange = () => activatePipeLengthField(select.value);
+
+    return;
   }
 
 
@@ -128,77 +132,106 @@ function stepShow(step) {
     });
   }
 
-// 🔽 КАСТОМНый ввод дины трубы 
-if (currentStep.id === "pipe_length") {
-  const group = document.getElementById("length_group")?.value || "";
+// 🔹 Стандартная обработка
+  const options = [...new Set(filtered.map(d => d[currentStep.key]))];
+  const nextSelect = document.getElementById(currentStep.id);
+  if (!nextSelect) return;
+  nextSelect.disabled = false;
+  nextSelect.innerHTML = "";
+
+  if (options.length > 0) {
+    const placeholder = document.createElement("option");
+    placeholder.disabled = true;
+    placeholder.selected = true;
+    placeholder.hidden = true;
+    placeholder.textContent = "Выберите...";
+    nextSelect.appendChild(placeholder);
+
+    options.forEach(opt => {
+      const o = document.createElement("option");
+      o.value = opt;
+      o.textContent = opt;
+      nextSelect.appendChild(o);
+    });
+  }
+}
+
+
+
+
+
+
+function activatePipeLengthField(group) {
   const select = document.getElementById("pipe_length_select");
   const input = document.getElementById("pipe_length_input");
   const wrapper = document.getElementById("pipe_length_wrapper");
 
-  select.disabled = false;
   select.innerHTML = "";
-
-  const placeholder = document.createElement("option");
-  placeholder.disabled = true;
-  placeholder.selected = true;
-  placeholder.hidden = true;
-  placeholder.textContent = "Выберите...";
-  select.appendChild(placeholder);
-
-  let defaultVal = "", min = "", max = "";
-  if (group.includes("1")) {
-    defaultVal = "6.4"; min = "6.10"; max = "7.01";
-  } else if (group.includes("2")) {
-    defaultVal = "8.96"; min = "8.84"; max = "9.75";
-  } else if (group.includes("3")) {
-    defaultVal = "12.19"; min = "12.19"; max = "13.72";
-  }
-
-  const defaultOption = document.createElement("option");
-  defaultOption.value = defaultVal;
-  defaultOption.textContent = defaultVal;
-  select.appendChild(defaultOption);
-
-  const manualOption = document.createElement("option");
-  manualOption.value = "manual";
-  manualOption.textContent = "Ввести вручную";
-  select.appendChild(manualOption);
-
   input.style.display = "none";
   input.value = "";
-  input.disabled = false;
-  input.min = min;
-  input.max = max;
-  input.step = "0.01";
 
-  input.addEventListener("input", function () {
-    const val = parseFloat(this.value);
-    const decimals = (this.value.split(".")[1] || "").length;
-    if (decimals > 2) {
-      this.setCustomValidity("Введите значение с точностью не более двух знаков после запятой.");
-    } else if (val < parseFloat(this.min) || val > parseFloat(this.max)) {
-      this.setCustomValidity("Значение вне допустимого диапазона.");
-    } else {
-      this.setCustomValidity("");
-    }
-  });
+  const defaultOption = document.createElement("option");
+  defaultOption.textContent = "Выберите...";
+  defaultOption.disabled = true;
+  defaultOption.selected = true;
+  defaultOption.hidden = true;
+  select.appendChild(defaultOption);
 
-  return;
-}
+  let defaultLength = "";
+  let min = "", max = "";
 
-}
-
-function handlePipeLengthOptionChange() {
-  const select = document.getElementById("pipe_length_select");
-  const input = document.getElementById("pipe_length_input");
-
-  if (select.value === "manual") {
-    input.style.display = "inline-block";
+  if (group.includes("1")) {
+    defaultLength = "6.4";
+    min = "6.10"; max = "7.01";
+  } else if (group.includes("2")) {
+    defaultLength = "8.96";
+    min = "8.84"; max = "9.75";
+  } else if (group.includes("3")) {
+    defaultLength = "12.19";
+    min = "12.19"; max = "13.72";
   } else {
-    input.style.display = "none";
-    input.value = ""; // очистим ручной ввод, если выбрано не "ввести вручную"
+    wrapper.style.display = "none";
+    return;
   }
+
+  const opt1 = document.createElement("option");
+  opt1.value = defaultLength;
+  opt1.textContent = defaultLength;
+  select.appendChild(opt1);
+
+  const opt2 = document.createElement("option");
+  opt2.value = "manual";
+  opt2.textContent = "ввести вручную";
+  select.appendChild(opt2);
+
+  select.disabled = false;
+
+  select.onchange = function () {
+    if (this.value === "manual") {
+      input.style.display = "inline-block";
+      input.min = min;
+      input.max = max;
+      input.value = "";
+      input.placeholder = `${min}–${max}`;
+      input.step = "0.01";
+
+      input.addEventListener("input", () => {
+        const val = parseFloat(input.value);
+        const decimals = (input.value.split(".")[1] || "").length;
+        if (isNaN(val) || val < parseFloat(min) || val > parseFloat(max)) {
+          input.setCustomValidity("Значение вне допустимого диапазона.");
+        } else if (decimals > 2) {
+          input.setCustomValidity("Максимум две цифры после запятой.");
+        } else {
+          input.setCustomValidity("");
+        }
+      });
+    } else {
+      input.style.display = "none";
+    }
+  };
 }
+
 
 
 
