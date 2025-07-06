@@ -129,7 +129,7 @@ if (step === 11) {
 // 🔧 ОБРАБОТКА ШАГА "Длина ниппеля под ключ (мм)"
 if (step === 12) {
   const pinSelect = document.getElementById("pin_length");
-  const values = data
+  const values = filtered
     .map(d => parseFloat(d["Pin tong length, mm"]))
     .filter(v => !isNaN(v));
 
@@ -138,8 +138,8 @@ if (step === 12) {
   activateCustomLengthField("pin_length", values);
   stepShow(13);
   return;
-  
 }
+
 
 
 
