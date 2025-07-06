@@ -185,6 +185,7 @@ function activatePipeLengthField(group) {
   const select = document.getElementById("pipe_length_select");
   const input = document.getElementById("pipe_length_input");
   const wrapper = document.getElementById("pipe_length_wrapper");
+  const pipeLengthHidden = document.getElementById("pipe_length");
 
   wrapper.style.display = "block";
   select.disabled = false;
@@ -208,6 +209,7 @@ function activatePipeLengthField(group) {
     max = 13.72;
   }
 
+  // Добавляем варианты
   const placeholder = document.createElement("option");
   placeholder.disabled = true;
   placeholder.selected = true;
@@ -229,68 +231,54 @@ function activatePipeLengthField(group) {
   input.style.display = "none";
   input.disabled = true;
 
- select.onchange = function () {
-  if (this.value === "manual") {
-    input.style.display = "inline-block";
-    input.disabled = false;
-    input.value = "";
-    input.min = min;
-    input.max = max;
-    input.step = 0.01;
+  // === Обработка select ===
+  select.onchange = function () {
+    if (this.value === "manual") {
+      input.style.display = "inline-block";
+      input.disabled = false;
+      input.value = "";
+      input.min = min;
+      input.max = max;
+      input.step = 0.01;
+      pipeLengthHidden.value = ""; // обнуляем
 
-    // Ввод вручную — вызываем stepShow(12) внутри слушателя input/change
-    input.addEventListener("input", function () {
-      const val = parseFloat(this.value);
-      const decimals = (this.value.split(".")[1] || "").length;
+    } else {
+      input.style.display = "none";
+      input.disabled = true;
+      input.value = "";
+      pipeLengthHidden.value = this.value;
+      stepShow(12); // активируем "Длина ниппеля"
+    }
+  };
 
-      if (decimals > 2) {
-        this.setCustomValidity("Не более двух знаков после запятой.");
-        this.reportValidity();
-      } else if (val < min || val > max) {
-        this.setCustomValidity(`Введите значение от ${min} до ${max}`);
-        this.reportValidity();
-      } else {
-        this.setCustomValidity("");
-        this.reportValidity();
-        stepShow(12); // ✔️ активируем "длину ниппеля"
-      }
-    });
+  // === Обработка ручного ввода ===
+  input.addEventListener("input", function () {
+    const val = parseFloat(this.value);
+    const decimals = (this.value.split(".")[1] || "").length;
 
-    input.addEventListener("change", function () {
-      let val = parseFloat(this.value);
+    if (decimals > 2) {
+      this.setCustomValidity("Не более двух знаков после запятой.");
+    } else if (val < min || val > max) {
+      this.setCustomValidity(`Введите значение от ${min} до ${max}`);
+    } else {
+      this.setCustomValidity("");
+      pipeLengthHidden.value = val;
+      stepShow(12);
+    }
+    this.reportValidity();
+  });
+
+  input.addEventListener("change", function () {
+    let val = parseFloat(this.value);
+    if (!isNaN(val)) {
       if (val < min) this.value = min;
       if (val > max) this.value = max;
-      stepShow(12); // ✔️ сюда тоже
-    });
-
-  } else {
-    input.style.display = "none";
-    input.disabled = true;
-    input.value = "";
-
-    stepShow(12); // ✔️ Это важно: вызываем при выборе фиксированной длины!
-  }
-};
-
+      pipeLengthHidden.value = this.value;
+      stepShow(12);
+    }
+  });
 }
 
-const pipeLengthField = document.getElementById("pipe_length");
-if (pipeLengthField) {
-  if (select.value === "manual") {
-    input.addEventListener("input", function () {
-      pipeLengthField.value = input.value;
-      stepShow(12);
-    });
-
-    input.addEventListener("change", function () {
-      pipeLengthField.value = input.value;
-      stepShow(12);
-    });
-  } else {
-    pipeLengthField.value = select.value;
-    stepShow(12);
-  }
-}
 
 
 
