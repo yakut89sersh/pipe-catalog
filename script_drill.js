@@ -117,7 +117,16 @@ if (select.value) {
 
 
   // 🔽 СТАНДАРТНАЯ ОБРАБОТКА
-  const stepOptions = [...new Set(filtered.map(d => d[currentStep.key]))];
+  let stepOptions = [...new Set(filtered.map(d => d[currentStep.key]))]
+  .filter(v => v !== null && v !== "");
+
+// Проверка: все ли значения — числа
+const allNumeric = stepOptions.every(val => !isNaN(parseFloat(val)));
+
+if (allNumeric) {
+  stepOptions.sort((a, b) => parseFloat(a) - parseFloat(b));
+}
+
   const nextSelect = document.getElementById(currentStep.id);
   nextSelect.disabled = false;
   nextSelect.innerHTML = "";
