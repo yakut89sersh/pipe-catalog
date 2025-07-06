@@ -273,6 +273,16 @@ input.addEventListener("change", function () {
     stepShow(12);
   }
 };
+
+input.addEventListener("change", function () {
+  const val = parseFloat(this.value);
+  if (!isNaN(val) && val >= min && val <= max) {
+    stepShow(12); // <- именно это вызывает активацию "Длина ниппеля под ключ"
+  }
+});
+
+
+
 }
 
 
