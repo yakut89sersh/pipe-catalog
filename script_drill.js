@@ -228,52 +228,49 @@ function activatePipeLengthField(group) {
   input.style.display = "none";
   input.disabled = true;
 
-  select.onchange = function () {
-    if (this.value === "manual") {
-      input.style.display = "inline-block";
-      input.disabled = false;
-      input.value = "";
-      input.min = min;
-      input.max = max;
-      input.step = 0.01;
-    } else {
-      input.style.display = "none";
-      input.disabled = true;
-      input.value = "";
-      stepShow(12);
-    }
-  };
+ select.onchange = function () {
+  if (this.value === "manual") {
+    input.style.display = "inline-block";
+    input.disabled = false;
+    input.value = "";
+    input.min = min;
+    input.max = max;
+    input.step = 0.01;
 
-  input.addEventListener("input", function () {
-    const val = parseFloat(this.value);
-    const decimals = (this.value.split(".")[1] || "").length;
+    // Ввод вручную — вызываем stepShow(12) внутри слушателя input/change
+    input.addEventListener("input", function () {
+      const val = parseFloat(this.value);
+      const decimals = (this.value.split(".")[1] || "").length;
 
-    if (decimals > 2) {
-      this.setCustomValidity("Не более двух знаков после запятой.");
-      this.reportValidity();
-    } else if (val < min || val > max) {
-      this.setCustomValidity(`Введите значение от ${min} до ${max}`);
-      this.reportValidity();
-    } else {
-      this.setCustomValidity("");
-      this.reportValidity();
-      stepShow(12);
-    }
-  });
+      if (decimals > 2) {
+        this.setCustomValidity("Не более двух знаков после запятой.");
+        this.reportValidity();
+      } else if (val < min || val > max) {
+        this.setCustomValidity(`Введите значение от ${min} до ${max}`);
+        this.reportValidity();
+      } else {
+        this.setCustomValidity("");
+        this.reportValidity();
+        stepShow(12); // ✔️ активируем "длину ниппеля"
+      }
+    });
 
-  input.addEventListener("change", function () {
-    const val = parseFloat(this.value);
-    if (!isNaN(val) && val >= min && val <= max) {
-      stepShow(12);
-    }
-  });
+    input.addEventListener("change", function () {
+      let val = parseFloat(this.value);
+      if (val < min) this.value = min;
+      if (val > max) this.value = max;
+      stepShow(12); // ✔️ сюда тоже
+    });
 
-  input.addEventListener("wheel", function (event) {
-    const val = parseFloat(this.value || min);
-    if ((event.deltaY < 0 && val >= max) || (event.deltaY > 0 && val <= min)) {
-      event.preventDefault();
-    }
-  });
+  } else {
+    input.style.display = "none";
+    input.disabled = true;
+    input.value = "";
+
+    stepShow(12); // ✔️ Это важно: вызываем при выборе фиксированной длины!
+  }
+};
+
 }
 
 
