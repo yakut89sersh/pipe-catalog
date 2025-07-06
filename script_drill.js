@@ -101,8 +101,7 @@ function stepShow(step) {
     select.appendChild(o);
   });
 
-  // 👇 pipe_length не активируем сразу!
-  document.getElementById("pipe_length_wrapper").style.display = "none";
+ 
 
   select.onchange = () => {
     activatePipeLengthField(select.value); // ← тут только при выборе
