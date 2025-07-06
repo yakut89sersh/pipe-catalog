@@ -141,7 +141,7 @@ if (step === 12) {
   
 }
 
-/// 🔧 ОБРАБОТКА ШАГА "Длина муфты под ключ (мм)"
+// 🔧 ОБРАБОТКА ШАГА "Длина муфты под ключ (мм)"
 if (step === 13) {
   const boxSelect = document.getElementById("box_length");
   const values = data
@@ -152,13 +152,24 @@ if (step === 13) {
 
   activateCustomLengthField("box_length", values);
 
-  // ⬇️ Это ДОБАВЬ, чтобы активировался следующий шаг
-  boxSelect.onchange = () => {
-    stepShow(14); // вызываем следующий шаг, если нужен
+  // 🔽 Активируем следующий шаг при выборе
+  boxSelect.onchange = function () {
+    const input = document.getElementById("box_length_input");
+    if (this.value !== "manual") {
+      stepShow(14);
+    } else {
+      input.addEventListener("input", function () {
+        const val = parseFloat(this.value);
+        if (!isNaN(val)) {
+          stepShow(14);
+        }
+      });
+    }
   };
 
   return;
 }
+
 
 
 
