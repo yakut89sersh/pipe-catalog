@@ -141,17 +141,25 @@ if (step === 12) {
   
 }
 
-// 🔧 ОБРАБОТКА ШАГА "Длина муфты под ключ (мм)"
+/// 🔧 ОБРАБОТКА ШАГА "Длина муфты под ключ (мм)"
 if (step === 13) {
-  const values = filtered
+  const boxSelect = document.getElementById("box_length");
+  const values = data
     .map(d => parseFloat(d["Box tong length, mm"]))
     .filter(v => !isNaN(v));
 
   if (values.length === 0) return;
 
   activateCustomLengthField("box_length", values);
+
+  // ⬇️ Это ДОБАВЬ, чтобы активировался следующий шаг
+  boxSelect.onchange = () => {
+    stepShow(14); // вызываем следующий шаг, если нужен
+  };
+
   return;
 }
+
 
 
 
