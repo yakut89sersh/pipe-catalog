@@ -267,32 +267,35 @@ function activateCustomLengthField(id, values) {
   select.appendChild(opt2);
 
   select.onchange = function () {
-    if (this.value === "manual") {
-      input.style.display = "inline-block";
-      input.disabled = false;
-      input.value = "";
-      input.min = minVal;
-      input.max = 700;
-      input.step = 0.1;
+  if (this.value === "manual") {
+    input.style.display = "inline-block";
+    input.disabled = false;
+    input.value = "";
+    input.min = min;
+    input.max = max;
+    input.step = 0.01;
 
-      input.addEventListener("input", function () {
-        const val = parseFloat(this.value);
-        const decimals = (this.value.split(".")[1] || "").length;
-        if (decimals > 1) {
-          this.setCustomValidity("Не более одной цифры после запятой.");
-        } else if (val < minVal || val > 700) {
-          this.setCustomValidity(`Введите значение от ${minVal} до 700`);
-        } else {
-          this.setCustomValidity("");
-        }
-      });
+    input.addEventListener("input", function () {
+      const val = parseFloat(this.value);
+      const decimals = (this.value.split(".")[1] || "").length;
+      if (decimals > 2) {
+        this.setCustomValidity("Не более двух знаков после запятой.");
+      } else if (val < min || val > max) {
+        this.setCustomValidity(`Введите значение от ${min} до ${max}`);
+      } else {
+        this.setCustomValidity("");
+        stepShow(11); // 👉 Активируем следующий шаг
+      }
+    });
 
-    } else {
-      input.style.display = "none";
-      input.disabled = true;
-      input.value = "";
-    }
-  };
+  } else {
+    input.style.display = "none";
+    input.disabled = true;
+    input.value = "";
+    stepShow(11); // 👉 Активируем следующий шаг
+  }
+};
+
 }
 
 
