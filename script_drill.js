@@ -136,8 +136,9 @@ if (step === 12) {
   if (values.length === 0) return;
 
   activateCustomLengthField("pin_length", values);
-  return;
   stepShow(13);
+  return;
+  
 }
 
 
