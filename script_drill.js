@@ -167,6 +167,11 @@ if (currentStep.id === "pin_length" || currentStep.id === "box_length") {
   return;
 }
 
+// 🔧 ОБРАБОТКА ШАГА "Найти трубу"
+if (step === 14) {
+  document.getElementById("findBtn").disabled = false;
+  return;
+}
 
 
 
@@ -350,32 +355,35 @@ select.value = "";
 
 
   select.onchange = function () {
-    if (this.value === "manual") {
-      input.style.display = "inline-block";
-      input.disabled = false;
-      input.value = "";
-      input.min = min;
-      input.max = max;
-      input.step = 0.1;
+  if (this.value === "manual") {
+    input.style.display = "inline-block";
+    input.disabled = false;
+    input.value = "";
+    input.min = min;
+    input.max = max;
+    input.step = 0.1;
 
-      input.addEventListener("input", function () {
-        const val = parseFloat(this.value);
-        const decimals = (this.value.split(".")[1] || "").length;
-        if (decimals > 1) {
-          this.setCustomValidity("Не более одной цифры после запятой.");
-        } else if (val < min || val > max) {
-          this.setCustomValidity(`Введите значение от ${min} до ${max}`);
-        } else {
-          this.setCustomValidity("");
-        }
-      });
+    input.addEventListener("input", function () {
+      const val = parseFloat(this.value);
+      const decimals = (this.value.split(".")[1] || "").length;
+      if (decimals > 1) {
+        this.setCustomValidity("Не более одной цифры после запятой.");
+      } else if (val < min || val > max) {
+        this.setCustomValidity(`Введите значение от ${min} до ${max}`);
+      } else {
+        this.setCustomValidity("");
+        if (id === "box_length") stepShow(14); // добавлено
+      }
+    });
 
-    } else {
-      input.style.display = "none";
-      input.disabled = true;
-      input.value = "";
-    }
-  };
+  } else {
+    input.style.display = "none";
+    input.disabled = true;
+    input.value = "";
+    if (id === "box_length") stepShow(14); // добавлено
+  }
+};
+
 }
 
 
