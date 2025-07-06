@@ -76,7 +76,7 @@
 <label>Толщина стенки (мм):</label>
 <select id="wall" onchange="stepShow(3)" disabled></select>
 
-<label>Допуск по толщине стенки:</label>
+<label>Допуск по толщине стенки, %:</label>
 <select id="tolerance" onchange="stepShow(4)" disabled></select>
 
 <label>Группа прочности:</label>
@@ -91,28 +91,37 @@
 <label>Тип замкового соединения:</label>
 <select id="joint_style" onchange="stepShow(8)" disabled></select>
 
-<label>Наружный диаметр замка:</label>
+<label>Наружный диаметр замка (мм):</label>
 <select id="od_joint" onchange="stepShow(9)" disabled></select>
 
-<label>Внутренний диаметр замка:</label>
+<label>Внутренний диаметр замка (мм):</label>
 <select id="id_joint" onchange="stepShow(10)" disabled></select>
 
 <label>Группа длин:</label>
 <select id="length_group" onchange="stepShow(11)" disabled></select>
 
-<label>Длина трубы:</label>
+<label>Длина трубы (м):</label>
 <div id="pipe_length_wrapper">
   <select id="pipe_length_select" disabled></select>
   <input type="number" id="pipe_length_input" style="display:none;" step="0.01" />
 </div>
 
 
+<label>Длина ниппеля под ключ (мм):</label>
+<div id="pin_length_wrapper">
+  <select id="pin_length" onchange="stepShow(13)" disabled></select>
+  <input type="number" id="pin_length_input" style="display:none;" step="0.1" />
+</div>
 
-<label>Длина ниппеля под ключ:</label>
-<select id="pin_length" onchange="stepShow(13)" disabled></select>
 
-<label>Длина муфты под ключ:</label>
-<select id="box_length" disabled></select>
+<label>Длина муфты под ключ (мм):</label>
+<div id="box_length_wrapper">
+  <select id="box_length" disabled></select>
+  <input type="number" id="box_length_input" style="display:none;" step="0.1" />
+</div>
+
+
+
 
   <button id="findBtn" onclick="findPipe()" disabled>Найти трубу</button>
   
