@@ -211,6 +211,9 @@ function activatePipeLengthField() {
   select.appendChild(opt1);
   select.appendChild(opt2);
 
+  // 👇 Устанавливаем значение по умолчанию
+  select.value = defaultValue;
+
   select.onchange = function () {
     if (this.value === "manual") {
       input.style.display = "inline-block";
@@ -237,14 +240,12 @@ function activatePipeLengthField() {
       input.disabled = true;
       input.value = "";
     }
-  // 👇 Вызов следующего шага (активируем "длина ниппеля под ключ")
-    stepShow(12);
-    };
-    // 👇 если по умолчанию уже выбрано значение — сразу показать следующий шаг
-  if (select.value !== "manual") {
-    stepShow(12);
-  }
+
+     // 🔽 Активируем "Длина ниппеля под ключ (мм)"
+  stepShow(12);
+};
 }
+
 
 
 
