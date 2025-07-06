@@ -21,6 +21,7 @@ const steps = [
   { id: "od_joint", key: "Coupling OD, mm" },
   { id: "id_joint", key: "Coupling ID, mm" },
   { id: "length_group", key: "length_group" },
+  { id: "pipe_length", key: "Pipe Length, m" },
   { id: "pin_length", key: "Pin tong length, mm" },
   { id: "box_length", key: "Box tong length, mm" }
 ];
