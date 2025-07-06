@@ -245,15 +245,16 @@ function activatePipeLengthField() {
 
 function activateCustomLengthField(id, values) {
   const wrapper = document.getElementById(id + "_wrapper");
-  const select = document.getElementById(id + "_select");
+  const select = document.getElementById(id);
   const input = document.getElementById(id + "_input");
 
   wrapper.style.display = "block";
   select.disabled = false;
   select.innerHTML = "";
 
-  const minVal = Math.min(...values);
-  const defaultVal = minVal.toFixed(1);
+  const min = Math.min(...values);
+  const max = 700;
+  const defaultVal = min.toFixed(1);
 
   const opt1 = document.createElement("option");
   opt1.value = defaultVal;
@@ -267,36 +268,34 @@ function activateCustomLengthField(id, values) {
   select.appendChild(opt2);
 
   select.onchange = function () {
-  if (this.value === "manual") {
-    input.style.display = "inline-block";
-    input.disabled = false;
-    input.value = "";
-    input.min = min;
-    input.max = max;
-    input.step = 0.01;
+    if (this.value === "manual") {
+      input.style.display = "inline-block";
+      input.disabled = false;
+      input.value = "";
+      input.min = min;
+      input.max = max;
+      input.step = 0.1;
 
-    input.addEventListener("input", function () {
-      const val = parseFloat(this.value);
-      const decimals = (this.value.split(".")[1] || "").length;
-      if (decimals > 2) {
-        this.setCustomValidity("Не более двух знаков после запятой.");
-      } else if (val < min || val > max) {
-        this.setCustomValidity(`Введите значение от ${min} до ${max}`);
-      } else {
-        this.setCustomValidity("");
-        stepShow(11); // 👉 Активируем следующий шаг
-      }
-    });
+      input.addEventListener("input", function () {
+        const val = parseFloat(this.value);
+        const decimals = (this.value.split(".")[1] || "").length;
+        if (decimals > 1) {
+          this.setCustomValidity("Не более одной цифры после запятой.");
+        } else if (val < min || val > max) {
+          this.setCustomValidity(`Введите значение от ${min} до ${max}`);
+        } else {
+          this.setCustomValidity("");
+        }
+      });
 
-  } else {
-    input.style.display = "none";
-    input.disabled = true;
-    input.value = "";
-    stepShow(11); // 👉 Активируем следующий шаг
-  }
-};
-
+    } else {
+      input.style.display = "none";
+      input.disabled = true;
+      input.value = "";
+    }
+  };
 }
+
 
 
 
