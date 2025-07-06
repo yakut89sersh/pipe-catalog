@@ -77,41 +77,39 @@ function stepShow(step) {
 
 // 🔽 КАСТОМНАЯ ОБРАБОТКА ГРУППЫ ДЛИН
   if (currentStep.id === "length_group") {
-    const select = document.getElementById("length_group");
-    select.disabled = false;
-    select.innerHTML = "";
+  const select = document.getElementById("length_group");
+  select.disabled = false;
+  select.innerHTML = "";
 
-    const placeholder = document.createElement("option");
-    placeholder.disabled = true;
-    placeholder.selected = true;
-    placeholder.hidden = true;
-    placeholder.textContent = "Выберите...";
-    select.appendChild(placeholder);
+  const placeholder = document.createElement("option");
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  placeholder.hidden = true;
+  placeholder.textContent = "Выберите...";
+  select.appendChild(placeholder);
 
-    const lengthOptions = [
-  "Группа длин 1 (от 6,1 до 7,01)",
-  "Группа длин 2 (от 8,84 до 9,75)",
-  "Группа длин 3 (от 12,19 до 13,72)"
-];
-lengthOptions.forEach(opt => {
-  const o = document.createElement("option");
-  o.value = opt;
-  o.textContent = opt;
-  select.appendChild(o);
-});
+  const lengthOptions = [
+    "Группа длин 1 (от 6,1 до 7,01)",
+    "Группа длин 2 (от 8,84 до 9,75)",
+    "Группа длин 3 (от 12,19 до 13,72)"
+  ];
 
-    // 👇 сразу активируем поле длины трубы
-    document.getElementById("pipe_length_wrapper").style.display = "block";
-    activatePipeLengthField(select.value); // если уже выбрано значение
-    select.onchange = () => activatePipeLengthField(select.value);
+  lengthOptions.forEach(opt => {
+    const o = document.createElement("option");
+    o.value = opt;
+    o.textContent = opt;
+    select.appendChild(o);
+  });
 
-// Если значение уже выбрано — активировать поле сразу
-if (select.value) {
-  activatePipeLengthField(select.value);
-}
+  // 👇 pipe_length не активируем сразу!
+  document.getElementById("pipe_length_wrapper").style.display = "none";
 
+  select.onchange = () => {
+    activatePipeLengthField(select.value); // ← тут только при выборе
+    stepShow(11); // ← здесь вручную активируем следующий шаг: Длина трубы
+  };
 
-    return;
+  return; // Останавливаем выполнение
   }
 
 
