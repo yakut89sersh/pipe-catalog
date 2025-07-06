@@ -110,7 +110,7 @@ lengthOptions.forEach(opt => {
 
 
   // 🔽 СТАНДАРТНАЯ ОБРАБОТКА
-  const options = [...new Set(filtered.map(d => d[currentStep.key]))];
+  const stepOptions = [...new Set(filtered.map(d => d[currentStep.key]))];
   const nextSelect = document.getElementById(currentStep.id);
   nextSelect.disabled = false;
   nextSelect.innerHTML = "";
