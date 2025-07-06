@@ -231,7 +231,7 @@ function activatePipeLengthField(group) {
     max = 13.72;
   }
 
-  // Добавляем варианты
+  // Добавляем варианты выбора
   const placeholder = document.createElement("option");
   placeholder.disabled = true;
   placeholder.selected = true;
@@ -253,7 +253,7 @@ function activatePipeLengthField(group) {
   input.style.display = "none";
   input.disabled = true;
 
-  // === Обработка select ===
+  // === Обработка выбора из списка ===
   select.onchange = function () {
     if (this.value === "manual") {
       input.style.display = "inline-block";
@@ -263,7 +263,6 @@ function activatePipeLengthField(group) {
       input.max = max;
       input.step = 0.01;
       pipeLengthHidden.value = ""; // обнуляем
-
     } else {
       input.style.display = "none";
       input.disabled = true;
@@ -273,65 +272,33 @@ function activatePipeLengthField(group) {
     }
   };
 
-  // === Обработка ручного ввода ===
+  // === Один обработчик ввода вручную ===
   input.addEventListener("input", function () {
     const val = parseFloat(this.value);
     const decimals = (this.value.split(".")[1] || "").length;
 
+    if (isNaN(val)) {
+      this.setCustomValidity("Введите число");
+      return;
+    }
+
     if (decimals > 2) {
       this.setCustomValidity("Не более двух знаков после запятой.");
-    } else if (val < min || val > max) {
-      this.setCustomValidity(`Введите значение от ${min} до ${max}`);
-    } else {
-      this.setCustomValidity("");
-      pipeLengthHidden.value = val;
-
-// 👉 Отдельно активируем ниппель
-const pinStep = 12;
-const selected = {};
-for (let i = 0; i < pinStep; i++) {
-  const el = document.getElementById(steps[i].id);
-  const val = el?.value;
-  if (!val) return;
-  if (steps[i].key === "Pipe Length, m") continue;
-  selected[steps[i].key] = val;
-}
-
-const filtered = data.filter(d =>
-  Object.entries(selected).every(([k, v]) => d[k] == v)
-);
-
-const values = filtered.map(d => parseFloat(d["Pin tong length, mm"])).filter(v => !isNaN(v));
-if (values.length > 0) {
-  activateCustomLengthField("pin_length", values);
-}
-
+      return;
     }
-    this.reportValidity();
-  });
 
-  input.addEventListener("input", function () {
-  const val = parseFloat(this.value);
-  if (isNaN(val)) {
-    this.setCustomValidity("Введите число");
-    return;
-  } else {
+    if (val < min || val > max) {
+      this.setCustomValidity(`Введите значение от ${min} до ${max}`);
+      return;
+    }
+
     this.setCustomValidity("");
     pipeLengthHidden.value = val;
 
-    // 👉 ДОБАВЬ ЭТУ ПРОВЕРКУ:
-    const min = parseFloat(input.min);
-    const max = parseFloat(input.max);
-    if (val >= min && val <= max) {
-      stepShow(12); // переход к ниппелю
-    }
-  }
-});
+    // Переход к шагу "Длина ниппеля под ключ"
+    stepShow(12);
+  });
 }
-
-
-
-
 
 
 
