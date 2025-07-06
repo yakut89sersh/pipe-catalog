@@ -116,6 +116,23 @@ if (select.value) {
 
 
 
+
+
+
+if (currentStep.id === "pin_length" || currentStep.id === "box_length") {
+  const key = currentStep.key;
+  const id = currentStep.id;
+  const values = filtered.map(d => parseFloat(d[key])).filter(v => !isNaN(v));
+
+  if (values.length === 0) return;
+
+  activateCustomLengthField(id, values);
+  return;
+}
+
+
+
+
   // 🔽 СТАНДАРТНАЯ ОБРАБОТКА
   let stepOptions = [...new Set(filtered.map(d => d[currentStep.key]))]
   .filter(v => v !== null && v !== "");
@@ -224,6 +241,59 @@ function activatePipeLengthField() {
 }
 
 
+
+
+function activateCustomLengthField(id, values) {
+  const wrapper = document.getElementById(id + "_wrapper");
+  const select = document.getElementById(id + "_select");
+  const input = document.getElementById(id + "_input");
+
+  wrapper.style.display = "block";
+  select.disabled = false;
+  select.innerHTML = "";
+
+  const minVal = Math.min(...values);
+  const defaultVal = minVal.toFixed(1);
+
+  const opt1 = document.createElement("option");
+  opt1.value = defaultVal;
+  opt1.textContent = defaultVal;
+
+  const opt2 = document.createElement("option");
+  opt2.value = "manual";
+  opt2.textContent = "ввести вручную";
+
+  select.appendChild(opt1);
+  select.appendChild(opt2);
+
+  select.onchange = function () {
+    if (this.value === "manual") {
+      input.style.display = "inline-block";
+      input.disabled = false;
+      input.value = "";
+      input.min = minVal;
+      input.max = 700;
+      input.step = 0.1;
+
+      input.addEventListener("input", function () {
+        const val = parseFloat(this.value);
+        const decimals = (this.value.split(".")[1] || "").length;
+        if (decimals > 1) {
+          this.setCustomValidity("Не более одной цифры после запятой.");
+        } else if (val < minVal || val > 700) {
+          this.setCustomValidity(`Введите значение от ${minVal} до 700`);
+        } else {
+          this.setCustomValidity("");
+        }
+      });
+
+    } else {
+      input.style.display = "none";
+      input.disabled = true;
+      input.value = "";
+    }
+  };
+}
 
 
 
