@@ -20,9 +20,9 @@ const steps = [
   { id: "joint_style", key: "RSC Type" },
   { id: "od_joint", key: "Coupling OD, mm" },
   { id: "id_joint", key: "Coupling ID, mm" },
-{ id: "length_group", key: "length_group" },
-  { id: "pin_length", key: "Pin length, mm" },
-  { id: "box_length", key: "Box length, mm" }
+  { id: "length_group", key: "length_group" },
+  { id: "pin_length", key: "Pin tong length, mm" },
+  { id: "box_length", key: "Box tong length, mm" }
 ];
 
 
