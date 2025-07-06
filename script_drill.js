@@ -277,7 +277,27 @@ function activatePipeLengthField(group) {
     } else {
       this.setCustomValidity("");
       pipeLengthHidden.value = val;
-      stepShow(12);
+
+// 👉 Отдельно активируем ниппель
+const pinStep = 12;
+const selected = {};
+for (let i = 0; i < pinStep; i++) {
+  const el = document.getElementById(steps[i].id);
+  const val = el?.value;
+  if (!val) return;
+  if (steps[i].key === "Pipe Length, m") continue;
+  selected[steps[i].key] = val;
+}
+
+const filtered = data.filter(d =>
+  Object.entries(selected).every(([k, v]) => d[k] == v)
+);
+
+const values = filtered.map(d => parseFloat(d["Pin tong length, mm"])).filter(v => !isNaN(v));
+if (values.length > 0) {
+  activateCustomLengthField("pin_length", values);
+}
+
     }
     this.reportValidity();
   });
