@@ -115,21 +115,21 @@ lengthOptions.forEach(opt => {
   nextSelect.disabled = false;
   nextSelect.innerHTML = "";
 
-  if (options.length > 0) {
-    const placeholder = document.createElement("option");
-    placeholder.disabled = true;
-    placeholder.selected = true;
-    placeholder.hidden = true;
-    placeholder.textContent = "Выберите...";
-    nextSelect.appendChild(placeholder);
+ if (stepOptions.length > 0) {
+  const placeholder = document.createElement("option");
+  placeholder.disabled = true;
+  placeholder.selected = true;
+  placeholder.hidden = true;
+  placeholder.textContent = "Выберите...";
+  nextSelect.appendChild(placeholder);
 
-    options.forEach(opt => {
-      const o = document.createElement("option");
-      o.value = opt;
-      o.textContent = opt;
-      nextSelect.appendChild(o);
-    });
-  }
+  stepOptions.forEach(opt => {
+    const o = document.createElement("option");
+    o.value = opt;
+    o.textContent = opt;
+    nextSelect.appendChild(o);
+  });
+}
 
 
 }
