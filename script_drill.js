@@ -187,19 +187,19 @@ function activatePipeLengthField(group) {
   let min = 0;
   let max = 0;
 
-  if (group.includes("1")) {
-    defaultValue = "6.4";
-    min = 6.1;
-    max = 7.01;
-  } else if (group.includes("2")) {
-    defaultValue = "8.96";
-    min = 8.84;
-    max = 9.75;
-  } else if (group.includes("3")) {
-    defaultValue = "12.19";
-    min = 12.19;
-    max = 13.72;
-  }
+  if (group === "Группа длин 1 (от 6,1 до 7,01)") {
+  defaultValue = "6.4";
+  min = 6.1;
+  max = 7.01;
+} else if (group === "Группа длин 2 (от 8,84 до 9,75)") {
+  defaultValue = "8.96";
+  min = 8.84;
+  max = 9.75;
+} else if (group === "Группа длин 3 (от 12,19 до 13,72)") {
+  defaultValue = "12.19";
+  min = 12.19;
+  max = 13.72;
+}
 
   // 🔽 placeholder
   const placeholder = document.createElement("option");
