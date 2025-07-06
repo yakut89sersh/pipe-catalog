@@ -194,20 +194,19 @@ function activatePipeLengthField(group) {
   let max = 0;
 
   if (group === "Группа длин 1 (от 6,1 до 7,01)") {
-  defaultValue = "6.4";
-  min = 6.1;
-  max = 7.01;
-} else if (group === "Группа длин 2 (от 8,84 до 9,75)") {
-  defaultValue = "8.96";
-  min = 8.84;
-  max = 9.75;
-} else if (group === "Группа длин 3 (от 12,19 до 13,72)") {
-  defaultValue = "12.19";
-  min = 12.19;
-  max = 13.72;
-}
+    defaultValue = "6.4";
+    min = 6.1;
+    max = 7.01;
+  } else if (group === "Группа длин 2 (от 8,84 до 9,75)") {
+    defaultValue = "8.96";
+    min = 8.84;
+    max = 9.75;
+  } else if (group === "Группа длин 3 (от 12,19 до 13,72)") {
+    defaultValue = "12.19";
+    min = 12.19;
+    max = 13.72;
+  }
 
-  // 🔽 placeholder
   const placeholder = document.createElement("option");
   placeholder.disabled = true;
   placeholder.selected = true;
@@ -225,71 +224,59 @@ function activatePipeLengthField(group) {
   opt2.textContent = "ввести вручную";
   select.appendChild(opt2);
 
-  select.value = ""; // 👉 Сброс выбора
+  select.value = "";
   input.style.display = "none";
   input.disabled = true;
 
   select.onchange = function () {
-  if (this.value === "manual") {
-    input.style.display = "inline-block";
-    input.disabled = false;
-    input.value = "";
-    input.min = min;
-    input.max = max;
-    input.step = 0.01;
+    if (this.value === "manual") {
+      input.style.display = "inline-block";
+      input.disabled = false;
+      input.value = "";
+      input.min = min;
+      input.max = max;
+      input.step = 0.01;
+    } else {
+      input.style.display = "none";
+      input.disabled = true;
+      input.value = "";
+      stepShow(12);
+    }
+  };
 
-    input.addEventListener("input", function () {
-      const val = parseFloat(this.value);
-      const decimals = (this.value.split(".")[1] || "").length;
+  input.addEventListener("input", function () {
+    const val = parseFloat(this.value);
+    const decimals = (this.value.split(".")[1] || "").length;
 
-      if (decimals > 2) {
-        this.setCustomValidity("Не более двух знаков после запятой.");
-        this.reportValidity();
-      } else if (val < min || val > max) {
-        this.setCustomValidity(`Введите значение от ${min} до ${max}`);
-        this.reportValidity();
-      } else {
-        this.setCustomValidity("");
-        this.reportValidity();
-        stepShow(12);
-      }
-    });
+    if (decimals > 2) {
+      this.setCustomValidity("Не более двух знаков после запятой.");
+      this.reportValidity();
+    } else if (val < min || val > max) {
+      this.setCustomValidity(`Введите значение от ${min} до ${max}`);
+      this.reportValidity();
+    } else {
+      this.setCustomValidity("");
+      this.reportValidity();
+      stepShow(12);
+    }
+  });
 
-    // 🔒 Предотвратим ввод вне диапазона с помощью события 'change'
-input.addEventListener("change", function () {
-  let val = parseFloat(this.value);
-  if (val < min) this.value = min;
-  if (val > max) this.value = max;
+  input.addEventListener("change", function () {
+    const val = parseFloat(this.value);
+    if (!isNaN(val) && val >= min && val <= max) {
+      stepShow(12);
+    }
+  });
 
-  stepShow(12); // ← вот эта строка решает твою проблему
-});
-
-    // 🔒 Блокировка скроллинга вверх/вниз за пределами диапазона
-    input.addEventListener("wheel", function (event) {
-      const val = parseFloat(this.value || min);
-      if ((event.deltaY < 0 && val >= max) || (event.deltaY > 0 && val <= min)) {
-        event.preventDefault();
-      }
-    });
-
-  } else {
-    input.style.display = "none";
-    input.disabled = true;
-    input.value = "";
-    stepShow(12);
-  }
-};
-
-input.addEventListener("change", function () {
-  const val = parseFloat(this.value);
-  if (!isNaN(val) && val >= min && val <= max) {
-    stepShow(12); // <- именно это вызывает активацию "Длина ниппеля под ключ"
-  }
-});
-
-
-
+  input.addEventListener("wheel", function (event) {
+    const val = parseFloat(this.value || min);
+    if ((event.deltaY < 0 && val >= max) || (event.deltaY > 0 && val <= min)) {
+      event.preventDefault();
+    }
+  });
 }
+
+
 
 
 
