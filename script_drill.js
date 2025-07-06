@@ -237,7 +237,9 @@ function activatePipeLengthField() {
       input.disabled = true;
       input.value = "";
     }
-  };
+  // 👇 Вызов следующего шага (активируем "длина ниппеля под ключ")
+    stepShow(12);
+    };
 }
 
 
