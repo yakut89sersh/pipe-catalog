@@ -141,6 +141,18 @@ if (step === 12) {
   
 }
 
+if (step === 13) {
+  const boxSelect = document.getElementById("box_length");
+  const values = data
+    .map(d => parseFloat(d["Box tong length, mm"]))
+    .filter(v => !isNaN(v));
+
+  if (values.length === 0) return;
+
+  activateCustomLengthField("box_length", values);
+  return;
+}
+
 
 
 if (currentStep.id === "pin_length" || currentStep.id === "box_length") {
