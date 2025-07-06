@@ -105,6 +105,12 @@ lengthOptions.forEach(opt => {
     activatePipeLengthField(select.value); // если уже выбрано значение
     select.onchange = () => activatePipeLengthField(select.value);
 
+// Если значение уже выбрано — активировать поле сразу
+if (select.value) {
+  activatePipeLengthField(select.value);
+}
+
+
     return;
   }
 
@@ -140,76 +146,74 @@ lengthOptions.forEach(opt => {
 
 
 
-function activatePipeLengthField(group) {
+function activatePipeLengthField() {
+  const group = document.getElementById("length_group").value;
   const select = document.getElementById("pipe_length_select");
   const input = document.getElementById("pipe_length_input");
   const wrapper = document.getElementById("pipe_length_wrapper");
 
+  wrapper.style.display = "block";
+  select.disabled = false;
   select.innerHTML = "";
-  input.style.display = "none";
-  input.value = "";
 
-  const defaultOption = document.createElement("option");
-  defaultOption.textContent = "Выберите...";
-  defaultOption.disabled = true;
-  defaultOption.selected = true;
-  defaultOption.hidden = true;
-  select.appendChild(defaultOption);
-
-  let defaultLength = "";
-  let min = "", max = "";
+  let defaultValue = "";
+  let min = 0;
+  let max = 0;
 
   if (group.includes("1")) {
-    defaultLength = "6.4";
-    min = "6.10"; max = "7.01";
+    defaultValue = "6.4";
+    min = 6.1;
+    max = 7.01;
   } else if (group.includes("2")) {
-    defaultLength = "8.96";
-    min = "8.84"; max = "9.75";
+    defaultValue = "8.96";
+    min = 8.84;
+    max = 9.75;
   } else if (group.includes("3")) {
-    defaultLength = "12.19";
-    min = "12.19"; max = "13.72";
-  } else {
-    wrapper.style.display = "none";
-    return;
+    defaultValue = "12.19";
+    min = 12.19;
+    max = 13.72;
   }
 
   const opt1 = document.createElement("option");
-  opt1.value = defaultLength;
-  opt1.textContent = defaultLength;
-  select.appendChild(opt1);
+  opt1.value = defaultValue;
+  opt1.textContent = defaultValue;
 
   const opt2 = document.createElement("option");
   opt2.value = "manual";
   opt2.textContent = "ввести вручную";
-  select.appendChild(opt2);
 
-  select.disabled = false;
+  select.appendChild(opt1);
+  select.appendChild(opt2);
 
   select.onchange = function () {
     if (this.value === "manual") {
       input.style.display = "inline-block";
+      input.disabled = false;
+      input.value = "";
       input.min = min;
       input.max = max;
-      input.value = "";
-      input.placeholder = `${min}–${max}`;
-      input.step = "0.01";
+      input.step = 0.01;
 
-      input.addEventListener("input", () => {
-        const val = parseFloat(input.value);
-        const decimals = (input.value.split(".")[1] || "").length;
-        if (isNaN(val) || val < parseFloat(min) || val > parseFloat(max)) {
-          input.setCustomValidity("Значение вне допустимого диапазона.");
-        } else if (decimals > 2) {
-          input.setCustomValidity("Максимум две цифры после запятой.");
+      input.addEventListener("input", function () {
+        const val = parseFloat(this.value);
+        const decimals = (this.value.split(".")[1] || "").length;
+        if (decimals > 2) {
+          this.setCustomValidity("Не более двух знаков после запятой.");
+        } else if (val < min || val > max) {
+          this.setCustomValidity(`Введите значение от ${min} до ${max}`);
         } else {
-          input.setCustomValidity("");
+          this.setCustomValidity("");
         }
       });
+
     } else {
       input.style.display = "none";
+      input.disabled = true;
+      input.value = "";
     }
   };
 }
+
 
 
 
