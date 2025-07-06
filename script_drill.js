@@ -62,9 +62,17 @@ function fillSelect(id, options, withPlaceholder = true) {
 function stepShow(step) {
   const selected = {};
 for (let i = 0; i < step; i++) {
+  let val;
+if (steps[i].id === "pipe_length") {
+  const pipeLengthManual = document.getElementById("pipe_length").value;
+  if (!pipeLengthManual) return;
+  val = pipeLengthManual;
+} else {
   const el = document.getElementById(steps[i].id);
-  const val = el?.value;
+  val = el?.value;
   if (!val) return;
+}
+
 
   // Исключаем длину трубы, т.к. это не часть базы
   if (steps[i].key === "Pipe Length, m") continue;
