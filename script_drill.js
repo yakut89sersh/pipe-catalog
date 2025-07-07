@@ -125,8 +125,6 @@ if (step === 11) {
   return;
 }
 
-
-// 🔧 ОБРАБОТКА ШАГА "Длина ниппеля под ключ (мм)"
 if (step === 12) {
   const values = data
     .map(d => parseFloat(d["Pin tong length, mm"]))
@@ -142,6 +140,11 @@ if (step === 13) {
     .filter(v => !isNaN(v));
   if (values.length === 0) return;
   activateCustomLengthField("box_length", values);
+  return;
+}
+
+if (step === 14) {
+  document.getElementById("findBtn").disabled = false;
   return;
 }
 
