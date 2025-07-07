@@ -129,7 +129,7 @@ if (step === 11) {
 // 🔧 ОБРАБОТКА ШАГА "Длина ниппеля под ключ (мм)"
 if (step === 12) {
   const pinSelect = document.getElementById("pin_length");
-  const values = filtered
+  const values = data
     .map(d => parseFloat(d["Pin tong length, mm"]))
     .filter(v => !isNaN(v));
 
@@ -143,33 +143,14 @@ if (step === 12) {
 
 
 
-// 🔧 ОБРАБОТКА ШАГА "Длина муфты под ключ (мм)"
+// Длина муфты
 if (step === 13) {
   const values = data
     .map(d => parseFloat(d["Box tong length, mm"]))
     .filter(v => !isNaN(v));
 
   if (values.length === 0) return;
-
   activateCustomLengthField("box_length", values);
-
-  // Назначаем onchange на select
-  const select = document.getElementById("box_length");
-  const input = document.getElementById("box_length_input");
-
-  select.onchange = function () {
-    if (this.value === "manual") {
-      input.addEventListener("input", function () {
-        const val = parseFloat(this.value);
-        if (!isNaN(val)) {
-          document.getElementById("findBtn").disabled = false;
-        }
-      });
-    } else {
-      document.getElementById("findBtn").disabled = false;
-    }
-  };
-
   return;
 }
 
