@@ -141,15 +141,13 @@ if (step === 12) {
   
 }
 
-
-
-// Длина муфты
 if (step === 13) {
-  const values = data
+  const values = filtered
     .map(d => parseFloat(d["Box tong length, mm"]))
     .filter(v => !isNaN(v));
-
+    
   if (values.length === 0) return;
+
   activateCustomLengthField("box_length", values);
   return;
 }
