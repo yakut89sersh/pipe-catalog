@@ -143,16 +143,6 @@ if (step === 13) {
   return;
 }
 
-if (step === 14) {
-  document.getElementById("findBtn").disabled = false;
-  return;
-}
-
-
-
-
-
-
 
 
 if (currentStep.id === "pin_length" || currentStep.id === "box_length") {
