@@ -60,64 +60,60 @@ function fillSelect(id, options, withPlaceholder = true) {
 
 
 function stepShow(step) {
+  // Это собирает все выбранные значения до текущего шага, чтобы отфильтровать базу данных.
   const selected = {};
 for (let i = 0; i < step; i++) {
   const el = document.getElementById(steps[i].id);
   const val = el?.value;
   if (!val) return;
-
-  // Исключаем длину трубы, т.к. это не часть базы
   if (steps[i].key === "Pipe Length, m") continue;
-
   selected[steps[i].key] = val;
 }
 
-
+// Фильтруем базу данных.На основе выбранных параметров отбираем только те строки в базе, которые соответствуют этим значениям.
   const filtered = data.filter(d =>
     Object.entries(selected).every(([k, v]) => d[k] == v)
   );
 
+  // Определяем текущий шаг.Получаем объект текущего шага (например: pipe_od, wall, grade и т.д.)
   const currentStep = steps[step];
   if (!currentStep) return;
 
 
-// 🔽 КАСТОМНАЯ ОБРАБОТКА ГРУППЫ ДЛИН
+// Специальная обработка некоторых шагов (11–14). Это шаги, у которых особая логика отображения:
+// 🔽 Шаг 11 — length_group (Группа длин)
   if (currentStep.id === "length_group") {
   const select = document.getElementById("length_group");
   select.disabled = false;
   select.innerHTML = "";
-
   const placeholder = document.createElement("option");
   placeholder.disabled = true;
   placeholder.selected = true;
   placeholder.hidden = true;
   placeholder.textContent = "Выберите...";
   select.appendChild(placeholder);
-
   const lengthOptions = [
     "Группа длин 1 (от 6,1 до 7,01)",
     "Группа длин 2 (от 8,84 до 9,75)",
     "Группа длин 3 (от 12,19 до 13,72)"
   ];
-
   lengthOptions.forEach(opt => {
     const o = document.createElement("option");
     o.value = opt;
     o.textContent = opt;
     select.appendChild(o);
   });
-
- 
-
   select.onchange = () => {
-    activatePipeLengthField(select.value); // ← тут только при выборе
-    stepShow(11); // ← здесь вручную активируем следующий шаг: Длина трубы
+    activatePipeLengthField(select.value); 
+    stepShow(11); 
   };
-
-  return; // Останавливаем выполнение
+  return; 
   }
 
-// ✅ ДОБАВЬ ВОТ ЭТО СЮДА
+
+
+
+// 🔽 Шаг 12 — pipe_length (Длина трубы)
 if (step === 11) {
   const group = document.getElementById("length_group").value;
   if (!group) return;
@@ -125,6 +121,8 @@ if (step === 11) {
   return;
 }
 
+
+// 🔽 Шаг 13 — pin_length (Длина ниппеля)
 if (step === 12) {
   const values = data
     .map(d => parseFloat(d["Pin tong length, mm"]))
@@ -134,6 +132,8 @@ if (step === 12) {
   return;
 }
 
+
+// 🔽 Шаг 14 — box_length (Длина муфты)
 if (step === 13) {
   const values = data
     .map(d => parseFloat(d["Box tong length, mm"]))
