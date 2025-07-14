@@ -111,8 +111,6 @@ for (let i = 0; i < step; i++) {
   }
 
 
-
-
 // 🔽 Шаг 12 — pipe_length (Длина трубы)
 if (step === 11) {
   const group = document.getElementById("length_group").value;
@@ -143,34 +141,31 @@ if (step === 13) {
   return;
 }
 
-
-
-if (currentStep.id === "pin_length" || currentStep.id === "box_length") {
-  const key = currentStep.key;
-  const id = currentStep.id;
-  const values = filtered.map(d => parseFloat(d[key])).filter(v => !isNaN(v));
-
-  if (values.length === 0) return;
-
-  activateCustomLengthField(id, values);
-  return;
-}
-
-// 🔧 ОБРАБОТКА ШАГА "Найти трубу"
+// 🔽ОБРАБОТКА ШАГА "Найти трубу"
 if (step === 14) {
   document.getElementById("findBtn").disabled = false;
   return;
 }
 
+// 🔽Он отвечает за обработку шагов с нестандартной логикой — а именно:pin_length — длина ниппеля под ключ; и box_length — длина муфты под ключ.
+if (currentStep.id === "pin_length" || currentStep.id === "box_length") {
+  const key = currentStep.key;
+  const id = currentStep.id;
+  const values = filtered.map(d => parseFloat(d[key])).filter(v => !isNaN(v));
+  if (values.length === 0) return;
+  activateCustomLengthField(id, values);
+  return;
+}
 
 
-  // 🔽 СТАНДАРТНАЯ ОБРАБОТКА
+
+
+// 🔽 СТАНДАРТНАЯ ОБРАБОТКА остальных шагов
   let stepOptions = [...new Set(filtered.map(d => d[currentStep.key]))]
   .filter(v => v !== null && v !== "");
 
 // Проверка: все ли значения — числа
 const allNumeric = stepOptions.every(val => !isNaN(parseFloat(val)));
-
 if (allNumeric) {
   stepOptions.sort((a, b) => parseFloat(a) - parseFloat(b));
 }
