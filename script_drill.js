@@ -65,6 +65,9 @@ function stepShow(step) {
 
 
   // 🔁 Логока при которой очищаем все шаги ниже текущего если что-то изменилочь в списках сверху
+  if (index < 11) {
+  resetPipeLength();
+}
   for (let i = step + 1; i < steps.length; i++) {
     const stepToClear = steps[i];
     const element = document.getElementById(stepToClear.id);
@@ -215,8 +218,34 @@ if (allNumeric) {
   });
 }
 
-
 }
+
+// 🔽 для сброса длины трубы
+function resetPipeLength() {
+  const select = document.getElementById("pipe_length_select");
+  const input = document.getElementById("pipe_length_input");
+  const hidden = document.getElementById("pipe_length");
+
+  select.value = "";
+  select.disabled = true;
+  select.innerHTML = "";
+  input.value = "";
+  input.style.display = "none";
+  input.disabled = true;
+  hidden.value = "";
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
