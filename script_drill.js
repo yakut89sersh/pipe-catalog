@@ -64,39 +64,28 @@ function stepShow(step) {
   const selected = {};
 
 
-  // 🔁 Очищаем все шаги ниже текущего
+  // 🔁 Логока при которой очищаем все шаги ниже текущего если что-то изменилочь в списках сверху
   for (let i = step + 1; i < steps.length; i++) {
     const stepToClear = steps[i];
     const element = document.getElementById(stepToClear.id);
-
     if (!element) continue;
-
-    // Очистка <select>
     if (element.tagName === "SELECT") {
       element.innerHTML = "";
       element.disabled = true;
     }
-
-    // Очистка поля ручного ввода
-    const input = document.getElementById(stepToClear.id + "_input");
+     const input = document.getElementById(stepToClear.id + "_input");
     if (input) {
       input.value = "";
       input.style.display = "none";
       input.disabled = true;
     }
-
-    // Скрытие wrapper
     const wrapper = document.getElementById(stepToClear.id + "_wrapper");
-    if (wrapper) {
-      wrapper.style.display = "none";
+    if (wrapper && stepToClear.id !== "pipe_length" && stepToClear.id !== "pin_length" && stepToClear.id !== "box_length") {
+  wrapper.style.display = "none";
     }
   }
 
  
-
-
-
-
 
 for (let i = 0; i < step; i++) {
   const el = document.getElementById(steps[i].id);
