@@ -192,3 +192,25 @@ select, button, label {
 .tab-button.active::before {
   border-color: transparent;
 }
+
+/* Для скрытия стрелок (spin boxes) у числового поля */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"].manual-input {
+  appearance: textfield;        /* стандартное свойство */
+  -moz-appearance: textfield;   /* для Firefox */
+  -webkit-appearance: none;     /* для Chrome, Safari */
+}
+
+
+/* Подсказка рядом с input */
+.input-hint {
+  font-size: 13px;
+  color: #666;
+  margin-top: 4px;
+}
+
+
