@@ -234,7 +234,30 @@ function resetPipeLength() {
 }
 
 
+function resetStepsFrom(index) {
+  if (index <= 10) {
+    resetPipeLength();
+  }
 
+  for (let i = index + 1; i < steps.length; i++) {
+    const step = steps[i];
+    const el = document.getElementById(step.id);
+    if (!el) continue;
+
+    if (el.tagName === "SELECT") {
+      el.value = "";
+      el.disabled = true;
+    } else if (el.tagName === "INPUT") {
+      el.value = "";
+      el.disabled = true;
+    }
+
+    const wrapper = document.getElementById(step.id + "_wrapper");
+    if (wrapper) wrapper.style.display = "none";
+  }
+
+  document.getElementById("findBtn").disabled = true;
+}
 
 
 
