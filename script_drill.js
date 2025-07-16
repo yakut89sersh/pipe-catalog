@@ -302,11 +302,13 @@ function activatePipeLengthField(group) {
 
   // Добавляем варианты
   const placeholder = document.createElement("option");
-  placeholder.disabled = true;
-  placeholder.selected = true;
-    placeholder.textContent = "Выберите...";
-  select.appendChild(placeholder);
-  select.selectedIndex = 0; 
+placeholder.value = ""; // обязательно!
+placeholder.disabled = true;
+placeholder.hidden = true;
+placeholder.textContent = "Выберите...";
+select.appendChild(placeholder);
+
+select.value = ""; // важно: выбрать именно пустое значение!
 
   const fixedOption = document.createElement("option");
   fixedOption.value = defaultValue;
