@@ -393,11 +393,14 @@ function activateCustomLengthField(id, values) {
 
   // Плейсхолдер
 const placeholder = document.createElement("option");
+placeholder.value = "";
 placeholder.disabled = true;
-placeholder.selected = true;
 placeholder.hidden = true;
 placeholder.textContent = "Выберите...";
 select.appendChild(placeholder);
+
+select.value = ""; // обязательно ставим после appendChild
+
 
 // Значение из базы
 const opt1 = document.createElement("option");
