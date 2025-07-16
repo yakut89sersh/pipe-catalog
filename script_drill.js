@@ -61,6 +61,7 @@ function fillSelect(id, options, withPlaceholder = true) {
 
 function stepShow(step) {
   // Это собирает все выбранные значения до текущего шага, чтобы отфильтровать базу данных.
+   resetStepsFrom(step);
   const selected = {};
 
 
