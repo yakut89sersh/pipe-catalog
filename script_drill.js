@@ -64,10 +64,8 @@ function stepShow(step) {
   const selected = {};
 
 
-  // 🔁 Логока при которой очищаем все шаги ниже текущего если что-то изменилочь в списках сверху
-  if (index < 11) {
-  resetPipeLength();
-}
+  // 🔁 Логика при которой очищаем все шаги ниже текущего если что-то изменилочь в списках сверху
+  
   for (let i = step + 1; i < steps.length; i++) {
     const stepToClear = steps[i];
     const element = document.getElementById(stepToClear.id);
