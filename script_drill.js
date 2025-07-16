@@ -431,7 +431,8 @@ select.value = "";
         this.setCustomValidity(`Введите значение от ${min} до ${max}`);
       } else {
         this.setCustomValidity("");
-        if (id === "box_length") stepShow(14); // добавлено
+         if (id === "pin_length") stepShow(13);
+          if (id === "box_length") stepShow(14);
       }
     });
 
@@ -439,7 +440,8 @@ select.value = "";
     input.style.display = "none";
     input.disabled = true;
     input.value = "";
-    if (id === "box_length") stepShow(14); // добавлено
+    if (id === "pin_length") stepShow(13);
+      if (id === "box_length") stepShow(14);
   }
 };
 
