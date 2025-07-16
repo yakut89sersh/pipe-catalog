@@ -254,7 +254,15 @@ function resetStepsFrom(index) {
     }
 
     const wrapper = document.getElementById(step.id + "_wrapper");
-    if (wrapper) wrapper.style.display = "none";
+if (
+  wrapper &&
+  step.id !== "pipe_length" &&
+  step.id !== "pin_length" &&
+  step.id !== "box_length"
+) {
+  wrapper.style.display = "none";
+}
+
   }
 
   document.getElementById("findBtn").disabled = true;
