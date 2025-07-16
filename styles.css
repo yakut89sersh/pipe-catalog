@@ -195,40 +195,5 @@ select, button, label {
 
 
 
-/* Скрываем спин-боксы у input[type=number] */
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-input[type="number"].manual-input {
-  appearance: textfield;        /* стандартное свойство */
-  -moz-appearance: textfield;   /* для Firefox */
-  -webkit-appearance: none;     /* для Chrome, Safari */
-}
-
-
-/* Обёртка с подсказкой */
-.manual-input-wrapper {
-  display: none;
-  flex-direction: column;
-}
-
-.manual-input-field {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 5px;
-}
-
-#pipe_length_input {
-  flex: 0 0 100px;
-}
-
-#pipe_length_hint {
-  font-size: 0.9em;
-  color: #666;
-  white-space: nowrap;
-}
 
 

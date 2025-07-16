@@ -462,16 +462,6 @@ select.value = "";
 }
 
 
-// Показываем подсказку при выборе "ввести вручную"
-document.getElementById("pipe_length_select").addEventListener("change", function () {
-    if (this.value === "ввести вручную") {
-        document.getElementById("pipe_length_input").style.display = "inline-block";
-        document.getElementById("pipe_length_hint").style.display = "inline-block";
-    } else {
-        document.getElementById("pipe_length_input").style.display = "none";
-        document.getElementById("pipe_length_hint").style.display = "none";
-    }
-});
 
 
 
