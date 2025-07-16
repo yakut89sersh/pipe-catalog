@@ -304,10 +304,9 @@ function activatePipeLengthField(group) {
   const placeholder = document.createElement("option");
   placeholder.disabled = true;
   placeholder.selected = true;
-  placeholder.hidden = true;
- placeholder.value = ""; 
+  placeholder.value = "";
+  placeholder.textContent = "Выберите...";
   select.appendChild(placeholder);
-  select.value = ""; 
 
   const fixedOption = document.createElement("option");
   fixedOption.value = defaultValue;
