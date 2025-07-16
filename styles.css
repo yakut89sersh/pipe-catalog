@@ -193,9 +193,11 @@ select, button, label {
   border-color: transparent;
 }
 
-/* Для скрытия стрелок (spin boxes) у числового поля */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
+
+
+/* Скрываем спин-боксы у input[type=number] */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
@@ -206,11 +208,27 @@ input[type="number"].manual-input {
 }
 
 
-/* Подсказка рядом с input */
-.input-hint {
-  font-size: 13px;
+/* Обёртка с подсказкой */
+.manual-input-wrapper {
+  display: none;
+  flex-direction: column;
+}
+
+.manual-input-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 5px;
+}
+
+#pipe_length_input {
+  flex: 0 0 100px;
+}
+
+#pipe_length_hint {
+  font-size: 0.9em;
   color: #666;
-  margin-top: 4px;
+  white-space: nowrap;
 }
 
 

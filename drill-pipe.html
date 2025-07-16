@@ -101,12 +101,15 @@
 <select id="length_group" onchange="stepShow(11)" disabled></select>
 
 <label>Длина трубы (м):</label>
-<div id="pipe_length_wrapper">
+<div id="pipe_length_wrapper" class="manual-input-wrapper">
   <select id="pipe_length_select" disabled></select>
-  <input type="number" id="pipe_length_input" style="display:none;" step="0.01" />
-  <span id="pipe_length_hint" style="display: none; font-size: 0.9em; color: #666;">Введите значение от 6.1 м до 7.01м с точностью до 0,1 м</span>
+  <div class="manual-input-field">
+    <input type="number" id="pipe_length_input" step="0.01" />
+    <span id="pipe_length_hint">Введите значение от ... м до ... м с точностью до 0,1 м</span>
+  </div>
   <input type="hidden" id="pipe_length" name="Pipe Length, m" />
 </div>
+
 
 
 <label>Длина ниппеля под ключ (мм):</label>
