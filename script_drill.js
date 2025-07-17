@@ -286,6 +286,7 @@ function activatePipeLengthField(group) {
   const input = document.getElementById("pipe_length_input");
   const wrapper = document.getElementById("pipe_length_wrapper");
   const pipeLengthHidden = document.getElementById("pipe_length");
+  const hint = document.getElementById("pipe_length_hint");
 
   wrapper.style.display = "block";
   select.disabled = false;
@@ -300,7 +301,7 @@ function activatePipeLengthField(group) {
     min = 6.1;
     max = 7.01;
   } else if (group === "Группа длин 2 (от 8,84 до 9,75)") {
-    defaultValue = "8.96";
+    defaultValue = "8.84";
     min = 8.84;
     max = 9.75;
   } else if (group === "Группа длин 3 (от 12,19 до 13,72)") {
@@ -308,6 +309,11 @@ function activatePipeLengthField(group) {
     min = 12.19;
     max = 13.72;
   }
+
+ // 🔹 Обновляем подсказку
+  hint.textContent = `Введите значение от ${min} м до ${max} м с точностью до 0,1 м`;
+  hint.style.display = "inline-block";
+
 
   // Добавляем варианты
   const placeholder = document.createElement("option");
@@ -344,11 +350,16 @@ select.value = ""; // важно: выбрать именно пустое зн�
       input.step = 0.01;
       pipeLengthHidden.value = ""; // обнуляем
 
+      hint.style.display = "inline-block";
+
     } else {
       input.style.display = "none";
       input.disabled = true;
       input.value = "";
       pipeLengthHidden.value = this.value;
+
+      hint.style.display = "none";  // скрываем подсказку
+
       stepShow(12); // активируем "Длина ниппеля"
     }
   };

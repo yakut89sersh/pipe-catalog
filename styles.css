@@ -208,3 +208,11 @@ input[type="number"] {
   -webkit-appearance: none;     /* для Chrome, Safari */
 }
 
+
+.length-hint {
+  margin-left: 12px;
+  font-size: 0.9em;
+  color: #666;
+  display: inline-block;
+  vertical-align: middle;
+}
