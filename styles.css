@@ -195,5 +195,16 @@ select, button, label {
 
 
 
+/* Убираем стрелки (spin boxes) у всех input[type=number] */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
+input[type="number"] {
+  appearance: textfield;        /* стандартное свойство */
+  -moz-appearance: textfield;   /* для Firefox */
+  -webkit-appearance: none;     /* для Chrome, Safari */
+}
 
