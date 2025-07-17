@@ -216,3 +216,8 @@ input[type="number"] {
   display: inline-block;
   vertical-align: middle;
 }
+
+
+#pipe_length_wrapper {
+  margin-bottom: 20px; /* можешь увеличить или уменьшить по вкусу */
+}
