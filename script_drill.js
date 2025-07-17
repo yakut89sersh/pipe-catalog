@@ -312,7 +312,7 @@ function activatePipeLengthField(group) {
 
  // 🔹 Обновляем подсказку
   hint.textContent = `Введите значение от ${min} м до ${max} м с точностью до 0,1 м`;
-  hint.style.display = "inline-block";
+  hint.style.display = "none";
 
 
   // Добавляем варианты
@@ -358,8 +358,7 @@ select.value = ""; // важно: выбрать именно пустое зн�
       input.value = "";
       pipeLengthHidden.value = this.value;
 
-      hint.style.display = "none";  // скрываем подсказку
-
+        
       stepShow(12); // активируем "Длина ниппеля"
     }
   };
