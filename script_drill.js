@@ -359,7 +359,7 @@ select.value = ""; // важно: выбрать именно пустое зн�
       input.value = "";
       pipeLengthHidden.value = this.value;
 
-      
+       hint.style.display = "none";
       
       stepShow(12); // активируем "Длина ниппеля"
     }
