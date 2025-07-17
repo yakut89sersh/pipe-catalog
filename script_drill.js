@@ -351,8 +351,7 @@ select.value = ""; // важно: выбрать именно пустое зн�
       pipeLengthHidden.value = ""; // обнуляем
 
       hint.style.display = "inline-block";
-      // 👉 Добавляем отступ только при ручном вводе
-    wrapper.classList.add("pipe-length-manual");
+      
 
     } else {
       input.style.display = "none";
@@ -360,8 +359,7 @@ select.value = ""; // важно: выбрать именно пустое зн�
       input.value = "";
       pipeLengthHidden.value = this.value;
 
-      // 👉 Убираем динамический отступ
-    wrapper.classList.remove("pipe-length-manual"); 
+      
       
       stepShow(12); // активируем "Длина ниппеля"
     }
