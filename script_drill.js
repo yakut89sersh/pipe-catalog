@@ -433,7 +433,7 @@ placeholder.hidden = true;
 placeholder.textContent = "Выберите...";
 select.appendChild(placeholder);
 
-
+select.value = ""; // обязательно ставим после appendChild
 
 
 // Значение из базы
