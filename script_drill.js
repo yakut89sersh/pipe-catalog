@@ -346,22 +346,7 @@ select.value = ""; // важно: выбрать именно пустое зн�
   select.onchange = function () {
 
 
- const nippleSelect = document.getElementById("nipple_length");
-  const nippleWrapper = document.getElementById("nipple_wrapper");
-
-  const couplingSelect = document.getElementById("coupling_length");
-  const couplingWrapper = document.getElementById("coupling_wrapper");
-
-  // Сбрасываем значения, но не отключаем
-  nippleSelect.selectedIndex = 0;
-  couplingSelect.selectedIndex = 0;
-
-  // ⬇️ Скрываем оба поля, но не отключаем их
-  nippleWrapper.style.display = "none";
-  couplingWrapper.style.display = "none";
-
-
-
+ 
     if (this.value === "manual") {
       input.style.display = "inline-block";
       input.disabled = false;
@@ -373,9 +358,7 @@ select.value = ""; // важно: выбрать именно пустое зн�
 
       hint.style.display = "inline-block";
       
-        // Активация следующего шага перенесена сюда тоже
-    stepShow(12);
-
+   
     } else {
       input.style.display = "none";
       input.disabled = true;
