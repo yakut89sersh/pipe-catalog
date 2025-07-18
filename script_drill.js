@@ -339,16 +339,26 @@ select.value = ""; // важно: выбрать именно пустое зн�
   input.style.display = "none";
   input.disabled = true;
 
+  
+  
+  
   // === Обработка select ===
   select.onchange = function () {
 
 
-  const nippleSelect = document.getElementById("nipple_length");
-  const couplingSelect = document.getElementById("coupling_length");
+ const nippleSelect = document.getElementById("nipple_length");
+  const nippleWrapper = document.getElementById("nipple_wrapper");
 
-  // Просто сбрасываем значения, не отключаем!
+  const couplingSelect = document.getElementById("coupling_length");
+  const couplingWrapper = document.getElementById("coupling_wrapper");
+
+  // Сбрасываем значения, но не отключаем
   nippleSelect.selectedIndex = 0;
   couplingSelect.selectedIndex = 0;
+
+  // ⬇️ Скрываем оба поля, но не отключаем их
+  nippleWrapper.style.display = "none";
+  couplingWrapper.style.display = "none";
 
 
 
