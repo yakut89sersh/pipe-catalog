@@ -343,20 +343,12 @@ select.value = ""; // важно: выбрать именно пустое зн�
   select.onchange = function () {
 
 
- // Всегда сбрасываем зависимые поля
   const nippleSelect = document.getElementById("nipple_length");
-  const nippleWrapper = document.getElementById("nipple_wrapper");
-
   const couplingSelect = document.getElementById("coupling_length");
-  const couplingWrapper = document.getElementById("coupling_wrapper");
 
+  // Просто сбрасываем значения, не отключаем!
   nippleSelect.selectedIndex = 0;
-  nippleSelect.disabled = true;
-  nippleWrapper.style.display = "none";
-
   couplingSelect.selectedIndex = 0;
-  couplingSelect.disabled = true;
-  couplingWrapper.style.display = "none";
 
 
 
