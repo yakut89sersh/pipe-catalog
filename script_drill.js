@@ -371,6 +371,8 @@ select.value = ""; // важно: выбрать именно пустое зн�
 
       hint.style.display = "inline-block";
       
+        // Активация следующего шага перенесена сюда тоже
+    stepShow(12);
 
     } else {
       input.style.display = "none";
