@@ -341,6 +341,18 @@ select.value = ""; // важно: выбрать именно пустое зн�
 
   // === Обработка select ===
   select.onchange = function () {
+
+// Найдём зависимые поля
+const nippleSelect = document.getElementById("nipple_length");
+const nippleWrapper = document.getElementById("nipple_wrapper");
+
+const couplingSelect = document.getElementById("coupling_length");
+const couplingWrapper = document.getElementById("coupling_wrapper");
+
+
+
+
+
     if (this.value === "manual") {
       input.style.display = "inline-block";
       input.disabled = false;
@@ -360,7 +372,22 @@ select.value = ""; // важно: выбрать именно пустое зн�
       pipeLengthHidden.value = this.value;
 
        hint.style.display = "none";
+
+
+       // Сбрасываем значения зависимых полей
+nippleSelect.selectedIndex = 0;
+nippleSelect.disabled = true;
+nippleWrapper.style.display = "none";
+
+couplingSelect.selectedIndex = 0;
+couplingSelect.disabled = true;
+couplingWrapper.style.display = "none";
+
       
+
+
+
+       
       stepShow(12); // активируем "Длина ниппеля"
     }
   };
