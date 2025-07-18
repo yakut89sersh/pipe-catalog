@@ -109,14 +109,10 @@
 </div>
 
 
-
-
 <label>Длина ниппеля под ключ (мм):</label>
-<div id="nipple_wrapper">
-  <select id="nipple_length" disabled></select>
-  <input type="number" id="nipple_length_input" class="manual-input" />
-<span id="nipple_length_hint" class="field-hint"></span>
-  <input type="hidden" id="nipple_length_hidden" name="Nipple Length, mm" />
+<div id="pin_length_wrapper">
+  <select id="pin_length" onchange="stepShow(12)" disabled></select>
+  <input type="number" id="pin_length_input" style="display:none;" step="0.1" />
 </div>
 
 
