@@ -349,7 +349,14 @@ const nippleWrapper = document.getElementById("nipple_wrapper");
 const couplingSelect = document.getElementById("coupling_length");
 const couplingWrapper = document.getElementById("coupling_wrapper");
 
+// 🔹 Всегда сбрасываем зависимые поля при любом изменении "Длина трубы"
+  nippleSelect.selectedIndex = 0;
+  nippleSelect.disabled = true;
+  nippleWrapper.style.display = "none";
 
+  couplingSelect.selectedIndex = 0;
+  couplingSelect.disabled = true;
+  couplingWrapper.style.display = "none";
 
 
 
@@ -373,21 +380,7 @@ const couplingWrapper = document.getElementById("coupling_wrapper");
 
        hint.style.display = "none";
 
-
-       // Сбрасываем значения зависимых полей
-nippleSelect.selectedIndex = 0;
-nippleSelect.disabled = true;
-nippleWrapper.style.display = "none";
-
-couplingSelect.selectedIndex = 0;
-couplingSelect.disabled = true;
-couplingWrapper.style.display = "none";
-
-      
-
-
-
-       
+              
       stepShow(12); // активируем "Длина ниппеля"
     }
   };
