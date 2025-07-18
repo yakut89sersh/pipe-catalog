@@ -343,7 +343,7 @@ select.value = ""; // важно: выбрать именно пустое зн�
   select.onchange = function () {
 
 
-// Сбрасываем значения зависимых полей ВСЕГДА при смене значения в "Длина трубы (м)"
+ // Всегда сбрасываем зависимые поля
   const nippleSelect = document.getElementById("nipple_length");
   const nippleWrapper = document.getElementById("nipple_wrapper");
 
