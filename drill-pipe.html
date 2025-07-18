@@ -111,9 +111,12 @@
 
 <label>Длина ниппеля под ключ (мм):</label>
 <div id="pin_length_wrapper">
-  <select id="pin_length" onchange="stepShow(12)" disabled></select>
+  <select id="pin_length" disabled></select>
   <input type="number" id="pin_length_input" style="display:none;" step="0.1" />
+  <span id="pin_length_hint" class="length-hint" style="display: none;"></span>
+  <input type="hidden" id="pin_length_hidden" name="Pin tong length, mm" />
 </div>
+
 
 
 
@@ -121,6 +124,8 @@
 <div id="box_length_wrapper">
   <select id="box_length" onchange="stepShow(13)" disabled></select>
   <input type="number" id="box_length_input" style="display:none;" step="0.1" />
+  <span id="box_length_hint" class="length-hint" style="display: none;"></span>
+
 </div>
 
 

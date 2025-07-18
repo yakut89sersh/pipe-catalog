@@ -410,6 +410,7 @@ function activateCustomLengthField(id, values) {
   const wrapper = document.getElementById(id + "_wrapper");
   const select = document.getElementById(id);
   const input = document.getElementById(id + "_input");
+  const hint = document.getElementById(id + "_hint");
 
   wrapper.style.display = "block";
   select.disabled = false;
@@ -418,6 +419,11 @@ function activateCustomLengthField(id, values) {
   const min = Math.min(...values);
   const max = 700;
   const defaultVal = min.toFixed(1);
+
+hint.textContent = `Введите значение от ${defaultVal} мм до 700 мм`;
+  hint.style.display = "none";
+
+
 
   // Плейсхолдер
 const placeholder = document.createElement("option");
@@ -454,6 +460,8 @@ select.value = "";
     input.min = min;
     input.max = max;
     input.step = 0.1;
+
+  hint.style.display = "inline-block";
 
     input.addEventListener("input", function () {
       const val = parseFloat(this.value);
