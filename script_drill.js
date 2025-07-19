@@ -425,36 +425,37 @@ function activateCustomLengthField(id, values) {
   const max = 700;
   const defaultVal = min.toFixed(1);
 
-hint.textContent = `Введите значение от ${defaultVal} мм до 700 мм`;
+  hint.textContent = `Введите значение от ${defaultVal} мм до 700 мм`;
   hint.style.display = "none";
 
 
 
   // Плейсхолдер
-const placeholder = document.createElement("option");
-placeholder.value = "";
-placeholder.disabled = true;
-placeholder.hidden = true;
-placeholder.textContent = "Выберите...";
-select.appendChild(placeholder);
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.disabled = true;
+  placeholder.hidden = true;
+  placeholder.textContent = "Выберите...";
+  select.appendChild(placeholder);
+  select.value = ""; // обязательно ставим после appendChild
 
-select.value = ""; // обязательно ставим после appendChild
 
+  // Значение из базы
+  const opt1 = document.createElement("option");
+  opt1.value = defaultVal;
+  opt1.textContent = defaultVal;
+  select.appendChild(opt1);
 
-// Значение из базы
-const opt1 = document.createElement("option");
-opt1.value = defaultVal;
-opt1.textContent = defaultVal;
-select.appendChild(opt1);
+  // Ввести вручную
+  const opt2 = document.createElement("option");
+  opt2.value = "manual";
+  opt2.textContent = "ввести вручную";
+  select.appendChild(opt2);
 
-// Ввести вручную
-const opt2 = document.createElement("option");
-opt2.value = "manual";
-opt2.textContent = "ввести вручную";
-select.appendChild(opt2);
-
-// Очищаем выбор
-select.value = "";
+  // Очищаем выбор
+  select.value = "";
+  input.style.display = "none";
+  input.disabled = true;
 
 
   select.onchange = function () {
@@ -465,9 +466,54 @@ select.value = "";
     input.min = min;
     input.max = max;
     input.step = 0.1;
+    hint.style.display = "inline-block";
 
-  hint.style.display = "inline-block";
 
+      // ❗ СБРОС следующего шага
+      if (id === "pin_length") {
+        const boxWrapper = document.getElementById("box_length_wrapper");
+        const boxSelect = document.getElementById("box_length");
+        const boxInput = document.getElementById("box_length_input");
+        const boxHint = document.getElementById("box_length_hint");
+
+        boxWrapper.style.display = "none";
+        boxSelect.innerHTML = "";
+        boxSelect.disabled = true;
+        boxInput.value = "";
+        boxInput.style.display = "none";
+        boxInput.disabled = true;
+        if (boxHint) boxHint.style.display = "none";
+      }
+
+    } else {
+      input.style.display = "none";
+      input.disabled = true;
+      input.value = "";
+      hint.style.display = "none";
+
+      if (id === "pin_length") stepShow(13);
+      if (id === "box_length") stepShow(14);
+    }
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // === Обработка ручного ввода ===
     input.addEventListener("input", function () {
       const val = parseFloat(this.value);
       const decimals = (this.value.split(".")[1] || "").length;
@@ -480,17 +526,17 @@ select.value = "";
          if (id === "pin_length") stepShow(13);
           if (id === "box_length") stepShow(14);
       }
+
+      this.reportValidity();
     });
 
-  } else {
-    input.style.display = "none";
-    input.disabled = true;
-    input.value = "";
-    if (id === "pin_length") stepShow(13);
+  input.addEventListener("change", function () {
+    const val = parseFloat(this.value);
+    if (!isNaN(val) && val >= min && val <= max) {
+      if (id === "pin_length") stepShow(13);
       if (id === "box_length") stepShow(14);
-  }
-};
-
+    }
+  });
 }
 
 
