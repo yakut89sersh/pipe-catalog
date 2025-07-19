@@ -262,20 +262,15 @@ if (
 ) {
   wrapper.style.display = "none";
 }
-
+  
+ // 🔧 Скрываем подсказку
+    const hint = document.getElementById(step.id + "_hint");
+    if (hint) {
+      hint.style.display = "none";
+    }
   }
 
-
-   // 🆕 Скрытие всех подсказок ручного ввода при возврате к верхнему шагу
-  const hints = [
-    "pipe_length_hint",
-    "pin_length_hint",
-    "box_length_hint"
-  ];
-  for (const id of hints) {
-    const hint = document.getElementById(id);
-    if (hint) hint.style.display = "none";
-  }
+  
 
   document.getElementById("findBtn").disabled = true;
 }
