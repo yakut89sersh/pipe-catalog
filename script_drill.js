@@ -429,11 +429,23 @@ select.value = ""; // важно: выбрать именно пустое зн�
   });
 
   input.addEventListener("change", function () {
-    let val = parseFloat(this.value);
-    if (!isNaN(val)) {
-      if (val < min) this.value = min;
-      if (val > max) this.value = max;
-      pipeLengthHidden.value = this.value;
+     let val = parseFloat(this.value.replace(",", "."));
+
+  if (isNaN(val)) return;
+
+  // Проверяем, что значение в пределах
+  if (val >= min && val <= max) {
+    // округляем до одного знака после запятой (без подмены на max!)
+    const rounded = Math.round(val * 10) / 10;
+    this.value = rounded.toFixed(1);
+    pipeLengthHidden.value = rounded.toFixed(1);
+    stepShow(12);
+  } else if (val < min) {
+    this.value = min.toFixed(1);
+    pipeLengthHidden.value = min.toFixed(1);
+  } else if (val > max) {
+    this.value = max.toFixed(1);
+    pipeLengthHidden.value = max.toFixed(1);
       stepShow(12);
     }
   });
