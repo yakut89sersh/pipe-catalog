@@ -507,7 +507,7 @@ function activateCustomLengthField(id, values) {
   select.appendChild(opt2);
 
   // Очищаем выбор
-  select.value = "";
+ 
   input.style.display = "none";
   input.disabled = true;
 
@@ -533,10 +533,11 @@ function activateCustomLengthField(id, values) {
         const boxHint = document.getElementById("box_length_hint");
 
        boxSelect.disabled = true;
-      boxInput.disabled = true;
-      boxInput.style.display = "none";
-      boxInput.value = "";
-      boxHint.style.display = "none";
+        boxSelect.innerHTML = ""; // <--- удаляем и placeholder
+        boxInput.disabled = true;
+        boxInput.style.display = "none";
+        boxInput.value = "";
+        boxHint.style.display = "none";
 
       }
 
@@ -562,35 +563,32 @@ function activateCustomLengthField(id, values) {
   const decimals = (valRaw.split(".")[1] || "").length;
 
   if (isNaN(val)) {
-    this.setCustomValidity("Введите корректное число");
+      this.setCustomValidity("Введите корректное число");
+      this.reportValidity();
+      resetStepsFrom(11);
+      return;
+    }
+
+    if (decimals > 2) {
+      this.setCustomValidity("Не более двух знаков после запятой.");
+      this.reportValidity();
+      resetStepsFrom(11);
+      return;
+    }
+
+    if (val < min || val > max) {
+      this.setCustomValidity(`Введите значение от ${min} до ${max}`);
+      this.reportValidity();
+      resetStepsFrom(11);
+      return;
+    }
+
+    this.setCustomValidity("");
     this.reportValidity();
-    pipeLengthHidden.value = "";
-    resetStepsFrom(11); // ⛔ сбрасываем шаги ниже
-    return;
-  }
 
-  if (decimals > 2) {
-    this.setCustomValidity("Не более двух знаков после запятой.");
-    this.reportValidity();
-    pipeLengthHidden.value = "";
-    resetStepsFrom(11);
-    return;
-  }
-
-  if (val < min || val > max) {
-    this.setCustomValidity(`Введите значение от ${min} до ${max}`);
-    this.reportValidity();
-    pipeLengthHidden.value = "";
-    resetStepsFrom(11);
-    return;
-  }
-
-  this.setCustomValidity("");
-  this.reportValidity();
-  pipeLengthHidden.value = val.toFixed(2);
-
-  // Только если всё валидно — идем дальше
-  stepShow(12);
+    // Только если всё валидно — продолжаем
+    if (id === "pin_length") stepShow(13);
+    if (id === "box_length") stepShow(14);
 });
 
 
@@ -600,12 +598,6 @@ function activateCustomLengthField(id, values) {
       if (id === "pin_length") stepShow(13);
       if (id === "box_length") stepShow(14);
     }
-
-  if (this.checkValidity()) {
-    if (id === "pin_length") stepShow(13);
-    if (id === "box_length") stepShow(14);
-}
-
 
 
   });
