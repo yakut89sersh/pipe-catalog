@@ -429,25 +429,29 @@ select.value = ""; // важно: выбрать именно пустое зн�
   });
 
   input.addEventListener("change", function () {
-     let val = parseFloat(this.value.replace(",", "."));
+     let val = this.value.trim().replace(",", ".");
+      let num = parseFloat(val);
 
-  if (isNaN(val)) return;
+    if (isNaN(num)) {
+    this.setCustomValidity("Введите корректное число");
+    this.reportValidity();
+    return;
+  }
 
-  // Проверяем, что значение в пределах
-  if (val >= min && val <= max) {
-    // округляем до одного знака после запятой (без подмены на max!)
-    const rounded = Math.round(val * 10) / 10;
-    this.value = rounded.toFixed(1);
-    pipeLengthHidden.value = rounded.toFixed(1);
-    stepShow(12);
-  } else if (val < min) {
-    this.value = min.toFixed(1);
-    pipeLengthHidden.value = min.toFixed(1);
-  } else if (val > max) {
-    this.value = max.toFixed(1);
-    pipeLengthHidden.value = max.toFixed(1);
+  // Значение вне диапазона — просто показываем ошибку, НО НЕ ПОДМЕНЯЕМ!
+  if (num < min || num > max) {
+    this.setCustomValidity(`Введите значение от ${min} до ${max}`);
+    this.reportValidity();
+    return;
+  }
+
+  // Всё хорошо — сохраняем значение, округляем красиво
+  this.setCustomValidity("");
+  num = Math.round(num * 100) / 100;
+  this.value = num.toFixed(2);
+  pipeLengthHidden.value = num.toFixed(2);
       stepShow(12);
-    }
+    
   });
 }
 
