@@ -517,11 +517,6 @@ function activateCustomLengthField(id, values) {
       } else {
         this.setCustomValidity("");
 
-        // ⬇️ Добавим placeholder только если его ещё нет
-  if (![...select.options].some(opt => opt.value === "")) {
-    select.insertBefore(placeholder, select.firstChild);
-  }
-
          if (id === "pin_length") stepShow(13);
          if (id === "box_length") stepShow(14);
       }
