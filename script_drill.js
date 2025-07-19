@@ -471,18 +471,15 @@ function activateCustomLengthField(id, values) {
 
       // ❗ СБРОС следующего шага
       if (id === "pin_length") {
-        const boxWrapper = document.getElementById("box_length_wrapper");
         const boxSelect = document.getElementById("box_length");
         const boxInput = document.getElementById("box_length_input");
         const boxHint = document.getElementById("box_length_hint");
 
-        boxWrapper.style.display = "none";
-        boxSelect.innerHTML = "";
-        boxSelect.disabled = true;
-        boxInput.value = "";
-        boxInput.style.display = "none";
-        boxInput.disabled = true;
-        if (boxHint) boxHint.style.display = "none";
+       boxSelect.disabled = true;
+      boxInput.disabled = true;
+      boxInput.style.display = "none";
+      boxInput.value = "";
+      boxHint.style.display = "none";
       }
 
     } else {
@@ -536,6 +533,14 @@ function activateCustomLengthField(id, values) {
       if (id === "pin_length") stepShow(13);
       if (id === "box_length") stepShow(14);
     }
+
+  if (this.checkValidity()) {
+    if (id === "pin_length") stepShow(13);
+    if (id === "box_length") stepShow(14);
+}
+
+
+
   });
 }
 
