@@ -509,12 +509,19 @@ function activateCustomLengthField(id, values) {
     input.addEventListener("input", function () {
       const val = parseFloat(this.value);
       const decimals = (this.value.split(".")[1] || "").length;
+
       if (decimals > 1) {
         this.setCustomValidity("Не более одной цифры после запятой.");
       } else if (val < min || val > max) {
         this.setCustomValidity(`Введите значение от ${min} до ${max}`);
       } else {
         this.setCustomValidity("");
+
+      // 🟢 Добавляем placeholder только после корректного ввода вручную
+      if (!Array.from(select.options).some(opt => opt.value === "")) {
+      select.insertBefore(placeholder, select.firstChild);
+        }
+
          if (id === "pin_length") stepShow(13);
           if (id === "box_length") stepShow(14);
       }
