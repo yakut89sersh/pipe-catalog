@@ -362,7 +362,8 @@ select.value = ""; // важно: выбрать именно пустое зн�
   const h = document.getElementById(id + "_hint");
 
   if (s) {
-    s.value = "";
+    // Удаляем все опции, включая placeholder
+    s.innerHTML = "";
     s.disabled = true;
   }
 
