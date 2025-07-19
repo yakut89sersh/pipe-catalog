@@ -436,8 +436,7 @@ function activateCustomLengthField(id, values) {
   placeholder.disabled = true;
   placeholder.hidden = true;
   placeholder.textContent = "Выберите...";
-  
-  select.value = ""; // обязательно ставим после appendChild
+ 
 
 
   // Значение из базы
@@ -482,18 +481,23 @@ function activateCustomLengthField(id, values) {
       boxHint.style.display = "none";
       }
 
+        // 🔹 и убираем placeholder
+        boxSelect.innerHTML = "";
+
     } else {
       input.style.display = "none";
       input.disabled = true;
       input.value = "";
       hint.style.display = "none";
 
-      // 👉 Добавляем placeholder только здесь
-      if (!select.querySelector("option[value='']")) {
-      select.insertBefore(placeholder, select.firstChild);
-      }
 
-
+      // 🔹 Добавляем placeholder ПРИ активации
+      select.innerHTML = "";
+      select.appendChild(placeholder);
+      select.appendChild(opt1);
+      select.appendChild(opt2);
+      select.value = this.value;
+      
       if (id === "pin_length") stepShow(13);
       if (id === "box_length") stepShow(14);
     }
