@@ -296,26 +296,32 @@ function activatePipeLengthField(group) {
   const hint = document.getElementById("pipe_length_hint");
 
 
-// 🔸 ВСТАВЬ ЭТО СЮДА ↓↓↓
-  // Полный сброс ниппеля и муфты при изменении длины трубы
-  document.getElementById("pin_length_input").value = "";
-  document.getElementById("pin_length_input").style.display = "none";
-  document.getElementById("pin_length_input").disabled = true;
-  document.getElementById("pin_length_hint").style.display = "none";
+// 🔸 Полный сброс ниппеля
+const pinSelect = document.getElementById("pin_length");
+const pinInput = document.getElementById("pin_length_input");
+const pinHint = document.getElementById("pin_length_hint");
 
-  document.getElementById("box_length_input").value = "";
-  document.getElementById("box_length_input").style.display = "none";
-  document.getElementById("box_length_input").disabled = true;
-  document.getElementById("box_length_hint").style.display = "none";
+pinSelect.innerHTML = "";         // сбрасываем весь список
+pinSelect.value = "";
+pinSelect.disabled = true;
+pinInput.value = "";
+pinInput.style.display = "none";
+pinInput.disabled = true;
+pinHint.style.display = "none";
 
-  const pinSelect = document.getElementById("pin_length");
-  pinSelect.value = "";
-  pinSelect.disabled = true;
+// 🔸 Полный сброс муфты
+const boxSelect = document.getElementById("box_length");
+const boxInput = document.getElementById("box_length_input");
+const boxHint = document.getElementById("box_length_hint");
 
-  const boxSelect = document.getElementById("box_length");
-  boxSelect.value = "";
-  boxSelect.disabled = true;
-  // 🔸 ДО ЭТОЙ СТРОКИ ↑↑↑
+boxSelect.innerHTML = "";        // сбрасываем весь список
+boxSelect.value = "";
+boxSelect.disabled = true;
+boxInput.value = "";
+boxInput.style.display = "none";
+boxInput.disabled = true;
+boxHint.style.display = "none";
+
 
 
 
