@@ -455,24 +455,7 @@ select.appendChild(opt2);
 
 // Очищаем выбор
 select.value = "";
-input.style.display = "none";
-  input.disabled = true;
 
-  // === Очищаем следующее поле при смене выбора
-  const nextStepId = id === "pin_length" ? "box_length" : null;
-  if (nextStepId) {
-    const nextWrapper = document.getElementById(nextStepId + "_wrapper");
-    const nextSelect = document.getElementById(nextStepId);
-    const nextInput = document.getElementById(nextStepId + "_input");
-    nextWrapper.style.display = "none";
-    nextSelect.innerHTML = "";
-    nextSelect.disabled = true;
-    if (nextInput) {
-      nextInput.value = "";
-      nextInput.style.display = "none";
-      nextInput.disabled = true;
-    }
-  }
 
   select.onchange = function () {
   if (this.value === "manual") {
