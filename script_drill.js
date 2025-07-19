@@ -319,7 +319,7 @@ function activatePipeLengthField(group) {
   }
 
  // 🔹 Обновляем подсказку
-  hint.textContent = `Введите значение от ${min} м до ${max} м с точностью до 0,1 м`;
+  hint.textContent = `Введите значение от ${min} м до ${max} м с точностью до 0,01 м`;
   hint.style.display = "none";
 
 
