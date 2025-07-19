@@ -295,6 +295,31 @@ function activatePipeLengthField(group) {
   const pipeLengthHidden = document.getElementById("pipe_length");
   const hint = document.getElementById("pipe_length_hint");
 
+
+// 🔸 ВСТАВЬ ЭТО СЮДА ↓↓↓
+  // Полный сброс ниппеля и муфты при изменении длины трубы
+  document.getElementById("pin_length_input").value = "";
+  document.getElementById("pin_length_input").style.display = "none";
+  document.getElementById("pin_length_input").disabled = true;
+  document.getElementById("pin_length_hint").style.display = "none";
+
+  document.getElementById("box_length_input").value = "";
+  document.getElementById("box_length_input").style.display = "none";
+  document.getElementById("box_length_input").disabled = true;
+  document.getElementById("box_length_hint").style.display = "none";
+
+  const pinSelect = document.getElementById("pin_length");
+  pinSelect.value = "";
+  pinSelect.disabled = true;
+
+  const boxSelect = document.getElementById("box_length");
+  boxSelect.value = "";
+  boxSelect.disabled = true;
+  // 🔸 ДО ЭТОЙ СТРОКИ ↑↑↑
+
+
+
+
   wrapper.style.display = "block";
   select.disabled = false;
   select.innerHTML = "";
@@ -351,12 +376,11 @@ select.value = ""; // важно: выбрать именно пустое зн�
   
   // === Обработка select ===
   select.onchange = function () {
-
-    resetStepsFrom(11); // сбрасываем шаги начиная с шага 12 (индекс 11)
+    
     if (this.value === "manual") {
 
 // Сброс шагов ниже
-    
+    resetStepsFrom(11); // сбрасываем шаги начиная с шага 12 (индекс 11)
 
       input.style.display = "inline-block";
       input.disabled = false;
