@@ -436,7 +436,7 @@ function activateCustomLengthField(id, values) {
   placeholder.disabled = true;
   placeholder.hidden = true;
   placeholder.textContent = "Выберите...";
-  select.appendChild(placeholder);
+  
   select.value = ""; // обязательно ставим после appendChild
 
 
@@ -487,6 +487,12 @@ function activateCustomLengthField(id, values) {
       input.disabled = true;
       input.value = "";
       hint.style.display = "none";
+
+      // 👉 Добавляем placeholder только здесь
+      if (!select.querySelector("option[value='']")) {
+      select.insertBefore(placeholder, select.firstChild);
+      }
+
 
       if (id === "pin_length") stepShow(13);
       if (id === "box_length") stepShow(14);
