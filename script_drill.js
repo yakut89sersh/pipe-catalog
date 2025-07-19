@@ -430,10 +430,16 @@ select.value = ""; // важно: выбрать именно пустое зн�
 
   input.addEventListener("change", function () {
     let val = parseFloat(this.value);
-    if (!isNaN(val)) {
-      if (val < min) this.value = min;
-      if (val > max) this.value = max;
-      pipeLengthHidden.value = this.value;
+  if (!isNaN(val)) {
+    if (val < min) {
+      this.value = min;
+      pipeLengthHidden.value = min;
+    } else if (val > max) {
+      this.value = max;
+      pipeLengthHidden.value = max;
+    } else {
+      pipeLengthHidden.value = val;
+    }
       stepShow(12);
     }
   });
