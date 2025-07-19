@@ -552,24 +552,43 @@ function activateCustomLengthField(id, values) {
 
 
 
-    // === Обработка ручного ввода ===
     input.addEventListener("input", function () {
-      const val = parseFloat(this.value);
-      const decimals = (this.value.split(".")[1] || "").length;
+  const valRaw = this.value.trim().replace(",", ".");
+  const val = parseFloat(valRaw);
+  const decimals = (valRaw.split(".")[1] || "").length;
 
-      if (decimals > 1) {
-        this.setCustomValidity("Не более одной цифры после запятой.");
-      } else if (val < min || val > max) {
-        this.setCustomValidity(`Введите значение от ${min} до ${max}`);
-      } else {
-        this.setCustomValidity("");
+  if (isNaN(val)) {
+    this.setCustomValidity("Введите корректное число");
+    this.reportValidity();
+    pipeLengthHidden.value = "";
+    resetStepsFrom(11); // ⛔ сбрасываем шаги ниже
+    return;
+  }
 
-         if (id === "pin_length") stepShow(13);
-         if (id === "box_length") stepShow(14);
-      }
+  if (decimals > 2) {
+    this.setCustomValidity("Не более двух знаков после запятой.");
+    this.reportValidity();
+    pipeLengthHidden.value = "";
+    resetStepsFrom(11);
+    return;
+  }
 
-      this.reportValidity();
-    });
+  if (val < min || val > max) {
+    this.setCustomValidity(`Введите значение от ${min} до ${max}`);
+    this.reportValidity();
+    pipeLengthHidden.value = "";
+    resetStepsFrom(11);
+    return;
+  }
+
+  this.setCustomValidity("");
+  this.reportValidity();
+  pipeLengthHidden.value = val.toFixed(2);
+
+  // Только если всё валидно — идем дальше
+  stepShow(12);
+});
+
 
   input.addEventListener("change", function () {
     const val = parseFloat(this.value);
