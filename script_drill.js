@@ -348,6 +348,25 @@ select.value = ""; // важно: выбрать именно пустое зн�
 
  
     if (this.value === "manual") {
+
+
+// Сбрасываем поля "Длина ниппеля" и "Длина муфты"
+const nippleSelect = document.getElementById("pin_length");
+const nippleWrapper = document.getElementById("pin_length_wrapper");
+nippleSelect.selectedIndex = 0;
+nippleSelect.disabled = true;
+nippleWrapper.style.display = "none";
+
+const couplingSelect = document.getElementById("box_length");
+const couplingWrapper = document.getElementById("box_length_wrapper");
+couplingSelect.selectedIndex = 0;
+couplingSelect.disabled = true;
+couplingWrapper.style.display = "none";
+
+
+
+
+
       input.style.display = "inline-block";
       input.disabled = false;
       input.value = "";
