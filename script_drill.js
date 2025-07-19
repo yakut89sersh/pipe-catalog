@@ -352,12 +352,11 @@ select.value = ""; // важно: выбрать именно пустое зн�
   // === Обработка select ===
   select.onchange = function () {
 
-
- 
+    resetStepsFrom(11); // сбрасываем шаги начиная с шага 12 (индекс 11)
     if (this.value === "manual") {
 
 // Сброс шагов ниже
-    resetStepsFrom(11); // сбрасываем шаги начиная с шага 12 (индекс 11)
+    
 
       input.style.display = "inline-block";
       input.disabled = false;
