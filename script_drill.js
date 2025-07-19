@@ -350,6 +350,15 @@ select.value = ""; // важно: выбрать именно пустое зн�
     if (this.value === "manual") {
 
 
+      input.style.display = "inline-block";
+      input.disabled = false;
+      input.value = "";
+      input.min = min;
+      input.max = max;
+      input.step = 0.01;
+      pipeLengthHidden.value = ""; // обнуляем
+
+
 // Сбрасываем поля "Длина ниппеля" и "Длина муфты"
 const nippleSelect = document.getElementById("pin_length");
 const nippleWrapper = document.getElementById("pin_length_wrapper");
@@ -365,15 +374,6 @@ couplingWrapper.style.display = "none";
 
 
 
-
-
-      input.style.display = "inline-block";
-      input.disabled = false;
-      input.value = "";
-      input.min = min;
-      input.max = max;
-      input.step = 0.01;
-      pipeLengthHidden.value = ""; // обнуляем
 
       hint.style.display = "inline-block";
       
