@@ -437,6 +437,7 @@ function activateCustomLengthField(id, values) {
   placeholder.hidden = true;
   placeholder.textContent = "Выберите...";
   
+  select.value = ""; // обязательно ставим после appendChild
 
 
   // Значение из базы
