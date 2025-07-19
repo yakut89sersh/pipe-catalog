@@ -481,8 +481,6 @@ function activateCustomLengthField(id, values) {
       boxInput.value = "";
       boxHint.style.display = "none";
 
-          // 🔹 и убираем placeholder
-        boxSelect.innerHTML = "";
       }
 
 
