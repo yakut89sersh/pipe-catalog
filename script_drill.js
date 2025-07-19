@@ -355,20 +355,7 @@ select.value = ""; // важно: выбрать именно пустое зн�
     
     if (this.value === "manual") {
 
-// Сброс шагов ниже
-    resetStepsFrom(11); // сбрасываем шаги начиная с шага 12 (индекс 11)
-
-      input.style.display = "inline-block";
-      input.disabled = false;
-      input.value = "";
-      input.min = min;
-      input.max = max;
-      input.step = 0.01;
-      pipeLengthHidden.value = ""; // обнуляем
-
-      hint.style.display = "inline-block";
-      
-  // ❗ СБРОС ПОЛЕЙ "ниппель" и "муфта"
+ // ❗ СБРОС ПОЛЕЙ "ниппель" и "муфта"
 ["pin_length", "box_length"].forEach(function (id) {
   const s = document.getElementById(id);
   const i = document.getElementById(id + "_input");
@@ -389,6 +376,22 @@ select.value = ""; // важно: выбрать именно пустое зн�
     h.style.display = "none";
   }
 });
+
+
+// Сброс шагов ниже
+    resetStepsFrom(11); // сбрасываем шаги начиная с шага 12 (индекс 11)
+
+      input.style.display = "inline-block";
+      input.disabled = false;
+      input.value = "";
+      input.min = min;
+      input.max = max;
+      input.step = 0.01;
+      pipeLengthHidden.value = ""; // обнуляем
+
+      hint.style.display = "inline-block";
+      
+ 
 
 
 
