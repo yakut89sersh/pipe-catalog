@@ -299,35 +299,7 @@ function activatePipeLengthField(group) {
   select.disabled = false;
   select.innerHTML = "";
 
-
-// Сброс "Длина ниппеля под ключ (мм)"
-document.getElementById("pin_length_wrapper").style.display = "none";
-document.getElementById("pin_length").disabled = true;
-document.getElementById("pin_length").value = "";
-document.getElementById("pin_length_input").value = "";
-document.getElementById("pin_length_input").style.display = "none";
-document.getElementById("pin_length_input").disabled = true;
-document.getElementById("pin_length_hint").style.display = "none";
-
-// Сброс "Длина муфты под ключ (мм)"
-document.getElementById("box_length_wrapper").style.display = "none";
-document.getElementById("box_length").disabled = true;
-document.getElementById("box_length").value = "";
-document.getElementById("box_length_input").value = "";
-document.getElementById("box_length_input").style.display = "none";
-document.getElementById("box_length_input").disabled = true;
-document.getElementById("box_length_hint").style.display = "none";
-
-
-
-
-
-
-
-
-
-
-
+  
   let defaultValue = "";
   let min = 0;
   let max = 0;
