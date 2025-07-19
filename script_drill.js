@@ -429,30 +429,34 @@ select.value = ""; // важно: выбрать именно пустое зн�
   });
 
   input.addEventListener("change", function () {
-     let val = this.value.trim().replace(",", ".");
-      let num = parseFloat(val);
+  let valRaw = this.value.trim().replace(",", ".");
+  let val = parseFloat(valRaw);
 
-    if (isNaN(num)) {
+  if (isNaN(val)) {
     this.setCustomValidity("Введите корректное число");
     this.reportValidity();
+    pipeLengthHidden.value = "";
+    resetStepsFrom(11); // ⬅️ Сбрасываем шаги ниже
     return;
   }
 
-  // Значение вне диапазона — просто показываем ошибку, НО НЕ ПОДМЕНЯЕМ!
-  if (num < min || num > max) {
+  if (val < min || val > max) {
     this.setCustomValidity(`Введите значение от ${min} до ${max}`);
     this.reportValidity();
+    pipeLengthHidden.value = "";
+    resetStepsFrom(11); // ⬅️ Сбрасываем шаги ниже
     return;
   }
 
-  // Всё хорошо — сохраняем значение, округляем красиво
   this.setCustomValidity("");
-  num = Math.round(num * 100) / 100;
-  this.value = num.toFixed(2);
-  pipeLengthHidden.value = num.toFixed(2);
-      stepShow(12);
-    
-  });
+  this.reportValidity();
+
+  const rounded = Math.round(val * 100) / 100;
+  this.value = rounded.toFixed(2);
+  pipeLengthHidden.value = rounded.toFixed(2);
+  stepShow(12);
+});
+
 }
 
 
