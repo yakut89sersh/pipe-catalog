@@ -467,8 +467,8 @@ function activateCustomLengthField(id, values) {
   select.onchange = function () {
   if (this.value === "manual") {
 
- resetCustomLengthFields(["pin_length", "box_length"]);
 
+    
     input.style.display = "inline-block";
     input.disabled = false;
     input.value = "";
@@ -539,34 +539,12 @@ function activateCustomLengthField(id, values) {
     if (id === "box_length") stepShow(14);
 }
 
+
+
   });
 }
 
 
-
-
-function resetCustomLengthFields(ids) {
-  ids.forEach(id => {
-    const select = document.getElementById(id);
-    const input = document.getElementById(id + "_input");
-    const hint = document.getElementById(id + "_hint");
-
-    if (select) {
-      select.value = "";
-      select.disabled = true;
-    }
-
-    if (input) {
-      input.value = "";
-      input.disabled = true;
-      input.style.display = "none";
-    }
-
-    if (hint) {
-      hint.style.display = "none";
-    }
-  });
-}
 
 
 
