@@ -484,6 +484,13 @@ function activateCustomLengthField(id, values) {
 
 
 
+  // Плейсхолдер
+  const placeholder = document.createElement("option");
+  placeholder.value = "";
+  placeholder.disabled = true;
+  placeholder.hidden = true;
+  placeholder.textContent = "Выберите...";
+  select.appendChild(placeholder);
   select.value = ""; // обязательно ставим после appendChild
 
 
@@ -508,14 +515,7 @@ function activateCustomLengthField(id, values) {
   select.onchange = function () {
   if (this.value === "manual") {
 
-if (!select.querySelector("option[value='']")) {
-  const placeholder = document.createElement("option");
-  placeholder.value = "";
-  placeholder.disabled = true;
-  placeholder.hidden = true;
-  placeholder.textContent = "Выберите...";
-  select.insertBefore(placeholder, select.firstChild);
-}
+
     
     input.style.display = "inline-block";
     input.disabled = false;
