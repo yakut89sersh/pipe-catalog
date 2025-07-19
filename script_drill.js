@@ -442,8 +442,7 @@ function activateCustomLengthField(id, values) {
   placeholder.disabled = true;
   placeholder.hidden = true;
   placeholder.textContent = "Выберите...";
-  select.appendChild(placeholder);
-  select.value = ""; // обязательно ставим после appendChild
+ 
 
 
   // Значение из базы
@@ -517,13 +516,13 @@ function activateCustomLengthField(id, values) {
       } else {
         this.setCustomValidity("");
 
-      // 🟢 Добавляем placeholder только после корректного ввода вручную
-      if (!Array.from(select.options).some(opt => opt.value === "")) {
-      select.insertBefore(placeholder, select.firstChild);
+        // 🟢 Добавляем placeholder только после корректного ввода вручную
+        if (!Array.from(select.options).some(opt => opt.value === "")) {
+        select.insertBefore(placeholder, select.firstChild);
         }
 
          if (id === "pin_length") stepShow(13);
-          if (id === "box_length") stepShow(14);
+         if (id === "box_length") stepShow(14);
       }
 
       this.reportValidity();
