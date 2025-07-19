@@ -349,7 +349,8 @@ select.value = ""; // важно: выбрать именно пустое зн�
  
     if (this.value === "manual") {
 
-resetStepsFrom(12);
+// Сброс шагов ниже
+    resetStepsFrom(11); // сбрасываем шаги начиная с шага 12 (индекс 11)
 
       input.style.display = "inline-block";
       input.disabled = false;
