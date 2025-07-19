@@ -428,18 +428,35 @@ select.value = ""; // важно: выбрать именно пустое зн�
     this.reportValidity();
   });
 
-  input.addEventListener("change", function () {
-    let val = parseFloat(this.value);
-  if (!isNaN(val)) {
-    if (val < min) {
-      this.value = min;
-      pipeLengthHidden.value = min;
-    } else if (val > max) {
-      this.value = max;
-      pipeLengthHidden.value = max;
-    } else {
-      pipeLengthHidden.value = val;
-    }
+input.addEventListener("change", function () {
+  let val = parseFloat(this.value);
+
+  // Проверяем корректность числа
+  if (isNaN(val)) return;
+
+  // Если меньше минимума
+  if (val < min) {
+    this.value = min.toFixed(2);
+    pipeLengthHidden.value = min.toFixed(2);
+  }
+
+  // Если больше максимума
+  else if (val > max) {
+    this.value = max.toFixed(2);
+    pipeLengthHidden.value = max.toFixed(2);
+  }
+
+  // Если значение допустимое
+  else {
+    this.value = val.toFixed(2); // Чтобы избежать лишней дроби
+    pipeLengthHidden.value = val.toFixed(2);
+  
+
+
+
+
+
+    
       stepShow(12);
     }
   });
