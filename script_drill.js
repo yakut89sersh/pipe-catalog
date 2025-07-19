@@ -120,9 +120,9 @@ for (let i = 0; i < step; i++) {
   placeholder.textContent = "Выберите...";
   select.appendChild(placeholder);
   const lengthOptions = [
-    "Группа длин 1 (от 6,1 до 7,01)",
-    "Группа длин 2 (от 8,84 до 9,75)",
-    "Группа длин 3 (от 12,19 до 13,72)"
+    "Группа длин 1 (от 6,1 м до 7,01 м)",
+    "Группа длин 2 (от 8,84 м до 9,75 м)",
+    "Группа длин 3 (от 12,19 м до 13,72 м)"
   ];
   lengthOptions.forEach(opt => {
     const o = document.createElement("option");
