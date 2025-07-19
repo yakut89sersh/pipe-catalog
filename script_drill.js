@@ -295,40 +295,38 @@ function activatePipeLengthField(group) {
   const pipeLengthHidden = document.getElementById("pipe_length");
   const hint = document.getElementById("pipe_length_hint");
 
-
-// 🔸 Полный сброс ниппеля
-const pinSelect = document.getElementById("pin_length");
-const pinInput = document.getElementById("pin_length_input");
-const pinHint = document.getElementById("pin_length_hint");
-
-pinSelect.innerHTML = "";         // сбрасываем весь список
-pinSelect.value = "";
-pinSelect.disabled = true;
-pinInput.value = "";
-pinInput.style.display = "none";
-pinInput.disabled = true;
-pinHint.style.display = "none";
-
-// 🔸 Полный сброс муфты
-const boxSelect = document.getElementById("box_length");
-const boxInput = document.getElementById("box_length_input");
-const boxHint = document.getElementById("box_length_hint");
-
-boxSelect.innerHTML = "";        // сбрасываем весь список
-boxSelect.value = "";
-boxSelect.disabled = true;
-boxInput.value = "";
-boxInput.style.display = "none";
-boxInput.disabled = true;
-boxHint.style.display = "none";
-
-
-
-
-
   wrapper.style.display = "block";
   select.disabled = false;
   select.innerHTML = "";
+
+
+// Сброс "Длина ниппеля под ключ (мм)"
+document.getElementById("pin_length_wrapper").style.display = "none";
+document.getElementById("pin_length").disabled = true;
+document.getElementById("pin_length").value = "";
+document.getElementById("pin_length_input").value = "";
+document.getElementById("pin_length_input").style.display = "none";
+document.getElementById("pin_length_input").disabled = true;
+document.getElementById("pin_length_hint").style.display = "none";
+
+// Сброс "Длина муфты под ключ (мм)"
+document.getElementById("box_length_wrapper").style.display = "none";
+document.getElementById("box_length").disabled = true;
+document.getElementById("box_length").value = "";
+document.getElementById("box_length_input").value = "";
+document.getElementById("box_length_input").style.display = "none";
+document.getElementById("box_length_input").disabled = true;
+document.getElementById("box_length_hint").style.display = "none";
+
+
+
+
+
+
+
+
+
+
 
   let defaultValue = "";
   let min = 0;
@@ -532,21 +530,6 @@ function activateCustomLengthField(id, values) {
       if (id === "box_length") stepShow(14);
     }
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
