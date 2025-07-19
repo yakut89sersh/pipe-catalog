@@ -368,7 +368,31 @@ select.value = ""; // важно: выбрать именно пустое зн�
 
       hint.style.display = "inline-block";
       
-  
+  // ❗ СБРОС ПОЛЕЙ "ниппель" и "муфта"
+["pin_length", "box_length"].forEach(function (id) {
+  const s = document.getElementById(id);
+  const i = document.getElementById(id + "_input");
+  const h = document.getElementById(id + "_hint");
+
+  if (s) {
+    s.value = "";
+    s.disabled = true;
+  }
+
+  if (i) {
+    i.value = "";
+    i.disabled = true;
+    i.style.display = "none";
+  }
+
+  if (h) {
+    h.style.display = "none";
+  }
+});
+
+
+
+
 
     } else {
       input.style.display = "none";
