@@ -583,59 +583,115 @@ function activateCustomLengthField(id, values) {
   const val = parseFloat(valRaw);
   const decimals = (valRaw.split(".")[1] || "").length;
 
-  let invalid = false;
-
   if (isNaN(val)) {
     this.setCustomValidity("Введите корректное число");
-    invalid = true;
-  } else if (decimals > 2) {
-    this.setCustomValidity("Не более двух знаков после запятой.");
-    invalid = true;
-  } else if (val < min || val > max) {
-    this.setCustomValidity(`Введите значение от ${min} до ${max}`);
-    invalid = true;
-  } else {
-    this.setCustomValidity("");
-    pipeLengthHidden.value = val.toFixed(2);
-  }
-
-  this.reportValidity();
-
-  if (invalid) {
+    this.reportValidity();
     pipeLengthHidden.value = "";
-    resetStepsFrom(11); // сбрасываем шаги ниже
-
-    // 🔁 Сбрасываем муфту, если ошибка была в ниппеле
-    if (id === "pin_length") {
-      const boxSelect = document.getElementById("box_length");
-      const boxInput = document.getElementById("box_length_input");
-      const boxHint = document.getElementById("box_length_hint");
-
-      if (boxSelect) {
-        boxSelect.disabled = true;
-        boxSelect.value = "";
-        boxSelect.innerHTML = ""; // сбрасываем placeholder тоже
-      }
-
-      if (boxInput) {
-        boxInput.disabled = true;
-        boxInput.style.display = "none";
-        boxInput.value = "";
-      }
-
-      if (boxHint) {
-        boxHint.style.display = "none";
-      }
-    }
-
+    resetStepsFrom(11); // ⛔ сбрасываем шаги ниже
     return;
   }
 
-  // Всё валидно
-  if (id === "pin_length") stepShow(13);
-  if (id === "box_length") stepShow(14);
+    // ❗ Если пользователь редактирует pin_length и вводит невалидное значение — сбрасываем box_length
+  if (id === "pin_length") {
+    const boxSelect = document.getElementById("box_length");
+    const boxInput = document.getElementById("box_length_input");
+    const boxHint = document.getElementById("box_length_hint");
+
+    if (boxSelect) {
+      boxSelect.disabled = true;
+      boxSelect.innerHTML = "";
+    }
+    if (boxInput) {
+      boxInput.disabled = true;
+      boxInput.value = "";
+      boxInput.style.display = "none";
+    }
+    if (boxHint) {
+      boxHint.style.display = "none";
+    }
+  }
+
+
+  if (decimals > 2) {
+    this.setCustomValidity("Не более двух знаков после запятой.");
+    this.reportValidity();
+    pipeLengthHidden.value = "";
+    resetStepsFrom(11);
+    return;
+  }
+
+    // ❗ Если пользователь редактирует pin_length и вводит невалидное значение — сбрасываем box_length
+  if (id === "pin_length") {
+    const boxSelect = document.getElementById("box_length");
+    const boxInput = document.getElementById("box_length_input");
+    const boxHint = document.getElementById("box_length_hint");
+
+    if (boxSelect) {
+      boxSelect.disabled = true;
+      boxSelect.innerHTML = "";
+    }
+    if (boxInput) {
+      boxInput.disabled = true;
+      boxInput.value = "";
+      boxInput.style.display = "none";
+    }
+    if (boxHint) {
+      boxHint.style.display = "none";
+    }
+  }
+
+
+  if (val < min || val > max) {
+    this.setCustomValidity(`Введите значение от ${min} до ${max}`);
+    this.reportValidity();
+    pipeLengthHidden.value = "";
+    resetStepsFrom(11);
+    return;
+  }
+
+  // ❗ Если пользователь редактирует pin_length и вводит невалидное значение — сбрасываем box_length
+  if (id === "pin_length") {
+    const boxSelect = document.getElementById("box_length");
+    const boxInput = document.getElementById("box_length_input");
+    const boxHint = document.getElementById("box_length_hint");
+
+    if (boxSelect) {
+      boxSelect.disabled = true;
+      boxSelect.innerHTML = "";
+    }
+    if (boxInput) {
+      boxInput.disabled = true;
+      boxInput.value = "";
+      boxInput.style.display = "none";
+    }
+    if (boxHint) {
+      boxHint.style.display = "none";
+    }
+  }
+
+
+  this.setCustomValidity("");
+  this.reportValidity();
+  pipeLengthHidden.value = val.toFixed(2);
+
+  // Только если всё валидно — идем дальше
+  stepShow(12);
 });
 
+
+  input.addEventListener("change", function () {
+    const val = parseFloat(this.value);
+    if (!isNaN(val) && val >= min && val <= max) {
+      if (id === "pin_length") stepShow(13);
+      if (id === "box_length") stepShow(14);
+    }
+
+  if (this.checkValidity()) {
+    if (id === "pin_length") stepShow(13);
+    if (id === "box_length") stepShow(14);
+}
+
+  });
 }
 
 
