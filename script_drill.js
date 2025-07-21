@@ -555,6 +555,7 @@ function activateCustomLengthField(id, values) {
         const boxHint = document.getElementById("box_length_hint");
 
        boxSelect.disabled = true;
+       boxSelect.value = "";
       boxInput.disabled = true;
       boxInput.style.display = "none";
       boxInput.value = "";
