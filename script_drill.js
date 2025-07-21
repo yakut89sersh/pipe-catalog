@@ -678,10 +678,8 @@ function activateCustomLengthField(id, values) {
   pipeLengthHidden.value = val.toFixed(2);
 
   // Только если всё валидно — идем дальше
-  setTimeout(() => {
-    if (id === "pin_length") stepShow(13);
-    if (id === "box_length") stepShow(14);
-  }, 0);
+   if (id === "pin_length") stepShow(13);
+  if (id === "box_length") stepShow(14);
 });
 
 
