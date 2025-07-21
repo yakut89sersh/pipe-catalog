@@ -554,12 +554,14 @@ function activateCustomLengthField(id, values) {
         const boxInput = document.getElementById("box_length_input");
         const boxHint = document.getElementById("box_length_hint");
 
-       boxSelect.disabled = true;
-       boxSelect.value = "";
-      boxInput.disabled = true;
-      boxInput.style.display = "none";
-      boxInput.value = "";
-      boxHint.style.display = "none";
+       boxSelect.innerHTML = "";               // 🧹 Полная очистка
+  boxSelect.disabled = true;
+  boxSelect.value = "";                   // На всякий случай
+
+  boxInput.disabled = true;
+  boxInput.style.display = "none";
+  boxInput.value = "";
+  boxHint.style.display = "none";
 
       }
 
