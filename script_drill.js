@@ -583,29 +583,41 @@ function activateCustomLengthField(id, values) {
   const val = parseFloat(valRaw);
   const decimals = (valRaw.split(".")[1] || "").length;
 
+  const isInvalid = isNaN(val) || decimals > 2 || val < min || val > max;
+
+if (isInvalid) {
   if (isNaN(val)) {
     this.setCustomValidity("Введите корректное число");
-    this.reportValidity();
-    pipeLengthHidden.value = "";
-    resetStepsFrom(11); // ⛔ сбрасываем шаги ниже
-    return;
-  }
-
-  if (decimals > 2) {
+  } else if (decimals > 2) {
     this.setCustomValidity("Не более двух знаков после запятой.");
-    this.reportValidity();
-    pipeLengthHidden.value = "";
-    resetStepsFrom(11);
-    return;
+  } else {
+    this.setCustomValidity(`Введите значение от ${min} до ${max}`);
   }
 
-  if (val < min || val > max) {
-    this.setCustomValidity(`Введите значение от ${min} до ${max}`);
-    this.reportValidity();
-    pipeLengthHidden.value = "";
-    resetStepsFrom(11);
-    return;
+  this.reportValidity();
+  pipeLengthHidden.value = "";
+  resetStepsFrom(11);
+
+  // 🔁 Сброс "Длины муфты", если это поле — "Длина ниппеля"
+  if (id === "pin_length") {
+    const boxSelect = document.getElementById("box_length");
+    const boxInput = document.getElementById("box_length_input");
+    const boxHint = document.getElementById("box_length_hint");
+
+    boxSelect.disabled = true;
+    boxSelect.value = "";
+    boxSelect.innerHTML = "";
+
+    boxInput.disabled = true;
+    boxInput.style.display = "none";
+    boxInput.value = "";
+
+    boxHint.style.display = "none";
   }
+
+  return;
+}
+
 
   this.setCustomValidity("");
   this.reportValidity();
