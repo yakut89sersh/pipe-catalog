@@ -436,7 +436,19 @@ select.value = ""; // важно: выбрать именно пустое зн�
     this.setCustomValidity("Введите корректное число");
     this.reportValidity();
     pipeLengthHidden.value = "";
-    resetStepsFrom(11); // ⬅️ Сбрасываем шаги ниже
+    resetStepsFrom(11);
+
+    // ❗ Сброс "ниппель" и "муфта"
+    ["pin_length", "box_length"].forEach(function (id) {
+      const s = document.getElementById(id);
+      const i = document.getElementById(id + "_input");
+      const h = document.getElementById(id + "_hint");
+
+      if (s) s.innerHTML = "", s.disabled = true;
+      if (i) i.value = "", i.disabled = true, i.style.display = "none";
+      if (h) h.style.display = "none";
+    });
+
     return;
   }
 
@@ -444,7 +456,19 @@ select.value = ""; // важно: выбрать именно пустое зн�
     this.setCustomValidity(`Введите значение от ${min} до ${max}`);
     this.reportValidity();
     pipeLengthHidden.value = "";
-    resetStepsFrom(11); // ⬅️ Сбрасываем шаги ниже
+    resetStepsFrom(11);
+
+    // ❗ Сброс "ниппель" и "муфта"
+    ["pin_length", "box_length"].forEach(function (id) {
+      const s = document.getElementById(id);
+      const i = document.getElementById(id + "_input");
+      const h = document.getElementById(id + "_hint");
+
+      if (s) s.innerHTML = "", s.disabled = true;
+      if (i) i.value = "", i.disabled = true, i.style.display = "none";
+      if (h) h.style.display = "none";
+    });
+
     return;
   }
 
@@ -456,6 +480,7 @@ select.value = ""; // важно: выбрать именно пустое зн�
   pipeLengthHidden.value = rounded.toFixed(2);
   stepShow(12);
 });
+
 
 }
 
