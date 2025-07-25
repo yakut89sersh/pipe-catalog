@@ -504,7 +504,7 @@ function activateCustomLengthField(id, values) {
   const max = id === "pin_length" ? 500 : 600;
   const defaultVal = min.toFixed(1);
 
-  hint.textContent = `Введите значение от ${defaultVal} мм до 700 мм`;
+  hint.textContent = `Введите значение от ${defaultVal} мм до ${max} мм`;
   hint.style.display = "none";
 
 
