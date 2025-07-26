@@ -546,7 +546,7 @@ function activateCustomLengthField(id, values) {
     input.max = max;
     input.step = 0.1;
     hint.style.display = "inline-block";
-    checkLengthsValid();
+
 
       // ❗ СБРОС следующего шага
       if (id === "pin_length") {
@@ -565,7 +565,7 @@ function activateCustomLengthField(id, values) {
 
       }
 
-
+checkLengthsValid();
       
     } else {
       input.style.display = "none";
@@ -582,10 +582,10 @@ function activateCustomLengthField(id, values) {
   stepShow(14);
   document.getElementById("findBtn").disabled = false;
  }
-
+checkLengthsValid();
     }
 
-    checkLengthsValid();
+    
   };
 
 
