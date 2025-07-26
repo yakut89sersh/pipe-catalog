@@ -547,6 +547,7 @@ function activateCustomLengthField(id, values) {
     input.step = 0.1;
     hint.style.display = "inline-block";
 
+    checkLengthsValid();
 
       // ❗ СБРОС следующего шага
       if (id === "pin_length") {
@@ -731,23 +732,20 @@ function checkLengthsValid() {
   const boxSelect = document.getElementById("box_length");
   const boxInput = document.getElementById("box_length_input");
 
-  let pinValid = false;
-  if (pinSelect.value === "manual") {
-    pinValid = pinInput.value.trim() !== "" && pinInput.checkValidity();
-  } else {
-    pinValid = pinSelect.value !== "";
-  }
+  const pinManual = pinSelect.value === "manual";
+  const boxManual = boxSelect.value === "manual";
 
-  let boxValid = false;
-  if (boxSelect.value === "manual") {
-    boxValid = boxInput.value.trim() !== "" && boxInput.checkValidity();
-  } else {
-    boxValid = boxSelect.value !== "";
-  }
+  const pinValid = pinManual
+    ? pinInput.value.trim() !== "" && pinInput.checkValidity()
+    : pinSelect.value !== "";
 
-  const findBtn = document.getElementById("findBtn");
-  findBtn.disabled = !(pinValid && boxValid);
+  const boxValid = boxManual
+    ? boxInput.value.trim() !== "" && boxInput.checkValidity()
+    : boxSelect.value !== "";
+
+  document.getElementById("findBtn").disabled = !(pinValid && boxValid);
 }
+
 
 
 
