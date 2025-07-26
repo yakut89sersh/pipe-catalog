@@ -108,7 +108,6 @@
   <input type="hidden" id="pipe_length" name="Pipe Length, m" />
 </div>
 
-
 <label>Длина ниппеля под ключ (мм):</label>
 <div id="pin_length_wrapper">
   <select id="pin_length" disabled></select>
@@ -117,30 +116,30 @@
   <input type="hidden" id="pin_length_hidden" name="Pin tong length, mm" />
 </div>
 
-
-
-
 <label>Длина муфты под ключ (мм):</label>
 <div id="box_length_wrapper">
   <select id="box_length" onchange="stepShow(13)" disabled></select>
   <input type="number" id="box_length_input" style="display:none;" step="0.1" />
   <span id="box_length_hint" class="length-hint" style="display: none;"></span>
-
 </div>
 
 
-
-
-  <button id="findBtn" onclick="findPipe()" disabled>Найти трубу</button>
+ <button id="findBtn" onclick="findPipe()" disabled>Найти трубу</button>
   
  <div id="pdfContent">
   <!-- Сюда подставлять технический лист -->
+
+<div id="techsheet" style="display: none; margin-top: 30px;"></div>
+
+
 </div>
   
   <button id="downloadBtn" onclick="downloadPDF()" style="display:none; margin-top:20px;">Скачать PDF-версию</button>
   
  
+<script src="techsheet_renderer.js"></script>
 
-  
+  <script src="techsheet_renderer_drill.js"></script>
+
 </body>
 </html>

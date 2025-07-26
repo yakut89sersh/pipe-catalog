@@ -750,20 +750,10 @@ function checkLengthsValid() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 function findPipe() {
-  alert("Поиск трубы пока не реализован. Добавим позже.");
+  loadTechsheetDrill(); // ⬅ теперь он вызывает отображение каркаса
 }
+
 
 function selectTab(button) {
   const buttons = document.querySelectorAll('.tab-button');
