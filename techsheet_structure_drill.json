@@ -1,12 +1,21 @@
 {
   "title": "Технический лист данных бурильной трубы",
   "sections": {
-    "common": "Общие сведения:",
-    "dimensions": "Геометрические размеры и материальное исполнение бурильной трубы",
-    "connection": "Характеристики замкового соединения"
+    "summary_block": "Общие сведения:",
+    "common": "Геометрические размеры и материальное исполнение бурильной трубы:",
+    "dimensions": "Характеристики замкового соединения",
+    "connection": "Прочее"
   },
 
   "sections_order": {
+
+    "summary_block": [
+    "Outside diameter, (mm)",
+    "Tool joint type",
+    "Pipe grade",
+    "Range"
+  ],
+
     "common": [
       "Outside diameter, (mm)",
       "Wall Thickness, (mm)",
@@ -24,7 +33,7 @@
       "Minimum yield strength, (MPa)",
       "Minimum tensile strength, (MPa)"
     ],
-    
+
     "connection": [
       "Connection OD, (mm)",
       "Connection ID, (mm)",
