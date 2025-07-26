@@ -582,10 +582,10 @@ checkLengthsValid();
   stepShow(14);
   document.getElementById("findBtn").disabled = false;
  }
-checkLengthsValid();
+
     }
 
-    
+    checkLengthsValid();
   };
 
 
