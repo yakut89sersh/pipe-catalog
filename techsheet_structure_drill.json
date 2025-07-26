@@ -11,8 +11,8 @@
 
     "summary_block": [
     "Outside diameter, (mm)",
-    "Tool joint type",
-    "Pipe grade",
+    "RSC Type",
+    "Pipe Grade",
     "Range"
   ],
 
@@ -20,7 +20,7 @@
       "Outside diameter, (mm)",
       "Wall Thickness, (mm)",
       "Thread type",
-      "Pipe grade",
+      "Pipe Grade",
       "Range"
     ],
 
@@ -51,8 +51,8 @@
     "Inside diameter, (mm)": "Внутренний диаметр трубы",
     "Drift diameter, (mm)": "Диаметр шаблона",
     "Pipe weight, (kg/m)": "Теоретический вес 1 м трубы",
-    "Thread type": "Тип замкового соединения",
-    "Pipe grade": "Группа прочности",
+    "RSC Type": "Тип замкового соединения",
+    "Pipe Grade": "Группа прочности",
     "Range": "Группа длин",
     "Minimum yield strength, (MPa)": "Минимальный предел текучести",
     "Minimum tensile strength, (MPa)": "Минимальный предел прочности",
