@@ -1,0 +1,57 @@
+{
+  "title": "Технический лист данных бурильной трубы",
+  "sections": {
+    "common": "Общие сведения:",
+    "dimensions": "Геометрические размеры и материальное исполнение бурильной трубы",
+    "connection": "Характеристики замкового соединения"
+  },
+
+  "sections_order": {
+    "common": [
+      "Outside diameter, (mm)",
+      "Wall Thickness, (mm)",
+      "Thread type",
+      "Pipe grade",
+      "Range"
+    ],
+
+    "dimensions": [
+      "Outside diameter, (mm)",
+      "Wall Thickness, (mm)",
+      "Inside diameter, (mm)",
+      "Drift diameter, (mm)",
+      "Pipe weight, (kg/m)",
+      "Minimum yield strength, (MPa)",
+      "Minimum tensile strength, (MPa)"
+    ],
+    
+    "connection": [
+      "Connection OD, (mm)",
+      "Connection ID, (mm)",
+      "Connection length, (mm)",
+      "Make-up loss, (mm)",
+      "Torsional strength, (kN·m)",
+      "Tensile strength connection, (kN)"
+    ]
+  },
+
+
+  "fields": {
+    "Outside diameter, (mm)": "Наружный диаметр трубы",
+    "Wall Thickness, (mm)": "Толщина стенки",
+    "Inside diameter, (mm)": "Внутренний диаметр трубы",
+    "Drift diameter, (mm)": "Диаметр шаблона",
+    "Pipe weight, (kg/m)": "Теоретический вес 1 м трубы",
+    "Thread type": "Тип замкового соединения",
+    "Pipe grade": "Группа прочности",
+    "Range": "Группа длин",
+    "Minimum yield strength, (MPa)": "Минимальный предел текучести",
+    "Minimum tensile strength, (MPa)": "Минимальный предел прочности",
+    "Connection OD, (mm)": "Наружный диаметр замка",
+    "Connection ID, (mm)": "Внутренний диаметр замка",
+    "Connection length, (mm)": "Длина замка",
+    "Make-up loss, (mm)": "Потеря длины при свинчивании",
+    "Torsional strength, (kN·m)": "Крутящий момент на разрушение",
+    "Tensile strength connection, (kN)": "Растяжение замкового соединения"
+  }
+}
