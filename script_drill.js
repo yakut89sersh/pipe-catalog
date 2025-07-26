@@ -566,7 +566,8 @@ function activateCustomLengthField(id, values) {
       }
 
  if (id === "box_length") {
-    pipeLengthHidden.value = ""; // ❗❗❗ Это ключевая строка
+    pipeLengthHidden.value = ""; 
+     document.getElementById("findBtn").disabled = true;
   }
 
       checkLengthsValid();
