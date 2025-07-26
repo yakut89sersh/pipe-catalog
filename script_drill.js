@@ -585,7 +585,7 @@ function activateCustomLengthField(id, values) {
 
     }
 
-    
+    checkLengthsValid();
   };
 
 
@@ -688,11 +688,9 @@ function activateCustomLengthField(id, values) {
 
   // Только если всё валидно — идем дальше
    if (id === "pin_length") stepShow(13);
-   checkLengthsValid();
-
   if (id === "box_length") stepShow(14);
-  checkLengthsValid();
 
+  checkLengthsValid();
  });
 
 
@@ -715,7 +713,7 @@ setTimeout(() => {
     document.getElementById("findBtn").disabled = false;
   }
  }, 0);
-
+checkLengthsValid();
   });
 }
 
