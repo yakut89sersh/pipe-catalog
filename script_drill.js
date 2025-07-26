@@ -581,7 +581,7 @@ function activateCustomLengthField(id, values) {
       if (id === "box_length") {
   stepShow(14);
   document.getElementById("findBtn").disabled = false;
-}
+ }
 
     }
 
@@ -688,8 +688,12 @@ function activateCustomLengthField(id, values) {
 
   // Только если всё валидно — идем дальше
    if (id === "pin_length") stepShow(13);
+   checkLengthsValid();
+
   if (id === "box_length") stepShow(14);
-});
+  checkLengthsValid();
+
+ });
 
 
   input.addEventListener("change", function () {
@@ -702,7 +706,7 @@ function activateCustomLengthField(id, values) {
   if (this.checkValidity()) {
     if (id === "pin_length") stepShow(13);
     if (id === "box_length") stepShow(14);
-}
+ }
 
 setTimeout(() => {
   if (id === "pin_length") stepShow(13);
@@ -710,13 +714,26 @@ setTimeout(() => {
     stepShow(14);
     document.getElementById("findBtn").disabled = false;
   }
-}, 0);
-
+ }, 0);
 
   });
 }
 
 
+function checkLengthsValid() {
+  const pinSel = document.getElementById("pin_length");
+  const pinInput = document.getElementById("pin_length_input");
+  const pinValid = (pinSel.value && pinSel.value !== "manual") ||
+                   (pinSel.value === "manual" && pinInput && pinInput.checkValidity());
+
+  const boxSel = document.getElementById("box_length");
+  const boxInput = document.getElementById("box_length_input");
+  const boxValid = (boxSel.value && boxSel.value !== "manual") ||
+                   (boxSel.value === "manual" && boxInput && boxInput.checkValidity());
+
+  const btn = document.getElementById("findBtn");
+  if (btn) btn.disabled = !(pinValid && boxValid);
+}
 
 
 
