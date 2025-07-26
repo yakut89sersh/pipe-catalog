@@ -576,7 +576,16 @@ function activateCustomLengthField(id, values) {
       
       if (id === "pin_length") stepShow(13);
       if (id === "box_length") stepShow(14);
+      
+
+      if (id === "box_length") {
+  stepShow(14);
+  document.getElementById("findBtn").disabled = false;
+}
+
     }
+
+    
   };
 
 
@@ -694,6 +703,15 @@ function activateCustomLengthField(id, values) {
     if (id === "pin_length") stepShow(13);
     if (id === "box_length") stepShow(14);
 }
+
+setTimeout(() => {
+  if (id === "pin_length") stepShow(13);
+  if (id === "box_length") {
+    stepShow(14);
+    document.getElementById("findBtn").disabled = false;
+  }
+}, 0);
+
 
   });
 }
