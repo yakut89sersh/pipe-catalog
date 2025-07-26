@@ -565,7 +565,11 @@ function activateCustomLengthField(id, values) {
 
       }
 
-checkLengthsValid();
+ if (id === "box_length") {
+    pipeLengthHidden.value = ""; // ❗❗❗ Это ключевая строка
+  }
+
+      checkLengthsValid();
       
     } else {
       input.style.display = "none";
