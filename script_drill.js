@@ -6,7 +6,7 @@ fetch("drill_pipes_data.json")
   .then(jsonData => {
     data = jsonData;
     initSelectors();
-    document.getElementById("findBtn").disabled = false;
+    
   });
 
 const steps = [
