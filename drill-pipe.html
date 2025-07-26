@@ -127,19 +127,20 @@
  <button id="findBtn" onclick="findPipe()" disabled>Найти трубу</button>
   
  <div id="pdfContent">
-  <!-- Сюда подставлять технический лист -->
+    
+  <div id="techsheet" style="display: none; margin-top: 40px;"></div>
 
-<div id="techsheet" style="display: none; margin-top: 30px;"></div>
 
 
-</div>
+  </div>
   
   <button id="downloadBtn" onclick="downloadPDF()" style="display:none; margin-top:20px;">Скачать PDF-версию</button>
   
  
-<script src="techsheet_renderer.js"></script>
-
+  <script src="techsheet_renderer.js"></script>
   <script src="techsheet_renderer_drill.js"></script>
+  <script src="techsheet_launcher.js"></script>
+
 
 </body>
 </html>
