@@ -546,7 +546,7 @@ function activateCustomLengthField(id, values) {
     input.max = max;
     input.step = 0.1;
     hint.style.display = "inline-block";
-
+    checkLengthsValid();
 
       // ❗ СБРОС следующего шага
       if (id === "pin_length") {
