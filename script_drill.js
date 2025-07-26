@@ -725,19 +725,30 @@ checkLengthsValid();
 
 
 function checkLengthsValid() {
-  const pinSel = document.getElementById("pin_length");
+  const pinSelect = document.getElementById("pin_length");
   const pinInput = document.getElementById("pin_length_input");
-  const pinValid = (pinSel.value && pinSel.value !== "manual") ||
-                   (pinSel.value === "manual" && pinInput && pinInput.checkValidity());
 
-  const boxSel = document.getElementById("box_length");
+  const boxSelect = document.getElementById("box_length");
   const boxInput = document.getElementById("box_length_input");
-  const boxValid = (boxSel.value && boxSel.value !== "manual") ||
-                   (boxSel.value === "manual" && boxInput && boxInput.checkValidity());
 
-  const btn = document.getElementById("findBtn");
-  if (btn) btn.disabled = !(pinValid && boxValid);
+  let pinValid = false;
+  if (pinSelect.value === "manual") {
+    pinValid = pinInput.value.trim() !== "" && pinInput.checkValidity();
+  } else {
+    pinValid = pinSelect.value !== "";
+  }
+
+  let boxValid = false;
+  if (boxSelect.value === "manual") {
+    boxValid = boxInput.value.trim() !== "" && boxInput.checkValidity();
+  } else {
+    boxValid = boxSelect.value !== "";
+  }
+
+  const findBtn = document.getElementById("findBtn");
+  findBtn.disabled = !(pinValid && boxValid);
 }
+
 
 
 
