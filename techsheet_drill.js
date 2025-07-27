@@ -1,4 +1,3 @@
-
 async function loadTechsheetStructureDrill() {
   const response = await fetch('techsheet_structure_drill.json');
   return await response.json();
@@ -21,7 +20,7 @@ function createStandardTable(columns, rows) {
 
   const thead = document.createElement('thead');
   const headRow = document.createElement('tr');
-  headRow.appendChild(document.createElement('th')); // пустая ячейка для заголовка строки
+  headRow.appendChild(document.createElement('th'));
   columns.forEach(col => {
     const th = document.createElement('th');
     th.textContent = col;
@@ -64,26 +63,31 @@ function renderDrillTechsheet(structure) {
   const container = document.getElementById('techsheet-result');
   container.innerHTML = '';
 
-  // "Общие сведения" — отдельно от всех
-  if (Array.isArray(structure)) {
-    structure.forEach(block => {
-      const section = createTechsheetBlock(block.title);
+  structure.forEach(block => {
+    const section = createTechsheetBlock(block.title);
 
-      if (block.rows) {
-        const ul = document.createElement('ul');
-        block.rows.forEach(item => {
-          const li = document.createElement('li');
-          li.innerHTML = `<strong>${item.label}:</strong> — <span>${item.value || ''}</span>`;
-          ul.appendChild(li);
-        });
-        section.appendChild(ul);
-      }
+    if (block.type === 'table') {
+      const table = createStandardTable(block.columns, block.rows);
+      section.appendChild(table);
+    }
 
-      container.appendChild(section);
-    });
-  } else {
-    console.error("Структура должна быть массивом.");
-  }
+    else if (block.type === 'table-grouped') {
+      const grouped = renderGroupedTables(block.tables);
+      section.appendChild(grouped);
+    }
+
+    else if (block.rows) {
+      const ul = document.createElement('ul');
+      block.rows.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${item.label}:</strong> — <span>${item.value || ''}</span>`;
+        ul.appendChild(li);
+      });
+      section.appendChild(ul);
+    }
+
+    container.appendChild(section);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
